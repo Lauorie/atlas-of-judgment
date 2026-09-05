@@ -23,12 +23,12 @@ issue；数据与断言的更正请报到原仓库。原文、图与派生数据
 | `scripts/zh/validate.py` | 校验译文：标签、占位符、实体、数字保真 |
 | `scripts/zh/inject.py` | 把译文回填进页面，并做中文适配（`lang`、字体镜像、中文字体回退、署名） |
 | `scripts/build_site.py` | 生成部署目录 `.pages-dist/`（页面、资源、机读接口层） |
-| `scripts/github-pages-workflow.yml` | GitHub Actions 工作流：复制到 `.github/workflows/pages.yml` 后，推送到 `main` 即自动构建并发布到 GitHub Pages（提交它需要带 `workflow` 权限的 token） |
-| `scripts/deploy_gh_pages.sh` | 不经 Actions 的发布方式：构建后把 `.pages-dist/` 推到 `gh-pages` 分支，在仓库 Settings → Pages 选择该分支即可 |
+| `scripts/deploy_gh_pages.sh` | 当前的发布方式：构建后把 `.pages-dist/` 推到 `gh-pages` 分支，GitHub Pages 从该分支发布 |
+| `scripts/github-pages-workflow.yml` | 可选的 GitHub Actions 工作流：复制到 `.github/workflows/pages.yml` 并把 Pages 来源改为 GitHub Actions，推送 `main` 即自动构建发布（提交它需要带 `workflow` 权限的 token） |
 
 重跑翻译：`NODE_PATH=<含 acorn 的 node_modules> python3 scripts/zh/extract.py` 抽取新增片段，
 译好 `i18n/zh/chunks/chunk-NN.zh.json` 后 `python3 scripts/zh/validate.py --merge`，
-再 `python3 scripts/zh/inject.py --out .` 回填。
+再 `python3 scripts/zh/inject.py --out .` 回填（inject 需要英文原页作为输入：先从上游或 git 历史恢复英文页面）。发布：`scripts/deploy_gh_pages.sh`。
 
 ---
 
