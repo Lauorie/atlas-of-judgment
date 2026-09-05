@@ -1,14 +1,14 @@
 <meta charset="utf-8">
-<title>Atlas of Judgment · Machine Reader</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>评判图谱 · 机读接口</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
 <style>
 :root {
   --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
   --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
   --brass: #8a5a1f; --brass-dim: #6b5636; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
-  --mono: "IBM Plex Mono", ui-monospace, monospace;
-  --display: "Cormorant Garamond", Georgia, serif;
-  --serif: "Source Serif 4", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
   --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 * { box-sizing: border-box; }
@@ -58,33 +58,33 @@ details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--b
 #topbar .tb-links a:hover, #topbar .tb-links a.tb-here { color: var(--brass); }
 @media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
 </style>
-<nav id="topbar" aria-label="site">
-  <a class="tb-mark" href="../">Atlas of Judgment</a>
+<nav id="topbar" aria-label="站点">
+  <a class="tb-mark" href="../">评判图谱</a>
   <div class="tb-links">
-    <a href="../">The Atlas</a>
-    <a href="../about.html">About</a>
-    <a href="../method.html">Method</a>
-    <a href="../resources.html">Resources</a>
+    <a href="../">图谱</a>
+    <a href="../about.html">关于</a>
+    <a href="../method.html">方法</a>
+    <a href="../resources.html">资源</a>
     <a href="#top" class="tb-here">API</a>
   </div>
 </nav>
 <div class="shell" id="top">
-  <div class="eyebrow">Atlas of Judgment</div>
-  <h1>Machine <em>Reader</em></h1>
-  <p class="sub">A static, zero-cost API over the same audited data the plates are built from. Every endpoint is a plain JSON file on the CDN — one source, two formats: the page you can read, and the claims a machine can cite, recompute, and audit.</p>
-  <div class="stats"><b>1,420,178</b> units of reviewer logic · <b>410,586</b> read at full depth for 2026 · nine years of ICLR · <a href="/">the human-readable atlas ↗</a></div>
+  <div class="eyebrow">评判图谱 · Atlas of Judgment</div>
+  <h1>机读<em>接口</em></h1>
+  <p class="sub">一个静态、零成本的 API，建在图版所依据的同一份已审计数据之上。每个端点都是 CDN 上的一个纯 JSON 文件 — 一个来源，两种格式：供人阅读的页面，以及供机器引用、重算与审计的断言。</p>
+  <div class="stats"><b>1,420,178</b> 个审稿人逻辑单元 · <b>410,586</b> 个为 2026 年全深度读取 · 九年 ICLR · <a href="/">人可读的图谱 ↗</a></div>
 
-  <div class="leaf"><span class="rule"></span><div class="no">QUICKSTART</div><div class="t">Three instruments</div><span class="rule"></span></div>
+  <div class="leaf"><span class="rule"></span><div class="no">快速开始</div><div class="t">三件仪器</div><span class="rule"></span></div>
 
   <div class="card">
-    <div class="k">01 · Index</div>
+    <div class="k">01 · 索引</div>
     <div class="ep">GET <a href="/api/v1/index.json">/api/v1/index.json</a></div>
-    <p>The catalogue: every plate, every data island, every endpoint, plus which islands feed which plates.</p>
+    <p>目录：每张图版、每个数据岛、每个端点，以及哪些岛供给哪些图版。</p>
   </div>
   <div class="card">
-    <div class="k">02 · Deposition</div>
+    <div class="k">02 · 存证</div>
     <div class="ep">GET <a href="/api/v1/plates/plate-i.json">/api/v1/plates/plate-i.json</a></div>
-    <p>One plate's testimony: its headline claims, each with a typed value, source island, derivation, recompute script, and governing caveats.</p>
+    <p>一张图版的证词：其头条断言，每条附带带类型的值、来源岛、推导、重算脚本与所适用的告诫。</p>
     <pre>{
   "id": "1a-negative-share",
   "statement": "71.8% of all units end negative, and no object escapes …",
@@ -97,43 +97,43 @@ details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--b
 }</pre>
   </div>
   <div class="card">
-    <div class="k">03 · Data island</div>
+    <div class="k">03 · 数据岛</div>
     <div class="ep">GET <a href="/api/v1/data/viz-data.json">/api/v1/data/viz-data.json</a></div>
-    <p>The __ISLAND_COUNT__ underlying data islands as standalone files — byte-identical twins of the JSON embedded in the human page. Each island's entry in the index carries a <code>sha256</code> of the served file, so a recomputation can prove it started from the same bytes.</p>
+    <p>__ISLAND_COUNT__ 个底层数据岛，以独立文件提供 — 与人读页面中嵌入的 JSON 逐字节相同的孪生体。每个岛在索引中的条目都带有所服务文件的 <code>sha256</code>，重算因此能证明自己起于同一份字节。</p>
   </div>
   <div class="card">
-    <div class="k">04 · Corrections</div>
+    <div class="k">04 · 更正记录</div>
     <div class="ep">GET <a href="/api/v1/corrections.json">/api/v1/corrections.json</a></div>
-    <p>The correction ledger: every published claim later found wrong, corrected in place on the plate and recorded in method §10 — here as structured entries (the claim as shipped, what the check showed, the corrected reading, how long the error was live, and links to the deposition and island keys).</p>
+    <p>更正台账：每一条发布后被发现有误的断言，已在图版上原地更正并记入方法 §10 — 此处以结构化条目呈现（发布时的断言、核查所示、更正后的读数、错误存续的时长，以及指向存证与岛键的链接）。</p>
   </div>
-  <div class="note"><b>Also</b> &nbsp; <a href="/openapi.yaml">/openapi.yaml</a> — machine-readable schema &nbsp;·&nbsp; <a href="/llms.txt">/llms.txt</a> — the entry point for AI readers</div>
+  <div class="note"><b>另见</b> &nbsp; <a href="/openapi.yaml">/openapi.yaml</a> — 机器可读的模式 &nbsp;·&nbsp; <a href="/llms.txt">/llms.txt</a> — AI 读者的入口</div>
 
-  <div class="leaf"><span class="rule"></span><div class="no">CATALOGUE</div><div class="t">The plates</div><span class="rule"></span></div>
+  <div class="leaf"><span class="rule"></span><div class="no">目录</div><div class="t">图版</div><span class="rule"></span></div>
   <div class="wrap-x"><table>
-    <tr><th>Plate</th><th>Title</th><th>Act</th><th>Deposition</th><th>Source islands</th></tr>
+    <tr><th>图版</th><th>标题</th><th>幕</th><th>存证</th><th>来源岛</th></tr>
     __PLATE_ROWS__
   </table></div>
-  <p style="font-size:12.5px;color:var(--muted)">Depositions marked <span class="pending">PENDING</span> are being transcribed from the plates' audited captions — the claim ids will be stable once published.</p>
+  <p style="font-size:12.5px;color:var(--muted)">标记为 <span class="pending">PENDING</span> 的存证正从图版已审计的图注中转录 — 断言 id 一经发布即保持稳定。</p>
 
-  <div class="leaf"><span class="rule"></span><div class="no">HOLDINGS</div><div class="t">The data islands</div><span class="rule"></span></div>
+  <div class="leaf"><span class="rule"></span><div class="no">馆藏</div><div class="t">数据岛</div><span class="rule"></span></div>
   __ISLANDS__
 
-  <div class="leaf"><span class="rule"></span><div class="no">CONVENTIONS</div><div class="t">How to read a claim</div><span class="rule"></span></div>
+  <div class="leaf"><span class="rule"></span><div class="no">约定</div><div class="t">如何读一条断言</div><span class="rule"></span></div>
   <div class="note">
-    <b>Source vs. derivation vs. verified</b><br>
-    Nearly every headline number on this site is an aggregate computed over an array (most often <code style="font-family:var(--mono);font-size:11px">triples[]</code>), not a single JSON leaf. A claim therefore separates the <i>source</i> (which file, which array), the <i>derivation</i> (the arithmetic, stated plainly), and <i>verified</i> (the dated human audit that recomputed it). A pointer pretending to be more precise than that would be less honest, not more.
+    <b>来源、推导与已核验三者之别</b><br>
+    本站几乎每一个头条数字都是对一个数组（多为 <code style="font-family:var(--mono);font-size:11px">triples[]</code>）计算出的聚合量，而非单个 JSON 叶节点。因此一条断言把<i>来源</i>（哪个文件、哪个数组）、<i>推导</i>（算法，直白写明）与<i>已核验</i>（重算过它的、带日期的人工审计）分开陈述。一个装得比这更精确的指针，只会更不诚实。
   </div>
   <div class="note">
-    <b>Caveats attach to claims, not pages</b><br>
-    Each claim lists <code style="font-family:var(--mono);font-size:11px">caveat_refs</code> — an empty list is itself an assertion that none apply. The corpus-wide one to know: ICLR changed its rating scale and review form four times over 2018–2026, so any claim comparing <i>scores</i> across years carries the moving-ruler caveat (see <a href="/method#ruler">method</a> §07, "The moving ruler"). Claims about unit counts and shares — most of the site — are measured by the taxonomy, which is the constant instrument.
+    <b>告诫附着于断言，而非页面</b><br>
+    每条断言都列出 <code style="font-family:var(--mono);font-size:11px">caveat_refs</code> — 空列表本身就是一条断言：无一适用。全语料范围内须知的一条：ICLR 在 2018–2026 年间四次更改评分量表与评审表单，因此任何跨年比较<i>评分</i>的断言都带有移动标尺告诫（见<a href="/method#ruler">方法</a> §07「移动的标尺」）。关于单元计数与占比的断言 — 本站大部分内容 — 由分类体系度量，那才是恒定的仪器。
   </div>
   <div class="note">
-    <b>Citing</b><br>
-    Cite plate id + claim id, e.g. <code style="font-family:var(--mono);font-size:11px">plate-i#1a-negative-share</code> — stable across visual redesigns even when the prose around a number is rewritten. Derived data is CC BY 4.0; the underlying reviews belong to their anonymous authors via OpenReview.
+    <b>引用方式</b><br>
+    请引用图版 id + 断言 id，例如 <code style="font-family:var(--mono);font-size:11px">plate-i#1a-negative-share</code> — 视觉改版后依然稳定，即便数字周围的文字被重写。衍生数据采用 CC BY 4.0 许可；底层评审经由 OpenReview 归其匿名作者所有。
   </div>
 
   <div class="colophon">
-    Atlas of Judgment · machine reader v1 · generated __BUILD_DATE__<br>
-    <a href="/">Atlas</a> · <a href="/about">About</a> · <a href="/method">Method</a> · <a href="/resources">Resources</a> · <a href="https://github.com/t46/atlas-of-judgment">GitHub</a> · <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">Dataset</a> · CC BY 4.0
+    评判图谱 · 机读接口 v1 · 生成于 __BUILD_DATE__<br>
+    <a href="/">图谱</a> · <a href="/about">关于</a> · <a href="/method">方法</a> · <a href="/resources">资源</a> · <a href="https://github.com/t46/atlas-of-judgment">GitHub</a> · <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">数据集</a> · CC BY 4.0
   </div>
 </div>

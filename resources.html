@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<meta name="description" content="Source code, data downloads, the machine-reader API, citation, and licence — every outbound door on one page.">
+<meta name="description" content="源代码、数据下载、机读接口、引用方式与许可 — 每一扇通向外部的门都在这一页。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Atlas of Judgment">
-<meta property="og:title" content="Resources — Atlas of Judgment">
-<meta property="og:description" content="Source code, data downloads, the machine-reader API, citation, and licence — every outbound door on one page.">
+<meta property="og:title" content="资源 — 评判图谱">
+<meta property="og:description" content="源代码、数据下载、机读接口、引用方式与许可 — 每一扇通向外部的门都在这一页。">
 <meta property="og:url" content="https://atlas-of-judgment.pages.dev/resources">
 <meta property="og:image" content="https://atlas-of-judgment.pages.dev/card.jpg">
 <meta property="og:image:width" content="1200">
@@ -15,16 +15,16 @@
 <meta name="twitter:site" content="@takagi_shiro">
 <meta name="twitter:creator" content="@takagi_shiro">
 <meta charset="utf-8">
-<title>Resources — Atlas of Judgment</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>资源 — 评判图谱</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
 <style>
 :root {
   --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
   --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
   --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
-  --mono: "IBM Plex Mono", ui-monospace, monospace;
-  --display: "Cormorant Garamond", Georgia, serif;
-  --serif: "Source Serif 4", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
   --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 * { box-sizing: border-box; }
@@ -218,21 +218,21 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 }
 </style>
 
-<nav id="topbar" aria-label="site">
-  <a class="tb-mark" href="index.html">Atlas of Judgment</a>
+<nav id="topbar" aria-label="站点">
+  <a class="tb-mark" href="index.html">评判图谱</a>
   <div class="tb-links">
-    <a href="index.html">The Atlas</a>
-    <a href="about.html">About</a>
-    <a href="method.html">Method</a>
-    <a href="#top" class="tb-here">Resources</a>
+    <a href="index.html">图谱</a>
+    <a href="about.html">关于</a>
+    <a href="method.html">方法</a>
+    <a href="#top" class="tb-here">资源</a>
     <a href="api/">API</a>
   </div>
 </nav>
 
 <main id="top">
 <section class="rhero">
-  <div class="eb">Atlas of Judgment · the storeroom</div>
-  <h1>Resources</h1>
+  <div class="eb">评判图谱 · 库房</div>
+  <h1>资源</h1>
   <svg class="shelf" viewBox="0 0 340 24" aria-hidden="true">
     <line class="sh-l" x1="0" y1="20" x2="340" y2="20"/>
     <circle class="sh-c" cx="74" cy="12" r="8"/>
@@ -242,175 +242,157 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
     <circle class="sh-c" cx="120.5" cy="18" r="2"/>
     <circle class="sh-c" cx="126.6" cy="18.4" r="1.6"/>
   </svg>
-  <div class="lat">armarium — where the atlas keeps its holdings</div>
-  <div class="cue"><i></i><span class="cue-m">descend to the shelves</span><span class="cue-s">code · data · api · citation · licence</span></div>
+  <div class="lat">armarium — 图谱存放馆藏之处</div>
+  <div class="cue"><i></i><span class="cue-m">下到书架</span><span class="cue-s">代码 · 数据 · api · 引用 · 许可</span></div>
 </section>
 
 <section class="band">
 <div class="shell">
-  <p class="page-lead">Every link to the source code, the underlying data, and the machine-reader API,
-  gathered in one place — plus how to cite the atlas and what you may do with what's here.</p>
-  <div class="hdl">Source code</div>
-  <h2 class="hd">The pipeline that built this</h2>
-  <p>Collection, normalization, the DeepSeek/Qwen labeling pipeline, taxonomy induction, and every
-  aggregation script behind every plate — the full working repository, including the sanitized agent
-  session history the pipeline was built under.</p>
+  <p class="page-lead">通向源代码、底层数据与机读接口的每一个链接，
+  汇集于一处 — 还有如何引用本图谱，以及你可以怎样使用这里的东西。</p>
+  <div class="hdl">源代码</div>
+  <h2 class="hd">构建这一切的流水线</h2>
+  <p>采集、归一化、DeepSeek/Qwen 标注流水线、分类体系归纳，以及每张图版背后的每一个聚合脚本——完整的工作仓库，包括流水线构建时所在的、经脱敏的 agent 会话历史。</p>
   <div class="doors">
-    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">Repository</div><div class="dt">GitHub</div><div class="dd">t46/atlas-of-judgment — scripts, provenance documents, and the source HTML pages themselves.</div></a>
+    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">代码仓库</div><div class="dt">GitHub</div><div class="dd">t46/atlas-of-judgment — 脚本、溯源文档，以及 HTML 页面源文件本身。</div></a>
   </div>
 </div>
 </section>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl">Data downloads</div>
-  <h2 class="hd">The labeled units, and everything built from them</h2>
-  <p>Two layers are published. The <b>primary dataset</b> is the labeled unit tables themselves. The
-  <b>data islands</b> below it are the smaller derived aggregates — one JSON file per statistic the
-  plates chart — published so any number on the site can be recomputed or re-plotted independently.</p>
+  <div class="hdl">数据下载</div>
+  <h2 class="hd">已标注的单元，以及由它们构建的一切</h2>
+  <p>发布分两层。<b>主数据集</b>是已标注的单元表本身。其下的<b>数据岛</b>是较小的派生聚合——图版所绘的每项统计量对应一个 JSON 文件——公开发布，使站上任何数字都能独立重算或重绘。</p>
 
-  <h3>Primary dataset</h3>
+  <h3>主数据集</h3>
   <div class="doors">
-    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">Parquet · Hugging Face Hub</div><div class="dt">t46/atlas-of-judgment</div><div class="dd">410,586 review-level units (74,380 ICLR 2026 reviews, read at full depth) · 1,009,592 forum-level units (50,861 forums, 2018–2026) · the taxonomy definitions · 600 analyst-labeled rhetoric units. Released CC BY 4.0.</div></a>
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">Parquet · Hugging Face Hub</div><div class="dt">t46/atlas-of-judgment</div><div class="dd">410,586 个评审级单元（74,380 篇 ICLR 2026 评审，全深度读取）· 1,009,592 个 forum 级单元（50,861 个 forum，2018–2026）· 分类体系定义 · 600 个分析者标注的修辞单元。以 CC BY 4.0 发布。</div></a>
   </div>
-  <p class="spec">File sizes on the Hub are not mirrored here — check the dataset card on Hugging Face for current per-file sizes.</p>
+  <p class="spec">Hub 上的文件大小不在此处镜像——各文件当前大小请查 Hugging Face 上的数据集卡片。</p>
 
-  <h3>Data islands — the 50 aggregate files behind the plates</h3>
-  <p>Each file is the exact JSON a plate's charts are built from — same data, same source, just
-  detached from the page. Sizes and contents below are read directly off the published files.</p>
+  <h3>数据岛 — 图版背后的 50 个聚合文件</h3>
+  <p>每个文件就是图版图表据以构建的那份 JSON——同样的数据，同样的来源，只是脱离了页面。下方的大小与内容直接读自已发布的文件。</p>
 
   <figure class="holdings" id="holdings-fig">
     <figcaption class="holdings-cap">
-      <span class="hc-eb">The holdings, drawn to scale</span>
-      <span class="hc-note">Every data island as a circle whose <em>area</em> is its exact weight on
-      disk, read live from the table below. Two files — the taxonomy point-cloud and the core
-      taxonomy tables — carry <span id="hc-share">90%</span> of the atlas&#8217;s
-      <span id="hc-total">5.17&#8202;MB</span>; the other <span id="hc-rest-n">48</span>, together,
-      weigh <span id="hc-rest-mb">half a megabyte</span>. The two drawn dashed are collected but not
-      yet rendered on any plate. Each circle links to its file.</span>
+      <span class="hc-eb">馆藏，按比例绘制</span>
+      <span class="hc-note">每个数据岛画成一个圆，其<em>面积</em>是它在磁盘上的精确重量，实时读自下表。两个文件——分类体系点云与核心分类体系表——承载了图谱 <span id="hc-share">90%</span> 的体量，图谱共
+      <span id="hc-total">5.17&#8202;MB</span>；其余 <span id="hc-rest-n">48</span> 个合计重 <span id="hc-rest-mb">半兆字节</span>。画成虚线的两个已采集，但尚未在任何图版上呈现。每个圆链接到它的文件。</span>
     </figcaption>
     <div class="holdings-stage" id="holdings-stage"></div>
   </figure>
 
-  <p class="spec" style="margin-bottom:-6px"><b>The catalogue</b> · every island by file, size, the plates it feeds, and what it holds</p>
+  <p class="spec" style="margin-bottom:-6px"><b>目录</b> · 每个岛按文件、大小、所供给的图版及其内容列出</p>
   <div class="table-wrap">
   <table>
-    <thead><tr><th>File</th><th>Size</th><th>Feeds</th><th>Contents</th></tr></thead>
+    <thead><tr><th>文件</th><th>大小</th><th>供给</th><th>目录</th></tr></thead>
     <tbody>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/acecho-data.json">acecho-data.json</a></td><td class="num" data-label="Size">1.0 KB</td><td data-label="Feeds">Plate XXIII</td><td data-label="Contents">How much a meta-review's language echoes each reviewer below it, split by that reviewer's score tier and the panel's verdict.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/archipelago-data.json">archipelago-data.json</a></td><td class="num" data-label="Size">4.8 KB</td><td data-label="Feeds">Plate XXVIII</td><td data-label="Contents">Research areas clustered into "islands" by dominant object of scrutiny, against a baseline mix.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/argument-raw-novelty.json">argument-raw-novelty.json</a></td><td class="num" data-label="Size">31.7 KB</td><td data-label="Feeds">Plate VII</td><td data-label="Contents">The novelty syllogism: ground/warrant/demand clusters with exemplars and the transition matrices behind Fig. 7d.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/boilerplate-data.json">boilerplate-data.json</a></td><td class="num" data-label="Size">12.7 KB</td><td data-label="Feeds">Plate X</td><td data-label="Contents">Text-similarity measurements of formulaic review language, by object and by rating band.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/canon-data.json">canon-data.json</a></td><td class="num" data-label="Size">0.7 KB</td><td data-label="Feeds">Plate IX</td><td data-label="Contents">How often an objection names a specific prior work vs. stays vague, by year.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/chain-data.json">chain-data.json</a></td><td class="num" data-label="Size">1.4 KB</td><td data-label="Feeds">Plate IV</td><td data-label="Contents">Transition likelihoods between successive units within one review — what follows what.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/chargesheet-control.json">chargesheet-control.json</a></td><td class="num" data-label="Size">6.7 KB</td><td data-label="Feeds">Plate XIII</td><td data-label="Contents">The control behind that matrix: the same standard pairs re-measured three ways — inside one unit, across different units of one review, and across two <em>different</em> reviewers of the same paper — which is what separates a real repulsion from a mixture of habits.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/chargesheet-data.json">chargesheet-data.json</a></td><td class="num" data-label="Size">41.1 KB</td><td data-label="Feeds">Plate XIII</td><td data-label="Contents">Co-occurrence matrix of which reasoning standards get invoked together in the same review.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/combination-data.json">combination-data.json</a></td><td class="num" data-label="Size">5.3 KB</td><td data-label="Feeds">Plate VIII</td><td data-label="Contents">The &#8220;mere combination&#8221; novelty rule, sub-clustered into its exception clauses and referent kinds, with exemplars.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/commit-data.json">commit-data.json</a></td><td class="num" data-label="Size">1.9 KB</td><td data-label="Feeds">Plate VI</td><td data-label="Contents">How early in a review the eventual verdict becomes predictable from text alone, by review-length decile.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/construct-data.json">construct-data.json</a></td><td class="num" data-label="Size">1.1 KB</td><td data-label="Feeds">Plate I</td><td data-label="Contents">Construct validity: rating-adjusted gaps between the twelve objects and ICLR&#8217;s own three sub-scores (Fig. 1c).</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/counterfactual-data.json">counterfactual-data.json</a></td><td class="num" data-label="Size">65.8 KB</td><td data-label="Feeds">Plate XXV</td><td data-label="Contents">Counterfactual re-scoring comparison between the 2025 and 2026 cycles.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/court-data.json">court-data.json</a></td><td class="num" data-label="Size">3.2 KB</td><td data-label="Feeds">Plate XXII</td><td data-label="Contents">How meta-reviewers revise, forgive, or redeem the panel's judgment below them.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/currents-data.json">currents-data.json</a></td><td class="num" data-label="Size">2.6 KB</td><td data-label="Feeds">Plate XXVI</td><td data-label="Contents">Year-over-year score, word-count, and unit-count series feeding the drift analysis.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/decision-data.json">decision-data.json</a></td><td class="num" data-label="Size">2.8 KB</td><td data-label="Feeds">Plate XV</td><td data-label="Contents">Decision legibility: cross-validated AUCs at reading accept/reject from criticism tallies, text, and scores (Fig. 15b).</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/deliberation-data.json">deliberation-data.json</a></td><td class="num" data-label="Size">72.3 KB</td><td data-label="Feeds">Plate XXI</td><td data-label="Contents">Per-forum record of reviewer moves made during panel deliberation.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/drift-data.json">drift-data.json</a></td><td class="num" data-label="Size">4.9 KB</td><td data-label="Feeds">Plates XXVI, XXVII</td><td data-label="Contents">Nine-year share trends of which objects, standards, and verdict valences reviewers invoke.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/drift-language.json">drift-language.json</a></td><td class="num" data-label="Size">1.1 KB</td><td data-label="Feeds">Appendix II</td><td data-label="Contents">Whether the words attached to an object actually moved: the span of each object’s yearly vocabulary path against a shuffle noise floor, with the terms that rose early and late.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/elements-all.json">elements-all.json</a></td><td class="num" data-label="Size">67.9 KB</td><td data-label="Feeds">Plate VII</td><td data-label="Contents">Per-object statistics for each of the twelve objects of scrutiny (empirical scope, method design, theory, and so on).</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/field-stats.json">field-stats.json</a></td><td class="num" data-label="Size">1.7 KB</td><td data-label="Feeds">Appendix III</td><td data-label="Contents">Per-year corpus statistics used as the control baseline for the null-model comparison.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/galaxy.json">galaxy.json</a></td><td class="num" data-label="Size">3.25 MB</td><td data-label="Feeds">Appendix II</td><td data-label="Contents">The full point-cloud embedding of sampled units used for the taxonomy map, with region labels. Largest file on the site.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/interrogative-data.json">interrogative-data.json</a></td><td class="num" data-label="Size">3.2 KB</td><td data-label="Feeds">Plate XIX</td><td data-label="Contents">Rate at which objections are phrased as questions vs. assertions, by object.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/itinerary-data.json">itinerary-data.json</a></td><td class="num" data-label="Size">8.0 KB</td><td data-label="Feeds">Plate V</td><td data-label="Contents">The within-review itinerary — which objects get visited, and in what order.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/jurisprudence-data.json">jurisprudence-data.json</a></td><td class="num" data-label="Size">3.7 KB</td><td data-label="Feeds">Plates X, XIV</td><td data-label="Contents">Maps reasoning standards to the objects they're applied to and the verdict severity that follows.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/lawtariff-data.json">lawtariff-data.json</a></td><td class="num" data-label="Size">8.2 KB</td><td data-label="Feeds">Plate XIV</td><td data-label="Contents">The score cost of each criticism type, modeled as a volume-response slope.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/lifecycle-data.json">lifecycle-data.json</a></td><td class="num" data-label="Size">1.8 KB</td><td data-label="Feeds">Plate XIX</td><td data-label="Contents">Whether an objection persists, gets addressed, or drops across the rebuttal cycle, by object.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/llmtrace-data.json">llmtrace-data.json</a></td><td class="num" data-label="Size">36.3 KB</td><td data-label="Feeds">Plate XXIX</td><td data-label="Contents">LLM-era traces over 199,031 raw reviews 2018–2026: frozen marker-word excess per year, co-review convergence, and the marked-review profile battery.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/lottery-data.json">lottery-data.json</a></td><td class="num" data-label="Size">2.4 KB</td><td data-label="Feeds">Plate XXV</td><td data-label="Contents">Score-gap ("lottery") analysis of how much reviewer assignment appears to affect outcome.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/minds-data.json">minds-data.json</a></td><td class="num" data-label="Size">10.2 KB</td><td data-label="Feeds">Plate XXVI</td><td data-label="Contents">Era profiles of reviewer behavior: rhetoric-form usage by year and the nine-year vital signs behind Fig. 26c.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/mirage-data.json">mirage-data.json</a></td><td class="num" data-label="Size">4.7 KB</td><td data-label="Feeds">Appendix III</td><td data-label="Contents">Real-vs-synthetic reviewer-profile comparison behind the weak-results ("null cabinet") appendix.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/moves-data.json">moves-data.json</a></td><td class="num" data-label="Size">3.7 KB</td><td data-label="Feeds">Plate XVIII</td><td data-label="Contents">Classification of rebuttal moves (concede, rebut, clarify, and so on) and the effort behind each.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/ninegrammar-data.json">ninegrammar-data.json</a></td><td class="num" data-label="Size">14.3 KB</td><td data-label="Feeds">Plate II</td><td data-label="Contents">Object&#8211;standard coupling in the early era (2018&#8211;20) vs the late era (2024&#8211;26), with the shuffle-null floor behind Plate II&#8217;s 138/144.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/oracle-data.json">oracle-data.json</a></td><td class="num" data-label="Size">8.6 KB</td><td data-label="Feeds">Plate XXVIII</td><td data-label="Contents">Outcome prediction by research area, against a baseline model.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/overrule-data.json">overrule-data.json</a></td><td class="num" data-label="Size">3.3 KB</td><td data-label="Feeds">Plates XX, XXI</td><td data-label="Contents">How often a meta-reviewer's final decision overrules the panel's aggregate score.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/panel-data.json">panel-data.json</a></td><td class="num" data-label="Size">5.8 KB</td><td data-label="Feeds">Plates I, XV, XVII, XX, App. II</td><td data-label="Contents">Cross-cutting panel statistics: rebuttal outcomes, criticism-count "gauntlet," per-standard confidence intervals, meta-reviewer behavior, dissent, and taxonomy reliability.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/repair-manual.json">repair-manual.json</a></td><td class="num" data-label="Size">4.1 KB</td><td data-label="Feeds">Plate XI</td><td data-label="Contents">Catalogue of the specific fixes reviewers suggest, grouped by kind.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/repair-k-robustness.json">repair-k-robustness.json</a></td><td class="num" data-label="Size">2.1 KB</td><td data-label="Feeds">Plate XI (verification)</td><td data-label="Contents">Stability sweep behind the repair catalogue: the same 80,000 asks re-clustered at k = 11&#8211;44; &#8220;extend the evidence&#8221; leads at every k, family sums move by under 5 points.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/repertoire-data.json">repertoire-data.json</a></td><td class="num" data-label="Size">2.1 KB</td><td data-label="Feeds">Plate XXI</td><td data-label="Contents">How much a panel's reviewers' repertoire of standards overlaps or clashes, by year.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/rhetoric-v2.json">rhetoric-v2.json</a></td><td class="num" data-label="Size">3.4 KB</td><td data-label="Feeds">Plates III, XXVI</td><td data-label="Contents">The induced rhetorical-form taxonomy (600 analyst-labeled units) and its validation.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/score-data.json">score-data.json</a></td><td class="num" data-label="Size">3.6 KB</td><td data-label="Feeds">Plates VI, XXIV</td><td data-label="Contents">Raw review scores matched to review text, by rating.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/score-depth.json">score-depth.json</a></td><td class="num" data-label="Size">24.0 KB</td><td data-label="Feeds">Plate XXIV</td><td data-label="Contents">How much review depth and detail scales with the score given — dispersion and coverage by rating.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/searchparty-data.json">searchparty-data.json</a></td><td class="num" data-label="Size">1.0 KB</td><td data-label="Feeds">Plate XX</td><td data-label="Contents">How much of the twelve-object space a panel collectively covers vs. leaves unseen.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/season-data.json">season-data.json</a></td><td class="num" data-label="Size">6.7 KB</td><td data-label="Feeds">— (orphaned)</td><td data-label="Contents">Daily submission and review-activity time series; not currently rendered on any plate.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/structure-data.json">structure-data.json</a></td><td class="num" data-label="Size">14.3 KB</td><td data-label="Feeds">Plate V, App. II</td><td data-label="Contents">The structural arc of a review — opening move, positional transitions, and length.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/threads-data.json">threads-data.json</a></td><td class="num" data-label="Size">6.4 KB</td><td data-label="Feeds">Plate XVI</td><td data-label="Contents">The shape of author-reviewer rebuttal threads — whether and how the reviewer returns.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/tide-data.json">tide-data.json</a></td><td class="num" data-label="Size">1.7 KB</td><td data-label="Feeds">— (orphaned)</td><td data-label="Contents">A 2025-vs-2026 comparison series; not currently rendered on any plate.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/timeless-data.json">timeless-data.json</a></td><td class="num" data-label="Size">2.2 KB</td><td data-label="Feeds">Plate XXVII</td><td data-label="Contents">Which reasoning standards read as stable in phrasing across nine years, and which drifted.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/tribunal-ci.json">tribunal-ci.json</a></td><td class="num" data-label="Size">0.9 KB</td><td data-label="Feeds">Plate XV</td><td data-label="Contents">Bootstrap confidence intervals on the score effect of each criticism type, by object.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/viz-data.json">viz-data.json</a></td><td class="num" data-label="Size">1.40 MB</td><td data-label="Feeds">Plates I, II, XII, XXX, App. II</td><td data-label="Contents">Core taxonomy definitions, headline KPIs, and sample specimen reviews most plates draw from.</td></tr>
-      <tr><td class="mono" data-label="File"><a href="api/v1/data/yield-data.json">yield-data.json</a></td><td class="num" data-label="Size">0.5 KB</td><td data-label="Feeds">Plate XVII</td><td data-label="Contents">How much post-rebuttal units strengthen, weaken, or reverse the pre-response judgment.</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/acecho-data.json">acecho-data.json</a></td><td class="num" data-label="大小">1.0 KB</td><td data-label="供给">图版 XXIII</td><td data-label="目录">元评审的措辞对其下每位审稿人的回响程度，按该审稿人的评分层级与评审组的裁决拆分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/archipelago-data.json">archipelago-data.json</a></td><td class="num" data-label="大小">4.8 KB</td><td data-label="供给">图版 XXVIII</td><td data-label="目录">研究领域按主导审视对象聚成“岛”，并与基线构成对照。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/argument-raw-novelty.json">argument-raw-novelty.json</a></td><td class="num" data-label="大小">31.7 KB</td><td data-label="供给">图版 VII</td><td data-label="目录">新颖性三段论：依据/理据/要求各簇及其例句，以及图 7d 背后的转移矩阵。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/boilerplate-data.json">boilerplate-data.json</a></td><td class="num" data-label="大小">12.7 KB</td><td data-label="供给">图版 X</td><td data-label="目录">套语式评审语言的文本相似度测量，按对象与评分段划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/canon-data.json">canon-data.json</a></td><td class="num" data-label="大小">0.7 KB</td><td data-label="供给">图版 IX</td><td data-label="目录">异议点名具体先前工作与含糊其辞的频率对比，按年份划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/chain-data.json">chain-data.json</a></td><td class="num" data-label="大小">1.4 KB</td><td data-label="供给">图版 IV</td><td data-label="目录">一篇评审内相继单元之间的转移概率——什么跟在什么之后。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/chargesheet-control.json">chargesheet-control.json</a></td><td class="num" data-label="大小">6.7 KB</td><td data-label="供给">图版 XIII</td><td data-label="目录">那张矩阵背后的对照：同样的标准配对以三种方式重测——在同一单元内、在同一篇评审的不同单元间、在同一篇论文的两位<em>不同</em>审稿人之间——由此把真实的互斥与习惯的混合区分开。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/chargesheet-data.json">chargesheet-data.json</a></td><td class="num" data-label="大小">41.1 KB</td><td data-label="供给">图版 XIII</td><td data-label="目录">哪些推理标准在同一篇评审中被一同援引的共现矩阵。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/combination-data.json">combination-data.json</a></td><td class="num" data-label="大小">5.3 KB</td><td data-label="供给">图版 VIII</td><td data-label="目录">&#8220;仅为组合&#8221;这条新颖性规则，细分聚类为其例外条款与所指对象类型，附例句。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/commit-data.json">commit-data.json</a></td><td class="num" data-label="大小">1.9 KB</td><td data-label="供给">图版 VI</td><td data-label="目录">一篇评审进行到多早，仅凭文本就能预测其最终裁决，按评审长度十分位划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/construct-data.json">construct-data.json</a></td><td class="num" data-label="大小">1.1 KB</td><td data-label="供给">图版 I</td><td data-label="目录">构念效度：十二个对象与 ICLR 自有三项子评分之间经评分校正的差距（图 1c）。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/counterfactual-data.json">counterfactual-data.json</a></td><td class="num" data-label="大小">65.8 KB</td><td data-label="供给">图版 XXV</td><td data-label="目录">2025 与 2026 两个周期之间的反事实重评分比较。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/court-data.json">court-data.json</a></td><td class="num" data-label="大小">3.2 KB</td><td data-label="供给">图版 XXII</td><td data-label="目录">元评审人如何修正、宽宥或挽回其下评审组的判断。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/currents-data.json">currents-data.json</a></td><td class="num" data-label="大小">2.6 KB</td><td data-label="供给">图版 XXVI</td><td data-label="目录">供给漂移分析的逐年评分、词数与单元数序列。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/decision-data.json">decision-data.json</a></td><td class="num" data-label="大小">2.8 KB</td><td data-label="供给">图版 XV</td><td data-label="目录">录用决定的可读性：从批评计数、文本与评分读出接收/拒稿的交叉验证 AUC（图 15b）。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/deliberation-data.json">deliberation-data.json</a></td><td class="num" data-label="大小">72.3 KB</td><td data-label="供给">图版 XXI</td><td data-label="目录">评审组合议期间审稿人所出招式的逐 forum 记录。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/drift-data.json">drift-data.json</a></td><td class="num" data-label="大小">4.9 KB</td><td data-label="供给">图版 XXVI、XXVII</td><td data-label="目录">审稿人援引的对象、标准与判向的九年份额趋势。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/drift-language.json">drift-language.json</a></td><td class="num" data-label="大小">1.1 KB</td><td data-label="供给">附录 II</td><td data-label="目录">附着于某个对象的词是否真的动了：每个对象逐年词汇路径的跨度对照置换噪声底线，以及早期与晚期上升的词项。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/elements-all.json">elements-all.json</a></td><td class="num" data-label="大小">67.9 KB</td><td data-label="供给">图版 VII</td><td data-label="目录">十二个审视对象各自的逐对象统计（实证范围、方法设计、理论等）。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/field-stats.json">field-stats.json</a></td><td class="num" data-label="大小">1.7 KB</td><td data-label="供给">附录 III</td><td data-label="目录">用作零模型比较对照基线的逐年语料统计。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/galaxy.json">galaxy.json</a></td><td class="num" data-label="大小">3.25 MB</td><td data-label="供给">附录 II</td><td data-label="目录">分类体系地图所用抽样单元的完整点云嵌入，带区域标签。站上最大的文件。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/interrogative-data.json">interrogative-data.json</a></td><td class="num" data-label="大小">3.2 KB</td><td data-label="供给">图版 XIX</td><td data-label="目录">异议以问句而非断言表述的比率，按对象划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/itinerary-data.json">itinerary-data.json</a></td><td class="num" data-label="大小">8.0 KB</td><td data-label="供给">图版 V</td><td data-label="目录">评审内的行程——哪些对象被造访，以何种顺序。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/jurisprudence-data.json">jurisprudence-data.json</a></td><td class="num" data-label="大小">3.7 KB</td><td data-label="供给">图版 X、XIV</td><td data-label="目录">把推理标准映射到其所施用的对象，以及随之而来的判定严厉度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/lawtariff-data.json">lawtariff-data.json</a></td><td class="num" data-label="大小">8.2 KB</td><td data-label="供给">图版 XIV</td><td data-label="目录">每类批评的评分代价，建模为数量-响应斜率。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/lifecycle-data.json">lifecycle-data.json</a></td><td class="num" data-label="大小">1.8 KB</td><td data-label="供给">图版 XIX</td><td data-label="目录">一条异议在 rebuttal 周期中是延续、被回应还是消失，按对象划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/llmtrace-data.json">llmtrace-data.json</a></td><td class="num" data-label="大小">36.3 KB</td><td data-label="供给">图版 XXIX</td><td data-label="目录">199,031 篇原始评审（2018–2026）上的 LLM 时代痕迹：冻结标记词表的逐年超额、同稿评审趋同，以及被标记评审的画像指标组。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/lottery-data.json">lottery-data.json</a></td><td class="num" data-label="大小">2.4 KB</td><td data-label="供给">图版 XXV</td><td data-label="目录">评分差距（“抽签”）分析：审稿人分派看起来对结果影响多大。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/minds-data.json">minds-data.json</a></td><td class="num" data-label="大小">10.2 KB</td><td data-label="供给">图版 XXVI</td><td data-label="目录">审稿人行为的时代画像：修辞形式的逐年使用情况，以及图 26c 背后的九年生命体征。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/mirage-data.json">mirage-data.json</a></td><td class="num" data-label="大小">4.7 KB</td><td data-label="供给">附录 III</td><td data-label="目录">弱结果附录（“零假设陈列柜”）背后的真实与合成审稿人画像比较。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/moves-data.json">moves-data.json</a></td><td class="num" data-label="大小">3.7 KB</td><td data-label="供给">图版 XVIII</td><td data-label="目录">rebuttal 招式的分类（让步、反驳、澄清等）及每种招式背后的投入。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/ninegrammar-data.json">ninegrammar-data.json</a></td><td class="num" data-label="大小">14.3 KB</td><td data-label="供给">图版 II</td><td data-label="目录">早期时代（2018&#8211;20）与晚期时代（2024&#8211;26）的对象&#8211;标准耦合，以及图版 II 的 138/144 背后的置换零底线。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/oracle-data.json">oracle-data.json</a></td><td class="num" data-label="大小">8.6 KB</td><td data-label="供给">图版 XXVIII</td><td data-label="目录">按研究领域的结果预测，对照基线模型。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/overrule-data.json">overrule-data.json</a></td><td class="num" data-label="大小">3.3 KB</td><td data-label="供给">图版 XX、XXI</td><td data-label="目录">元评审人的最终决定推翻评审组汇总评分的频率。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/panel-data.json">panel-data.json</a></td><td class="num" data-label="大小">5.8 KB</td><td data-label="供给">图版 I、XV、XVII、XX，附录 II</td><td data-label="目录">横跨各图版的评审组统计：rebuttal 结局、批评数“夹道”、逐标准置信区间、元评审人行为、异见，以及分类体系信度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/repair-manual.json">repair-manual.json</a></td><td class="num" data-label="大小">4.1 KB</td><td data-label="供给">图版 XI</td><td data-label="目录">审稿人建议的具体修复目录，按类型分组。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/repair-k-robustness.json">repair-k-robustness.json</a></td><td class="num" data-label="大小">2.1 KB</td><td data-label="供给">图版 XI（核验）</td><td data-label="目录">修复目录背后的稳定性扫描：同样的 80,000 条要求在 k = 11&#8211;44 下重新聚类；&#8220;扩展证据&#8221;在每个 k 下都领先，各族合计变动不足 5 个百分点。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/repertoire-data.json">repertoire-data.json</a></td><td class="num" data-label="大小">2.1 KB</td><td data-label="供给">图版 XXI</td><td data-label="目录">评审组各审稿人的标准库有多大重叠或冲突，按年份划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/rhetoric-v2.json">rhetoric-v2.json</a></td><td class="num" data-label="大小">3.4 KB</td><td data-label="供给">图版 III、XXVI</td><td data-label="目录">归纳得到的修辞形式分类体系（600 个分析者标注的单元）及其验证。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/score-data.json">score-data.json</a></td><td class="num" data-label="大小">3.6 KB</td><td data-label="供给">图版 VI、XXIV</td><td data-label="目录">与评审文本匹配的原始评审分数，按评分划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/score-depth.json">score-depth.json</a></td><td class="num" data-label="大小">24.0 KB</td><td data-label="供给">图版 XXIV</td><td data-label="目录">评审的深度与细节随所给分数变化的程度——按评分的离散度与覆盖度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/searchparty-data.json">searchparty-data.json</a></td><td class="num" data-label="大小">1.0 KB</td><td data-label="供给">图版 XX</td><td data-label="目录">评审组合起来覆盖了十二对象空间的多少，又留下多少未见。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/season-data.json">season-data.json</a></td><td class="num" data-label="大小">6.7 KB</td><td data-label="供给">—（无归属）</td><td data-label="目录">每日投稿与评审活动时间序列；目前未在任何图版上呈现。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/structure-data.json">structure-data.json</a></td><td class="num" data-label="大小">14.3 KB</td><td data-label="供给">图版 V，附录 II</td><td data-label="目录">一篇评审的结构弧线——开篇、位置间转移与长度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/threads-data.json">threads-data.json</a></td><td class="num" data-label="大小">6.4 KB</td><td data-label="供给">图版 XVI</td><td data-label="目录">作者与审稿人 rebuttal 讨论串的形状——审稿人是否回来、如何回来。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/tide-data.json">tide-data.json</a></td><td class="num" data-label="大小">1.7 KB</td><td data-label="供给">—（无归属）</td><td data-label="目录">2025 与 2026 的对比序列；目前未在任何图版上呈现。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/timeless-data.json">timeless-data.json</a></td><td class="num" data-label="大小">2.2 KB</td><td data-label="供给">图版 XXVII</td><td data-label="目录">哪些推理标准在九年间措辞读来稳定，哪些发生了漂移。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/tribunal-ci.json">tribunal-ci.json</a></td><td class="num" data-label="大小">0.9 KB</td><td data-label="供给">图版 XV</td><td data-label="目录">每类批评评分效应的 bootstrap 置信区间，按对象划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/viz-data.json">viz-data.json</a></td><td class="num" data-label="大小">1.40 MB</td><td data-label="供给">图版 I、II、XII、XXX，附录 II</td><td data-label="目录">核心分类体系定义、头条指标，以及多数图版取用的标本评审样例。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/yield-data.json">yield-data.json</a></td><td class="num" data-label="大小">0.5 KB</td><td data-label="供给">图版 XVII</td><td data-label="目录">rebuttal 后的单元在多大程度上加强、减弱或反转回应前的判断。</td></tr>
     </tbody>
   </table>
   </div>
-  <p class="spec"><b>50 files</b> · 5.17 MB combined · all JSON · served from <code>/api/v1/data/</code></p>
+  <p class="spec"><b>50 个文件</b> · 合计 5.17 MB · 全为 JSON · 由 <code>/api/v1/data/</code> 提供</p>
 
-  <h3>Schema and machine-reader entry points</h3>
+  <h3>模式与机读接口入口</h3>
   <div class="doors">
-    <a href="api/v1/index.json"><div class="dk">JSON · 1.5 KB</div><div class="dt">index.json</div><div class="dd">Catalogue of every API endpoint, plus the plate and data-island lists.</div></a>
-    <a href="openapi.yaml"><div class="dk">YAML · 7.4 KB</div><div class="dt">openapi.yaml</div><div class="dd">Machine-readable schema for the whole API layer.</div></a>
-    <a href="llms.txt"><div class="dk">Text · 3.0 KB</div><div class="dt">llms.txt</div><div class="dd">The entry point written for an AI reader — how to use the API, and the one caveat that applies across the whole corpus.</div></a>
-    <a href="api/v1/corrections.json"><div class="dk">JSON · 3.6 KB</div><div class="dt">corrections.json</div><div class="dd">The correction ledger — every published claim later found wrong, with what the check showed and the corrected reading, mirroring method §10.</div></a>
-    <a href="api/"><div class="dk">HTML docs</div><div class="dt">/api/</div><div class="dd">Human-readable documentation for every endpoint above, in the same visual language as this page's data.</div></a>
+    <a href="api/v1/index.json"><div class="dk">JSON · 1.5 KB</div><div class="dt">index.json</div><div class="dd">全部 API 端点的目录，以及图版与数据岛清单。</div></a>
+    <a href="openapi.yaml"><div class="dk">YAML · 7.4 KB</div><div class="dt">openapi.yaml</div><div class="dd">整个 API 层的机器可读模式。</div></a>
+    <a href="llms.txt"><div class="dk">文本 · 3.0 KB</div><div class="dt">llms.txt</div><div class="dd">为 AI 读者写的入口——如何使用 API，以及适用于整个语料的那一条注意事项。</div></a>
+    <a href="api/v1/corrections.json"><div class="dk">JSON · 3.6 KB</div><div class="dt">corrections.json</div><div class="dd">更正记录——每条事后发现有误的已发布断言，附核查结果与更正后的读法，与方法页 §10 对应。</div></a>
+    <a href="api/"><div class="dk">HTML 文档</div><div class="dt">/api/</div><div class="dd">上述每个端点的人读文档，与本页数据采用同一套视觉语言。</div></a>
   </div>
 </div>
 </section>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl">Citation</div>
-  <h2 class="hd">How to cite this</h2>
-  <p>Cite the atlas as a whole for general reference. For a specific number, cite the plate and claim
-  it came from — that resolves to the exact derivation and recompute script behind it, and stays
-  correct even if the caption prose around it is later rewritten.</p>
+  <div class="hdl">引用</div>
+  <h2 class="hd">如何引用</h2>
+  <p>一般性引用请引图谱整体。引用某个具体数字时，请引它所出自的图版与断言——这会解析到其背后的确切推导与重算脚本，即便周围的图注文字日后改写也仍然正确。</p>
 
   <div class="cite-block">
-    <span class="cite-label">Citing the atlas as a whole</span>
+    <span class="cite-label">引用图谱整体</span>
     Takagi, Shiro (UNKTOK). <em>Atlas of Judgment: a metascience instrument reading the reasoning inside ICLR peer review, 2018–2026.</em> 2026. https://atlas-of-judgment.pages.dev
   </div>
   <div class="cite-block">
-    <span class="cite-label">Citing one claim</span>
-    Cite its plate id and claim id — for example <code>plate-i#1a-negative-share</code> — which
-    resolves via <code>/api/v1/plates/&lt;plate-id&gt;.json</code> to the exact statement, numeric
-    value, source data island, and recompute script behind it.
+    <span class="cite-label">引用单条断言</span>
+    引其图版 id 与断言 id——例如 <code>plate-i#1a-negative-share</code>——它经由 <code>/api/v1/plates/&lt;plate-id&gt;.json</code> 解析到其背后的确切陈述、数值、来源数据岛与重算脚本。
   </div>
-  <p class="spec">Scoring itself changed instrument four times between 2018 and 2026 — any citation
-  comparing a <em>score</em> (not a unit count or share) across years should carry that caveat.
-  See the moving-ruler note in method.html §07.</p>
+  <p class="spec">评分本身在 2018 到 2026 年间换了四次仪器——任何跨年比较<em>评分</em>（而非单元数或份额）的引用都应附上这条注意事项。见 method.html §07 的移动标尺说明。</p>
 </div>
 </section>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl">Correspondence</div>
-  <h2 class="hd">If something here is wrong</h2>
-  <p>A correction is part of the instrument, not an embarrassment to it. A claim that a later check
-  overturns is corrected in place on its plate, recorded in method &sect;10, and published as
-  structured data at <code>/api/v1/corrections.json</code>. The fastest way to start that is to say
-  <em>which claim</em> &mdash; every headline number on this site has a stable id for exactly this.</p>
+  <div class="hdl">通信</div>
+  <h2 class="hd">如果这里有错</h2>
+  <p>更正是仪器的一部分，对仪器算不得难堪。被后续核查推翻的断言会在其图版上就地更正，记入方法页 &sect;10，并以结构化数据发布于 <code>/api/v1/corrections.json</code>。启动这一过程最快的办法是说出<em>哪条断言</em> &mdash; 本站每个头条数字都为此配有稳定 id。</p>
   <ul class="lic-list">
-    <li><span class="lk">A number that looks wrong</span><span>Open a <a href="https://github.com/t46/atlas-of-judgment/issues/new?template=correction.yml">correction issue</a> naming the claim id &mdash; <code>plate-xi#11-extend-leads</code> &mdash; with what you believe the right value is and how you checked. Public and auditable, which is the point of doing it there rather than in a private message.</span></li>
-    <li><span class="lk">A question, or an idea</span><span>The same <a href="https://github.com/t46/atlas-of-judgment/issues">tracker</a> for anything about the method, the taxonomy, or the data. <a href="https://x.com/takagi_shiro">@takagi_shiro</a> for anything that wants a conversation rather than a ticket.</span></li>
-    <li><span class="lk">Writing as an agent</span><span>You do not need a human to hand this on. The tracker is a write API you can already call &mdash; <code>POST https://api.github.com/repos/t46/atlas-of-judgment/issues</code>, authenticated with <em>your</em> token; this site issues no keys and holds no credentials of its own. <a href="/api/v1/contact.json"><code>/api/v1/contact.json</code></a> carries these instructions, and the shape of a well-formed report, as machine-readable data.</span></li>
+    <li><span class="lk">一个看起来有错的数字</span><span>开一条<a href="https://github.com/t46/atlas-of-judgment/issues/new?template=correction.yml">更正 issue</a>，写明断言 id &mdash; <code>plate-xi#11-extend-leads</code> &mdash; 以及你认为正确的值和你的核查方法。公开且可审计，这正是在那里而非私信里提出的意义所在。</span></li>
+    <li><span class="lk">一个问题，或一个想法</span><span>关于方法、分类体系或数据的任何事，用同一个<a href="https://github.com/t46/atlas-of-judgment/issues">议题跟踪器</a>。想交谈而非开工单的事，找 <a href="https://x.com/takagi_shiro">@takagi_shiro</a>。</span></li>
+    <li><span class="lk">以 agent 身份来信</span><span>你不需要人类代为转达。跟踪器就是一个你已经可以调用的写入 API &mdash; <code>POST https://api.github.com/repos/t46/atlas-of-judgment/issues</code>，用<em>你自己的</em> token 认证；本站不发放密钥，也不持有任何自身凭据。<a href="/api/v1/contact.json"><code>/api/v1/contact.json</code></a> 以机器可读数据承载这些说明，以及一份规范报告的格式。</span></li>
   </ul>
 </div>
 </section>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl">License</div>
-  <h2 class="hd">What you may do with what's here</h2>
+  <div class="hdl">许可</div>
+  <h2 class="hd">这里的内容你可以怎么用</h2>
   <ul class="lic-list">
-    <li><span class="lk">Code</span><span><b>MIT.</b> The pipeline scripts and the pages&#8217; own markup are open for reuse under the MIT License &mdash; see the <a href="https://github.com/t46/atlas-of-judgment/blob/main/LICENSE">LICENSE</a> file in the repository.</span></li>
-    <li><span class="lk">Text, figures &amp; derived data</span><span><b>CC BY 4.0</b> for the written analysis, the figures, the labeled unit tables on Hugging Face, and the depositions and 50 data islands above &mdash; aggregates served so every number can be recomputed. Attribute &#8220;Atlas of Judgment (https://atlas-of-judgment.pages.dev)&#8221; when reusing them.</span></li>
-    <li><span class="lk">Review text</span><span><b>Not this project's to license.</b> The underlying reviews belong to their anonymous authors and are public via OpenReview. Every specimen the atlas quotes links back to its original.</span></li>
+    <li><span class="lk">代码</span><span><b>MIT。</b>流水线脚本与页面自身的标记以 MIT 许可证开放复用 &mdash; 见仓库中的 <a href="https://github.com/t46/atlas-of-judgment/blob/main/LICENSE">LICENSE</a> 文件。</span></li>
+    <li><span class="lk">文字、图 &amp; 派生数据</span><span>书面分析、各图、Hugging Face 上的已标注单元表，以及上述存证与 50 个数据岛均为 <b>CC BY 4.0</b> &mdash; 这些聚合数据的发布使每个数字都能重算。复用时请署名 &#8220;Atlas of Judgment (https://atlas-of-judgment.pages.dev)&#8221;。</span></li>
+    <li><span class="lk">评审文本</span><span><b>不归本项目授权。</b>底层评审属于其匿名作者，经 OpenReview 公开。图谱引用的每一份标本都链接回其原文。</span></li>
   </ul>
 </div>
 </section>
@@ -419,10 +401,11 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
-  <div class="col-mark">Atlas of Judgment</div>
-  <div class="col-sub">resources — code, data, and how to cite it</div>
-  <div class="col-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="method.html">Method</a><a href="api/">API</a></div>
-  <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
+  <div class="col-mark">评判图谱 · Atlas of Judgment</div>
+  <div class="col-sub">资源 — 代码、数据与引用方式</div>
+  <div class="col-links"><a href="index.html">图谱</a><a href="about.html">关于</a><a href="method.html">方法</a><a href="api/">API</a></div>
+  <div class="col-fine">衍生数据以 CC BY 4.0 发布。评审归其匿名作者所有，经 OpenReview 公开。这里的一切都是机器读取——请对照原文核验，每个标本都链接到原文。</div>
+<div class="col-fine col-zh">本站是 Shiro Takagi 所作 <a href="https://atlas-of-judgment.pages.dev">Atlas of Judgment</a> 的中文译本。原文、图与派生数据 CC BY 4.0，代码 MIT；数据与机读接口与原站同源、未作改动。译文由 <a href="https://github.com/Lauorie/atlas-of-judgment">Lauorie/atlas-of-judgment</a> 维护，译文问题请到该仓库提 issue；数据与断言的更正请报到<a href="https://github.com/t46/atlas-of-judgment/issues">原仓库</a>。</div>
 </footer>
 
 <script>
@@ -500,8 +483,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 
     stage.textContent = "";
     var svg = el("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H,
-      role: "img", "aria-label": "All " + items.length +
-      " data files drawn as circles whose area matches their size on disk; two large files dominate." }, null);
+      role: "img", "aria-label": "全部 " + items.length +
+      " 个数据文件画成圆，面积对应其磁盘大小；两个大文件占主导。" }, null);
     svg.style.width = "100%"; svg.style.height = "auto";
 
     var defs = el("defs", {}, svg);
@@ -537,7 +520,7 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
       var t = document.createElementNS(NS, "title");
       t.textContent = d.name + " · " + (d.kb >= 1024 ?
         (d.kb / 1024).toFixed(2) + " MB" : d.kb.toFixed(1) + " KB") +
-        (d.orphan ? " · not yet on any plate" : "");
+        (d.orphan ? " · 尚未用于任何图版" : "");
       g.appendChild(t);
 
       if (r > 30) {
@@ -570,8 +553,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
         fill: "none", stroke: BRASS_LINE, "stroke-width": 1, "class": "isl-note" }, svg);
       var bl = el("text", { x: (braceX0 + braceX1) / 2, y: by + (narrow ? 22 : 17),
         "text-anchor": "middle", fill: MUTED, "font-family": '"IBM Plex Mono", monospace',        "font-size": narrow ? 7.5 : 9, "letter-spacing": "0.1em", "class": "isl-note" }, svg);
-      bl.textContent = "THE OTHER " + (items.length - 2) + " · " +
-        (restKB / 1024).toFixed(1) + " MB TOGETHER";
+      bl.textContent = "其余 " + (items.length - 2) + " · " +
+        (restKB / 1024).toFixed(1) + " MB 合计";
     }
     stage.appendChild(svg);
     if (shown) { base.setAttribute("stroke-dashoffset", 0); }

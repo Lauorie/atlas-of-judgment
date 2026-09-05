@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<meta name="description" content="The full reproduction record: every script, model, seed and cost — including the pilots that failed and the corrections as they happened.">
+<meta name="description" content="完整的复现记录：每个脚本、模型、随机种子与成本 — 包括失败的试点和随时写下的更正。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Atlas of Judgment">
-<meta property="og:title" content="Method — Atlas of Judgment">
-<meta property="og:description" content="The full reproduction record: every script, model, seed and cost — including the pilots that failed and the corrections as they happened.">
+<meta property="og:title" content="方法 — 评判图谱">
+<meta property="og:description" content="完整的复现记录：每个脚本、模型、随机种子与成本 — 包括失败的试点和随时写下的更正。">
 <meta property="og:url" content="https://atlas-of-judgment.pages.dev/method">
 <meta property="og:image" content="https://atlas-of-judgment.pages.dev/card.jpg">
 <meta property="og:image:width" content="1200">
@@ -15,16 +15,16 @@
 <meta name="twitter:site" content="@takagi_shiro">
 <meta name="twitter:creator" content="@takagi_shiro">
 <meta charset="utf-8">
-<title>The Atlas Method</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>图谱方法</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
 <style>
 :root {
   --ground: #efe4c9; --raise: #f8f1e0;
   --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
   --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
-  --mono: "IBM Plex Mono", ui-monospace, monospace;
-  --display: "Cormorant Garamond", Georgia, serif;
-  --serif: "Source Serif 4", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
 }
 * { box-sizing: border-box; }
 body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.75;
@@ -278,247 +278,247 @@ main { position: relative; z-index: 3; }
 <div id="cvig" aria-hidden="true"></div>
 <main id="top">
 <section class="mhero">
-  <div class="eyebrow">Atlas of Judgment · Reproduction Record</div>
-  <h1>How the data <em style="font-style:italic">was made</em></h1>
-  <div class="mhero-lat">officina — the room next door to the atlas</div>
-  <div class="mhero-cue"><i></i><span class="cue-m">open the cabinet</span><span class="cue-s">four parts, sixteen sections</span></div>
+  <div class="eyebrow">评判图谱 · 复现记录</div>
+  <h1>数据是<em style="font-style:italic">如何做出来的</em></h1>
+  <div class="mhero-lat">officina — 图谱隔壁的房间</div>
+  <div class="mhero-cue"><i></i><span class="cue-m">打开陈列柜</span><span class="cue-s">四部分，十六节</span></div>
 </section>
 <div class="sheet"><div class="shell">
 
-<p style="font-size:16.5px;margin-top:22px">Every stage from raw collection to the labeled unit databases that all atlas figures are computed from — scripts, models, parameters, seeds, counts, costs, failure modes, and the exact commands. Scope ends at the data layer; the visualizations downstream evolve continuously and are documented in the atlas itself. All counts verified 2026-08-18 by read-only queries.</p>
+<p style="font-size:16.5px;margin-top:22px">从原始采集到全部图谱图表所依据的已标注单元数据库，每一个阶段 — 脚本、模型、参数、随机种子、计数、成本、失败模式和确切命令。范围止于数据层；下游的可视化持续演进，记录在图谱本身。所有计数于 2026-08-18 经只读查询核验。</p>
 
-<div class="callout"><b>The finished data is public</b>
-Both labeled unit databases (410,586 review-level units, ICLR 2026 · 1,009,592 forum-level units, 2018–2026), the taxonomy definitions, and the 600 analyst-labeled rhetoric units are published as parquet on HuggingFace under CC BY 4.0: <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">huggingface.co/datasets/t46/atlas-of-judgment</a>. Everything below documents how that data was made.</div>
+<div class="callout"><b>成品数据已公开</b>
+两个已标注单元数据库（410,586 条评审级单元，ICLR 2026 · 1,009,592 条 forum 级单元，2018–2026）、分类体系定义，以及 600 条分析员标注的修辞单元，均以 parquet 格式按 CC BY 4.0 发布于 HuggingFace：<a href="https://huggingface.co/datasets/t46/atlas-of-judgment">huggingface.co/datasets/t46/atlas-of-judgment</a>。以下全部内容记录这些数据是如何做出来的。</div>
 
-<p>This is the room next door to the atlas — the bench where the specimens were prepared, with the jars still labelled. It is in four parts: <b>the build</b>, which is everything needed to make the data again; <b>the instrument tested</b>, which is how well the reading reads and where it cannot be trusted; <b>the record</b>, which is what was actually done, in what order, and on whose prompting; and <b>the bill</b>.</p>
+<p>这是图谱隔壁的房间 — 制备标本的工作台，罐上的标签还在。它分四部分：<b>构建</b>，即重新生成数据所需的一切；<b>受测的仪器</b>，即读取读得多准、哪里不可信；<b>记录</b>，即实际做了什么、按什么顺序、由谁推动；以及<b>账单</b>。</p>
 
 <div class="toc">
   <div class="toc-part">
-    <div class="toc-h"><b>Part I</b> The build</div>
-    <a href="#s0"><span class="tno">00</span>Prerequisites &amp; environment</a>
-    <a href="#s1"><span class="tno">01</span>Collection — OpenReview → raw SQLite</a>
-    <a href="#s2"><span class="tno">02</span>Normalization — provenance only</a>
-    <a href="#s3"><span class="tno">03</span>Layer II — DeepSeek analytic memos</a>
-    <a href="#s4"><span class="tno">04</span>Layer III — Qwen structured units</a>
-    <a href="#s5"><span class="tno">05</span>Retries, merging, and the failure tail</a>
-    <a href="#s6"><span class="tno">06</span>Unit extraction &amp; the induced taxonomy</a>
+    <div class="toc-h"><b>第一部分</b> 构建</div>
+    <a href="#s0"><span class="tno">00</span>先决条件与环境</a>
+    <a href="#s1"><span class="tno">01</span>采集 — OpenReview → 原始 SQLite</a>
+    <a href="#s2"><span class="tno">02</span>规范化 — 仅溯源</a>
+    <a href="#s3"><span class="tno">03</span>第二层 — DeepSeek 分析备忘</a>
+    <a href="#s4"><span class="tno">04</span>第三层 — Qwen 结构化单元</a>
+    <a href="#s5"><span class="tno">05</span>重试、合并与失败尾部</a>
+    <a href="#s6"><span class="tno">06</span>单元提取与归纳分类体系</a>
   </div>
   <div class="toc-part">
-    <div class="toc-h"><b>Part II</b> The instrument tested</div>
-    <a href="#s7"><span class="tno">07</span>Instrument checks — reading the reader</a>
-    <a href="#s8"><span class="tno">08</span>What cannot be reproduced</a>
+    <div class="toc-h"><b>第二部分</b> 受测的仪器</div>
+    <a href="#s7"><span class="tno">07</span>仪器校验 — 检验读取器</a>
+    <a href="#s8"><span class="tno">08</span>无法复现之处</a>
   </div>
   <div class="toc-part">
-    <div class="toc-h"><b>Part III</b> The record</div>
-    <a href="#s9"><span class="tno">09</span>The actual path — pilots, failures, decisions</a>
-    <a href="#s10"><span class="tno">10</span>The order of the plates is not the order of the work</a>
-    <a href="#s11"><span class="tno">11</span>Where each plate came from</a>
-    <a href="#s12"><span class="tno">12</span>Notes for the nine added plates</a>
-    <a href="#s13"><span class="tno">13</span>Instrument extensions — the 2026-08-24 review pass</a>
-    <a href="#s14"><span class="tno">14</span>The long rule and the cast shadow — instruments, not plates</a>
+    <div class="toc-h"><b>第三部分</b> 记录</div>
+    <a href="#s9"><span class="tno">09</span>实际路径 — 试点、失败、决策</a>
+    <a href="#s10"><span class="tno">10</span>图版的顺序不是工作的顺序</a>
+    <a href="#s11"><span class="tno">11</span>每张图版的来处</a>
+    <a href="#s12"><span class="tno">12</span>九张新增图版的说明</a>
+    <a href="#s13"><span class="tno">13</span>仪器扩展 — 2026-08-24 评审轮次</a>
+    <a href="#s14"><span class="tno">14</span>长标尺与投下的影 — 是仪器，不是图版</a>
   </div>
   <div class="toc-part">
-    <div class="toc-h"><b>Part IV</b> The bill</div>
-    <a href="#s15"><span class="tno">15</span>Cost ledger</a>
+    <div class="toc-h"><b>第四部分</b> 账单</div>
+    <a href="#s15"><span class="tno">15</span>成本台账</a>
   </div>
 </div>
 
-<div class="diagram yield" id="yield"><p class="cap">The yield — what was put to the reader, and what never came back out</p>
-<p class="yl-note">Both tails are drawn ten times wider than they are, or they would be invisible at this scale; the true share is printed beside each. The tail is documented in §05, and its correlation with topic is unverified.</p>
+<div class="diagram yield" id="yield"><p class="cap">产出 — 交给读取器的，与再没出来的</p>
+<p class="yl-note">两条尾部都按实际宽度的十倍绘出，否则在此比例下将不可见；真实占比印在各自旁边。尾部记录于 §05，其与主题的相关性未经核验。</p>
 
-<div class="yl-gh">Layer I · the record — collected once, then never written again</div>
+<div class="yl-gh">第一层 · 记录 — 采集一次，此后不再写入</div>
 <div class="yl-row">
-  <div class="yl-lab">forums collected<span class="s">OpenReview API v1/v2 · ICLR 2018–2026</span></div>
+  <div class="yl-lab">已采集 forum<span class="s">OpenReview API v1/v2 · ICLR 2018–2026</span></div>
   <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
   <div class="yl-n">52,460</div>
 </div>
 <div class="yl-row">
-  <div class="yl-lab">forum messages<span class="s">reviews, rebuttals, meta-reviews, comments</span></div>
+  <div class="yl-lab">forum 消息<span class="s">评审、rebuttal、元评审、评论</span></div>
   <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
   <div class="yl-n">792,703</div>
 </div>
 
-<div class="yl-gh">Track A · ICLR 2026, review-level — the high-resolution cut</div>
+<div class="yl-gh">轨道 A · ICLR 2026，评审级 — 高分辨率切片</div>
 <div class="yl-row">
-  <div class="yl-lab">reviews put to the reader<span class="s">three-stage layered memo each</span></div>
+  <div class="yl-lab">交给读取器的评审<span class="s">每篇三阶段分层备忘</span></div>
   <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
   <div class="yl-n">75,859</div>
 </div>
 <div class="yl-row">
-  <div class="yl-lab">reviews structured into units<span class="s">after retries; the rest are parse failures and provider refusals</span></div>
+  <div class="yl-lab">结构化为单元的评审<span class="s">重试之后；其余为解析失败与服务商拒答</span></div>
   <div class="yl-bar"><i class="keep" style="width:80.5%"></i><i class="lost" style="width:19.5%"></i></div>
   <div class="yl-n">74,380<span class="l">−1,479 · 1.95%</span></div>
 </div>
 <div class="yl-row">
-  <div class="yl-lab">logic units yielded<span class="s">5.5 per review, median 5</span></div>
+  <div class="yl-lab">产出逻辑单元<span class="s">每篇评审 5.5 条，中位数 5</span></div>
   <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
   <div class="yl-n">410,586</div>
 </div>
 
-<div class="yl-gh">Track B · 2018–2026, forum-level — the nine-year cut</div>
+<div class="yl-gh">轨道 B · 2018–2026，forum 级 — 九年切片</div>
 <div class="yl-row">
-  <div class="yl-lab">forums put to the reader<span class="s">one direct memo over the whole thread</span></div>
+  <div class="yl-lab">交给读取器的 forum<span class="s">对整条讨论串一份直接备忘</span></div>
   <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
   <div class="yl-n">51,813</div>
 </div>
 <div class="yl-row">
-  <div class="yl-lab">forums structured into units<span class="s">including the 24k/32k truncation retries</span></div>
+  <div class="yl-lab">结构化为单元的 forum<span class="s">含 24k/32k 截断重试</span></div>
   <div class="yl-bar"><i class="keep" style="width:81.6%"></i><i class="lost" style="width:18.4%"></i></div>
   <div class="yl-n">50,861<span class="l">−952 · 1.84%</span></div>
 </div>
 <div class="yl-row">
-  <div class="yl-lab">logic units yielded<span class="s">with temporal fields: before/after rebuttal, judgment change</span></div>
+  <div class="yl-lab">产出逻辑单元<span class="s">带时序字段：rebuttal 前/后、判断变化</span></div>
   <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
   <div class="yl-n">1,009,592</div>
 </div>
 
-<div class="yl-sum"><span class="k">in both databases</span><span class="v">1,420,178 units</span></div>
+<div class="yl-sum"><span class="k">两库合计</span><span class="v">1,420,178 条单元</span></div>
 </div>
 
-<div class="diagram"><p class="cap">The pipeline at a glance — three layers, two tracks, one taxonomy</p>
+<div class="diagram"><p class="cap">流水线一览 — 三层、两轨、一套分类体系</p>
 <div class="fm-row">
-  <div class="fm-box"><div class="t">OpenReview</div><div class="s">public API v1/v2<br>52,460 forums · 9 years</div></div>
-  <div class="fm-arrow"><span class="g">→</span><span class="lbl">collect</span></div>
-  <div class="fm-box"><a class="fm-sec" href="#s1" title="Collection — the section that writes this layer">§01</a><div class="t">Raw layer</div><div class="s">openreview.sqlite3<br>written once · immutable</div></div>
-  <div class="fm-arrow"><span class="g">→</span><span class="lbl">normalize</span></div>
-  <div class="fm-box"><a class="fm-sec" href="#s2" title="Normalization — the section that builds the record">§02</a><div class="t">Layer I — the record</div><div class="s">analysis.sqlite3<br>papers 52,460 · messages 792,703</div></div>
+  <div class="fm-box"><div class="t">OpenReview</div><div class="s">公开 API v1/v2<br>52,460 个 forum · 9 年</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">采集</span></div>
+  <div class="fm-box"><a class="fm-sec" href="#s1" title="采集 — 写入这一层的章节">§01</a><div class="t">原始层</div><div class="s">openreview.sqlite3<br>一次写入 · 不可变</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">规范化</span></div>
+  <div class="fm-box"><a class="fm-sec" href="#s2" title="规范化 — 构建记录的章节">§02</a><div class="t">第一层 — 记录</div><div class="s">analysis.sqlite3<br>论文 52,460 · 消息 792,703</div></div>
 </div>
-<div class="fm-down">↓ &nbsp; two memo tracks &nbsp; ↓</div>
+<div class="fm-down">↓ &nbsp; 两条备忘轨道 &nbsp; ↓</div>
 <div class="fm-pair">
   <div class="fm-col">
-    <div class="fm-box"><a class="fm-sec" href="#s3" title="Layer II — DeepSeek analytic memos">§03</a><div class="t">Layer II — DeepSeek memos (Layered)</div><div class="s">initial_blind → trajectory → synthesis<br>ICLR 2026 · 151,193 memos · $314.42</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s3" title="第二层 — DeepSeek 分析备忘">§03</a><div class="t">第二层 — DeepSeek 备忘（分层）</div><div class="s">initial_blind → trajectory → synthesis<br>ICLR 2026 · 151,193 份备忘 · $314.42</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><a class="fm-sec" href="#s4" title="Layer III — Qwen structured units">§04</a><div class="t">Layer III — Qwen structuring</div><div class="s">compact schema · realtime API<br>74,380 / 75,859 reviews · $28.79</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s4" title="第三层 — Qwen 结构化单元">§04</a><div class="t">第三层 — Qwen 结构化</div><div class="s">紧凑模式 · 实时 API<br>74,380 / 75,859 篇评审 · $28.79</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><a class="fm-sec" href="#s6" title="Unit extraction">§06</a><div class="t">Unit database — 2026 track</div><div class="s">410,586 logic units<br>review-level · scores joinable</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s6" title="单元提取">§06</a><div class="t">单元数据库 — 2026 轨道</div><div class="s">410,586 条逻辑单元<br>评审级 · 可关联评分</div></div>
   </div>
   <div class="fm-col">
-    <div class="fm-box"><a class="fm-sec" href="#s3" title="Layer II — DeepSeek analytic memos">§03</a><div class="t">Layer II — DeepSeek memos (Direct)</div><div class="s">whole forum, one pass<br>2018–2026 · 51,813 memos · $194.75</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s3" title="第二层 — DeepSeek 分析备忘">§03</a><div class="t">第二层 — DeepSeek 备忘（直接）</div><div class="s">整个 forum，一遍过<br>2018–2026 · 51,813 份备忘 · $194.75</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><a class="fm-sec" href="#s4" title="Layer III — structuring, plus §05 retries & merging">§04–05</a><div class="t">Layer III — Qwen structuring</div><div class="s">direct schema + 24k/32k retries<br>50,861 / 51,813 forums · $74.80</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s4" title="第三层 — 结构化，加 §05 的重试与合并">§04–05</a><div class="t">第三层 — Qwen 结构化</div><div class="s">直接模式 + 24k/32k 重试<br>50,861 / 51,813 个 forum · $74.80</div></div>
     <div class="fm-down">↓</div>
-    <div class="fm-box"><a class="fm-sec" href="#s6" title="Unit extraction">§06</a><div class="t">Unit database — 2018–2026 track</div><div class="s">1,009,592 logic units<br>forum-level · temporal fields</div></div>
+    <div class="fm-box"><a class="fm-sec" href="#s6" title="单元提取">§06</a><div class="t">单元数据库 — 2018–2026 轨道</div><div class="s">1,009,592 条逻辑单元<br>forum 级 · 时序字段</div></div>
   </div>
 </div>
 <div class="fm-bridge">
-  <div class="fm-down">↓ &nbsp; induced from a 12k sample of the 2026 track · applied to both &nbsp; ↓</div>
-  <div class="fm-box acc"><a class="fm-sec" href="#s6" title="Taxonomy induction, and §07 instrument checks">§06–07</a><div class="t">Taxonomy v1</div><div class="s">UMAP + HDBSCAN + human naming<br>12 objects × 12 standards</div></div>
+  <div class="fm-down">↓ &nbsp; 从 2026 轨道的 12k 样本归纳 · 应用于两轨 &nbsp; ↓</div>
+  <div class="fm-box acc"><a class="fm-sec" href="#s6" title="分类体系归纳，及 §07 仪器校验">§06–07</a><div class="t">分类体系 v1</div><div class="s">UMAP + HDBSCAN + 人工命名<br>12 审视对象 × 12 推理标准</div></div>
   <div class="fm-down">↓</div>
-  <div class="fm-box acc"><a class="fm-sec" href="#s11" title="Where each plate came from">§11</a><div class="t">THE ATLAS</div><div class="s">aggregates → plates</div></div>
+  <div class="fm-box acc"><a class="fm-sec" href="#s11" title="每张图版的来处">§11</a><div class="t">图谱</div><div class="s">聚合 → 图版</div></div>
 </div>
 </div>
 
 </div></div>
 <div class="pwin" id="pi" data-bay="0">
   <div class="pwin-card">
-    <div class="part-rule"><span>Part I</span></div>
-    <h2 class="part-name">The build</h2>
-    <div class="part-lat">officina — the workshop</div>
-    <p class="part-sub">everything needed to make the data again</p>
+    <div class="part-rule"><span>第一部分</span></div>
+    <h2 class="part-name">构建</h2>
+    <div class="part-lat">officina — 工坊</div>
+    <p class="part-sub">重新生成数据所需的一切</p>
   </div>
 </div>
 <div class="sheet"><div class="shell">
 <div class="no" id="s0">00</div>
-<h2>Prerequisites &amp; environment</h2>
+<h2>先决条件与环境</h2>
 <ul>
-  <li><b>Language &amp; tooling</b>: Python ≥ 3.12 managed with <code>uv</code>; all commands below are <code>uv run python …</code> from the project root. Tests use <code>unittest</code> (<code>uv run python -m unittest discover -s tests</code>; 69 tests, all synthetic fixtures — they never touch production data).</li>
-  <li><b>Key dependencies</b>: <code>openreview-py ≥ 2.4.1</code> (collection), <code>openai ≥ 2.53</code> (OpenAI-compatible clients for DeepSeek/DashScope), <code>jsonschema</code>, and for the taxonomy stage <code>sentence-transformers</code>, <code>umap-learn</code>, <code>hdbscan</code>.</li>
-  <li><b>Credentials</b> (environment variables; never printed or committed): <code>OPENREVIEW_USERNAME</code>/<code>OPENREVIEW_PASSWORD</code> for collection; <code>DEEPSEEK_API_KEY</code> for Layer II; <code>DASHSCOPE_API_KEY</code> for Layer III (in production resolved once per run from 1Password CLI by a supervisor wrapper and exported to the child process).</li>
-  <li><b>Directory contract</b>: <code>data/raw/</code> is written once by collection and thereafter opened read-only by everything else (verified by grep over all scripts: only the normalizer references it, with <code>mode=ro</code>). Every analysis run lives in its own directory under <code>data/analysis/iclr/</code> with a <code>manifest.json</code>, a <code>state.sqlite3</code> request ledger, and per-request <code>outputs/</code>, <code>provider/</code>, <code>validations/</code> evidence files.</li>
+  <li><b>语言与工具</b>：Python ≥ 3.12，用 <code>uv</code> 管理；下文所有命令均在项目根目录下以 <code>uv run python …</code> 运行。测试用 <code>unittest</code>（<code>uv run python -m unittest discover -s tests</code>；69 个测试，全部使用合成夹具 — 从不触碰生产数据）。</li>
+  <li><b>关键依赖</b>：<code>openreview-py ≥ 2.4.1</code>（采集）、<code>openai ≥ 2.53</code>（DeepSeek/DashScope 的 OpenAI 兼容客户端）、<code>jsonschema</code>，分类体系阶段另需 <code>sentence-transformers</code>、<code>umap-learn</code>、<code>hdbscan</code>。</li>
+  <li><b>凭据</b>（环境变量；从不打印或提交）：采集用 <code>OPENREVIEW_USERNAME</code>/<code>OPENREVIEW_PASSWORD</code>；第二层用 <code>DEEPSEEK_API_KEY</code>；第三层用 <code>DASHSCOPE_API_KEY</code>（生产环境中由监督器封装在每次运行时从 1Password CLI 解析一次，再导出给子进程）。</li>
+  <li><b>目录约定</b>：<code>data/raw/</code> 由采集一次写入，此后其他一切都以只读方式打开（已用 grep 遍历全部脚本核实：只有规范化器引用它，且带 <code>mode=ro</code>）。每次分析运行都在 <code>data/analysis/iclr/</code> 下有自己的目录，含 <code>manifest.json</code>、<code>state.sqlite3</code> 请求台账，以及每个请求的 <code>outputs/</code>、<code>provider/</code>、<code>validations/</code> 证据文件。</li>
 </ul>
 
 <div class="no" id="s1">01</div>
-<h2>Collection — OpenReview → raw SQLite</h2>
-<p><b>Script</b>: <code>scripts/collect_iclr_forums.py</code> (380 lines). One command per year:</p>
+<h2>采集 — OpenReview → 原始 SQLite</h2>
+<p><b>脚本</b>：<code>scripts/collect_iclr_forums.py</code>（380 行）。每年一条命令：</p>
 <pre><span class="c"># default --years covers all nine (2018..2026); resumable per year</span>
 uv run python scripts/collect_iclr_forums.py --years 2018 2019 2020 2021 2022 2023 2024 2025 2026</pre>
 <ul>
-  <li><b>Scope decision</b>: ICLR only, 2018–2026, OpenReview as the single source. ICLR was chosen because it publishes reviews of <em>rejected</em> papers; ICML/NeurIPS expose mostly accepted-paper reviews. 2017 was deliberately excluded (not verifiable as an official OpenReview venue). The year range was fixed at the very start of the project; only extraction methods evolved later.</li>
-  <li><b>API version handling</b>: runtime detection, not a hardcoded table. <code>venue_config()</code> first queries OpenReview API v2 for the <code>ICLR.cc/{year}/Conference</code> group; if <code>content.submission_id</code> exists it stays on v2, otherwise falls back to v1 (<code>{venue_id}/-/Blind_Submission</code>). Empirically: 2018–2023 resolved to v1, 2024–2026 to v2.</li>
-  <li><b>Pagination &amp; resilience</b>: cursor pagination (<code>after=&lt;last note id&gt;</code>, <code>sort="id"</code>, page size 100) with <code>details="replies"</code> to fetch the reply graph in the same call; up to 7 retries with exponential backoff (1s→30s cap); a <code>RuntimeError</code> guard if a page makes no progress. Resumable via the <code>after_id</code> cursor persisted per year in <code>collection_status</code>; <code>forums</code> upserts on <code>(year, forum_id)</code> so reruns cannot duplicate.</li>
-  <li><b>No anonymization</b>: notes are serialized as-is (<code>.to_json()</code>), signatures included. The data is public; no PII masking exists anywhere in the pipeline.</li>
-  <li><b>Output</b>: <code>data/raw/iclr/openreview.sqlite3</code> — <code>forums</code> 52,460 rows (2018:935 · 2019:1,419 · 2020:2,213 · 2021:2,594 · 2022:2,617 · 2023:3,792 · 2024:7,404 · 2025:11,672 · 2026:19,814); <code>collection_status</code> 9 rows, all <code>completed=1</code> with stored == expected.</li>
+  <li><b>范围决定</b>：仅 ICLR，2018–2026，OpenReview 为唯一来源。选 ICLR 是因为它公开<em>被拒</em>论文的评审；ICML/NeurIPS 暴露的多为已接收论文的评审。2017 被刻意排除（无法核实为 OpenReview 官方会场）。年份范围在项目一开始就固定；之后演变的只有提取方法。</li>
+  <li><b>API 版本处理</b>：运行时检测，不用硬编码表。<code>venue_config()</code> 先向 OpenReview API v2 查询 <code>ICLR.cc/{year}/Conference</code> 组；若存在 <code>content.submission_id</code> 则留在 v2，否则回退到 v1（<code>{venue_id}/-/Blind_Submission</code>）。实测：2018–2023 解析为 v1，2024–2026 为 v2。</li>
+  <li><b>分页与韧性</b>：游标分页（<code>after=&lt;last note id&gt;</code>、<code>sort="id"</code>、每页 100），带 <code>details="replies"</code> 在同一次调用中取回回复图；最多 7 次重试，指数退避（1s→30s 上限）；若某页无进展则触发 <code>RuntimeError</code> 守卫。可通过按年持久化在 <code>collection_status</code> 中的 <code>after_id</code> 游标续跑；<code>forums</code> 按 <code>(year, forum_id)</code> upsert，重跑不会重复。</li>
+  <li><b>不做匿名化</b>：note 按原样序列化（<code>.to_json()</code>），含签名。数据为公开数据；流水线中任何位置都没有 PII 遮蔽。</li>
+  <li><b>输出</b>：<code>data/raw/iclr/openreview.sqlite3</code> — <code>forums</code> 52,460 行（2018:935 · 2019:1,419 · 2020:2,213 · 2021:2,594 · 2022:2,617 · 2023:3,792 · 2024:7,404 · 2025:11,672 · 2026:19,814）；<code>collection_status</code> 9 行，全部 <code>completed=1</code>，且 stored == expected。</li>
 </ul>
-<div class="callout"><b>Known limitation</b>Completeness is self-reported: the expected count comes from page one of the same run that then satisfies it. No post-hoc reconciliation against live OpenReview exists (<code>inventory_iclr.py</code> fetches live counts but writes only to <code>data/inventory/</code>, never cross-checks the raw DB). If OpenReview content changed after collection, the raw snapshot would not notice.</div>
+<div class="callout"><b>已知局限</b>完整性为自报：期望计数来自同一次运行的第一页，随后又由该运行自己满足。不存在对照 OpenReview 线上数据的事后对账（<code>inventory_iclr.py</code> 抓取线上计数，但只写入 <code>data/inventory/</code>，从不与原始库交叉核对）。若 OpenReview 内容在采集后发生变化，原始快照不会察觉。</div>
 
 <div class="no" id="s2">02</div>
-<h2>Normalization — provenance only</h2>
-<p><b>Script</b>: <code>scripts/normalize_iclr.py</code> (334 lines). Deterministic and idempotent — per year it deletes and rebuilds inside one transaction; no wall-clock timestamps or randomness (times come from the raw <code>cdate</code>/<code>mdate</code>).</p>
+<h2>规范化 — 仅溯源</h2>
+<p><b>脚本</b>：<code>scripts/normalize_iclr.py</code>（334 行）。确定性且幂等 — 按年在一个事务内删除并重建；没有墙钟时间戳或随机性（时间来自原始的 <code>cdate</code>/<code>mdate</code>）。</p>
 <pre>uv run python scripts/normalize_iclr.py</pre>
 <ul>
-  <li><b>What it adds</b> — provenance only, no interpretation: <code>classify_kind()</code> strips the API-v2 "edit" wrapper then matches an ordered pattern list (official_review → meta_review → desk_rejection → withdrawal → decision → official_comment → public_comment → comment → unknown); <code>classify_role()</code> reads signature strings (<code>/authors</code>, <code>/reviewer_</code>, <code>/area_chair_</code>, <code>/program_chair</code>, public <code>~</code> profiles) with kind-based fallback.</li>
-  <li><b>Output</b>: <code>data/processed/iclr/analysis.sqlite3</code> — <code>papers</code> 52,460 · <code>messages</code> 792,703. Kind breakdown: official_comment 507,543 · official_review 199,031 · decision 40,821 · meta_review 30,108 · withdrawal 8,235 · public_comment 5,563 · desk_rejection 980 · comment 422 · unknown 0.</li>
+  <li><b>它添加了什么</b> — 仅溯源，不做解读：<code>classify_kind()</code> 剥去 API v2 的 “edit” 包装后，按有序模式列表匹配（official_review → meta_review → desk_rejection → withdrawal → decision → official_comment → public_comment → comment → unknown）；<code>classify_role()</code> 读取签名字符串（<code>/authors</code>、<code>/reviewer_</code>、<code>/area_chair_</code>、<code>/program_chair</code>、公开的 <code>~</code> 档案），并以 kind 为后备。</li>
+  <li><b>输出</b>：<code>data/processed/iclr/analysis.sqlite3</code> — <code>papers</code> 52,460 · <code>messages</code> 792,703。按 kind 细分：official_comment 507,543 · official_review 199,031 · decision 40,821 · meta_review 30,108 · withdrawal 8,235 · public_comment 5,563 · desk_rejection 980 · comment 422 · unknown 0。</li>
 </ul>
 
 <div class="no" id="s3">03</div>
-<h2>Layer II — DeepSeek analytic memos</h2>
-<p><b>Engine</b>: <code>scripts/run_deepseek_pilot.py</code>, model <code>deepseek-v4-flash</code>, thinking disabled, <code>temperature=0.4</code>, no seed. A persistent SQLite budget ledger (<code>budget_state</code>, <code>api_call_attempts</code>) with an <code>fcntl</code> lock keeps spend consistent across interruptions; every run declares a cost cap up front.</p>
-<p>Two production runs share this engine:</p>
+<h2>第二层 — DeepSeek 分析备忘</h2>
+<p><b>引擎</b>：<code>scripts/run_deepseek_pilot.py</code>，模型 <code>deepseek-v4-flash</code>，关闭思考，<code>temperature=0.4</code>，无随机种子。持久化的 SQLite 预算台账（<code>budget_state</code>、<code>api_call_attempts</code>）配 <code>fcntl</code> 锁，使支出在中断之间保持一致；每次运行都预先声明成本上限。</p>
+<p>两次生产运行共用此引擎：</p>
 <div class="tw"><table>
-  <tr><th>Run</th><th>Driver</th><th>Stages (max output tokens)</th><th>Output DB</th><th>Memos</th><th>Cost</th></tr>
-  <tr><td>Full Layered (ICLR 2026)</td><td><code>run_iclr_2026_full_layered.py</code></td><td>initial_blind (4k→8k) · trajectory (6k→12k) · paper_synthesis (8k→12k)</td><td><code>production-2026.sqlite3</code></td><td class="n">151,193</td><td class="n">$314.42</td></tr>
-  <tr><td>Direct (2018–2026)</td><td><code>prepare_iclr_direct_production.py</code> + <code>supervise_iclr_direct.py</code></td><td>forum_direct — the whole forum in one call</td><td><code>direct-2018-2026.sqlite3</code></td><td class="n">51,813</td><td class="n">$194.75</td></tr>
+  <tr><th>运行</th><th>驱动脚本</th><th>阶段（最大输出 token 数）</th><th>输出库</th><th>备忘数</th><th>成本</th></tr>
+  <tr><td>全量分层（ICLR 2026）</td><td><code>run_iclr_2026_full_layered.py</code></td><td>initial_blind (4k→8k) · trajectory (6k→12k) · paper_synthesis (8k→12k)</td><td><code>production-2026.sqlite3</code></td><td class="n">151,193</td><td class="n">$314.42</td></tr>
+  <tr><td>直接（2018–2026）</td><td><code>prepare_iclr_direct_production.py</code> + <code>supervise_iclr_direct.py</code></td><td>forum_direct — 整个 forum 一次调用</td><td><code>direct-2018-2026.sqlite3</code></td><td class="n">51,813</td><td class="n">$194.75</td></tr>
 </table></div>
 <ul>
-  <li><b>Prompt contract</b> (canonical text in <code>docs/prompts.md</code>; the rendered prompt of every job is stored verbatim in each DB's <code>jobs</code> table): frame the task as qualitative metascience; <em>never re-review the paper or invent taxonomies</em>; cite evidence by line ID (<code>R-&lt;note_id&gt;:L###</code>); at the initial stage, deliberately hide outcomes and the other reviews.</li>
-  <li><b>Leakage control</b>: decisions, scores, and other outcome metadata are never given to any extraction stage; they are joined only at display time, downstream.</li>
-  <li><b>Method choice</b>: a blind same-model judge preferred Layered over Direct 69–31 in the pilot, but Direct was retained for the nine-year track on cost and error-propagation grounds; Layered feeds the high-resolution 2026 track. This trade-off is recorded, not hidden.</li>
+  <li><b>提示词契约</b>（规范文本见 <code>docs/prompts.md</code>；每个任务渲染后的提示词都原样存于各库的 <code>jobs</code> 表）：把任务定位为定性元科学；<em>绝不重新评审论文，也不发明分类体系</em>；按行 ID 引用证据（<code>R-&lt;note_id&gt;:L###</code>）；在初始阶段刻意隐藏结果与其他评审。</li>
+  <li><b>泄漏控制</b>：录用决定、评分及其他结果元数据从不提供给任何提取阶段；它们只在下游展示时才被关联。</li>
+  <li><b>方法选择</b>：试点中，同模型盲评以 69–31 偏好分层法胜过直接法，但九年轨道出于成本与误差传播的考虑保留了直接法；分层法供给高分辨率的 2026 轨道。这一取舍有记录，未隐藏。</li>
 </ul>
 
 <div class="no" id="s4">04</div>
-<h2>Layer III — Qwen structured units</h2>
-<p><b>Model</b> (both tracks): <code>qwen3.7-flash</code> via DashScope's OpenAI-compatible endpoint <code>https://dashscope-intl.aliyuncs.com/compatible-mode/v1</code>, realtime API, <code>enable_thinking=false</code>, strict JSON-schema output. <b>No temperature or seed is set</b> — provider defaults apply (a documented reproducibility gap; see §08). Each request reads only the Layer II memo — never the raw review. Manifests pin <code>protocol_sha256</code> and schema hashes.</p>
-<h3>Track A — Compact (ICLR 2026, review-level)</h3>
+<h2>第三层 — Qwen 结构化单元</h2>
+<p><b>模型</b>（两轨）：<code>qwen3.7-flash</code>，经 DashScope 的 OpenAI 兼容端点 <code>https://dashscope-intl.aliyuncs.com/compatible-mode/v1</code>，实时 API，<code>enable_thinking=false</code>，严格的 JSON 模式约束输出。<b>未设置 temperature 或随机种子</b> — 采用服务商默认值（一处已记录的可复现性缺口；见 §08）。每个请求只读第二层备忘 — 从不读原始评审。清单文件锁定 <code>protocol_sha256</code> 与模式哈希。</p>
+<h3>轨道 A — 紧凑（ICLR 2026，评审级）</h3>
 <pre><span class="c"># input: episode-lite-2026-full-single (one review per shard, 75,859 shards)</span>
 uv run python scripts/qwen_review_logic_batch.py prepare --billing-mode realtime \
   --output data/analysis/iclr/review-logic-qwen-2026-full …
 uv run python scripts/qwen_review_logic_batch.py run-realtime \
   --output data/analysis/iclr/review-logic-qwen-2026-full</pre>
-<p>Schema <code>review-logic-compact-v0.1.json</code>: per review, <code>logic_units[]</code> of {inspected_object, observation, reasoning, judgment, valence, suggested_improvement, evidence_refs, support_status, confidence, missing_links} plus a summary and unresolved tensions. Result: <b>74,380 / 75,859 complete (98.1%)</b>, 1,479 failed, $28.79 against a declared $40 cap. The prompt was frozen at pilot v3 after ~10 gated pilot/control runs (batch-API attempts failed with <code>model_not_found</code>; realtime succeeded).</p>
-<h3>Track B — Direct (2018–2026, forum-level)</h3>
+<p>模式 <code>review-logic-compact-v0.1.json</code>：每篇评审一组 <code>logic_units[]</code>，每条含 {inspected_object, observation, reasoning, judgment, valence, suggested_improvement, evidence_refs, support_status, confidence, missing_links}，外加摘要与未解决的张力。结果：<b>74,380 / 75,859 完成（98.1%）</b>，1,479 失败，$28.79，声明上限 $40。提示词经约 10 次门控的试点/对照运行后冻结于试点 v3（批处理 API 尝试以 <code>model_not_found</code> 失败；实时 API 成功）。</p>
+<h3>轨道 B — 直接（2018–2026，forum 级）</h3>
 <pre><span class="c"># prepare declares model, schema hashes and a required --cost-cap-usd; run executes with resume</span>
 uv run python scripts/qwen_reviewer_logic_direct.py prepare \
   --output data/analysis/iclr/reviewer-logic-direct-qwen-full-v1 --cost-cap-usd … 
 uv run python scripts/qwen_reviewer_logic_direct.py run \
   --output data/analysis/iclr/reviewer-logic-direct-qwen-full-v1
 <span class="c"># subcommands: prepare · run · status · reprocess (local re-validation, no API spend)</span></pre>
-<p>Schema <code>reviewer-logic-direct-v0.1.json</code>: per forum, <code>reviewer_records[]</code> each with logic units carrying <code>temporal_position</code> (initial / post_author_response / meta_assessment / cross_reviewer), <code>update_trigger</code>, and <code>judgment_change</code> (strengthened / weakened / reversed / clarified / not_observed) — the fields behind the rebuttal and drift analyses. Validation is local and strict: JSON-schema plus evidence-reference checking against the memo's line IDs; a response can be HTTP-200 and still be recorded as failed.</p>
+<p>模式 <code>reviewer-logic-direct-v0.1.json</code>：每个 forum 一组 <code>reviewer_records[]</code>，其中每条逻辑单元带 <code>temporal_position</code>（initial / post_author_response / meta_assessment / cross_reviewer）、<code>update_trigger</code> 与 <code>judgment_change</code>（strengthened / weakened / reversed / clarified / not_observed）— rebuttal 与漂移分析背后的字段。校验在本地且严格：JSON 模式校验，加上对照备忘行 ID 的证据引用检查；一个响应可以是 HTTP-200 却仍被记为失败。</p>
 
 <div class="no" id="s5">05</div>
-<h2>Retries, merging, and the failure tail</h2>
-<p>The Direct track's first pass left truncation failures. Two retry rounds re-ran <em>only</em> rows with no parseable provider JSON, at raised output budgets:</p>
+<h2>重试、合并与失败尾部</h2>
+<p>直接轨道的首轮留下了截断失败。两轮重试<em>只</em>重跑没有可解析服务商 JSON 的行，并提高输出预算：</p>
 <div class="tw"><table>
-  <tr><th>Round</th><th>Selection</th><th>max_output_tokens</th><th>Result</th></tr>
-  <tr><td><code>retry-24k-v1</code></td><td>7,270 rows</td><td class="n">24,000</td><td>6,223 complete · 1,047 failed</td></tr>
-  <tr><td><code>retry-32k-v1</code></td><td>959 rows</td><td class="n">32,000</td><td>812 complete · 147 failed · $1.36</td></tr>
+  <tr><th>轮次</th><th>选取</th><th>max_output_tokens</th><th>结果</th></tr>
+  <tr><td><code>retry-24k-v1</code></td><td>7,270 行</td><td class="n">24,000</td><td>6,223 完成 · 1,047 失败</td></tr>
+  <tr><td><code>retry-32k-v1</code></td><td>959 行</td><td class="n">32,000</td><td>812 完成 · 147 失败 · $1.36</td></tr>
 </table></div>
 <pre><span class="c"># each round: prepare → run → dry-run merge → apply merge</span>
 uv run python scripts/prepare_qwen_direct_retry.py …
 uv run python -m scripts.merge_qwen_direct_retry \
   --source-run data/analysis/iclr/reviewer-logic-direct-qwen-full-v1 \
   --retry-run  data/analysis/iclr/reviewer-logic-direct-qwen-retry-32k-v1 [--apply]</pre>
-<div class="diagram"><p class="cap">The truncation ladder — how 7,166 failures were driven down to 147</p>
-<div class="fun-step">FIRST PASS @ 16K OUTPUT TOKENS</div>
-<div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">7,166 truncated responses<span class="s">no parseable JSON</span></div></div>
-<div class="fun-step">RETRY @ 24K → 6,223 RECOVERED</div>
-<div class="fun-row"><div><div class="fun-bar" style="width:13.4%;background:#b45036"></div></div><div class="fun-lbl">959 still failing<span class="s">selected for the 32k round</span></div></div>
-<div class="fun-step">RETRY @ 32K → 812 RECOVERED</div>
-<div class="fun-row"><div><div class="fun-bar" style="width:2.1%;background:#b45036"></div></div><div class="fun-lbl">147 permanent<span class="s">107 parse-resistant · 32 policy refusals (identical at every budget) · 8 semantic</span></div></div>
+<div class="diagram"><p class="cap">截断阶梯 — 7,166 次失败如何压到 147</p>
+<div class="fun-step">首轮 @ 16K 输出 TOKEN</div>
+<div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">7,166 个截断响应<span class="s">无可解析 JSON</span></div></div>
+<div class="fun-step">重试 @ 24K → 挽回 6,223</div>
+<div class="fun-row"><div><div class="fun-bar" style="width:13.4%;background:#b45036"></div></div><div class="fun-lbl">959 仍失败<span class="s">选入 32k 轮</span></div></div>
+<div class="fun-step">重试 @ 32K → 挽回 812</div>
+<div class="fun-row"><div><div class="fun-bar" style="width:2.1%;background:#b45036"></div></div><div class="fun-lbl">147 永久失败<span class="s">107 无法解析 · 32 内容策略拒答（各预算下相同）· 8 语义</span></div></div>
 </div>
-<p>The merge tool verifies the retry's ancestry chain through nested manifests (up to 32 levels), refuses to merge unfinished runs, snapshots the target DB via SQLite's online-backup API before applying (<code>state-pre-retry-merge-&lt;utc&gt;.sqlite3</code>), and never overwrites first-attempt provider evidence. Semantic-validation failures (HTTP-200 rows) are deliberately excluded from API retries — enforced by test.</p>
-<p><b>Final coverage</b> (frozen 2026-08-18): <b>strict-complete 50,861 / 51,813 = 98.16%</b>. A weaker "JSON-available" definition (99.73%) exists but is used only with explicit flags. The 952-row tail, exactly classified:</p>
+<p>合并工具通过嵌套清单核验重试的祖先链（最多 32 层），拒绝合并未完成的运行，应用前经 SQLite 在线备份 API 为目标库做快照（<code>state-pre-retry-merge-&lt;utc&gt;.sqlite3</code>），且从不覆盖首次尝试的服务商证据。语义校验失败（HTTP-200 行）被刻意排除在 API 重试之外 — 由测试强制。</p>
+<p><b>最终覆盖率</b>（冻结于 2026-08-18）：<b>严格完成 50,861 / 51,813 = 98.16%</b>。另有一个较弱的 “JSON 可用” 定义（99.73%），只在显式标志下使用。952 行的尾部，精确分类如下：</p>
 <div class="tw"><table>
-  <tr><th>Class</th><th>Rows</th><th>Output JSON</th><th>Nature</th></tr>
-  <tr><td>Invalid evidence reference</td><td class="n">709</td><td>yes</td><td>HTTP 200, JSON valid; local reference check failed</td></tr>
-  <tr><td>Schema validation error</td><td class="n">65</td><td>yes</td><td>HTTP 200; local schema check failed</td></tr>
-  <tr><td>Other strict/local validation</td><td class="n">39</td><td>yes</td><td>same family</td></tr>
-  <tr><td>Parse / truncation</td><td class="n">107</td><td>no</td><td>provider response never completed as JSON, even at 32k</td></tr>
-  <tr><td>Provider content-policy refusal</td><td class="n">32</td><td>no</td><td>HTTP 400 <code>DataInspectionFailed</code>; unchanged across 16k→24k→32k — not a token-budget problem</td></tr>
+  <tr><th>类别</th><th>行数</th><th>输出 JSON</th><th>性质</th></tr>
+  <tr><td>无效证据引用</td><td class="n">709</td><td>有</td><td>HTTP 200，JSON 有效；本地引用检查失败</td></tr>
+  <tr><td>模式校验错误</td><td class="n">65</td><td>有</td><td>HTTP 200；本地模式检查失败</td></tr>
+  <tr><td>其他严格/本地校验</td><td class="n">39</td><td>有</td><td>同一族</td></tr>
+  <tr><td>解析 / 截断</td><td class="n">107</td><td>无</td><td>服务商响应始终未完成为 JSON，即便在 32k 下</td></tr>
+  <tr><td>服务商内容策略拒答</td><td class="n">32</td><td>无</td><td>HTTP 400 <code>DataInspectionFailed</code>；16k→24k→32k 全程不变 — 不是 token 预算问题</td></tr>
 </table></div>
 
 <div class="no" id="s6">06</div>
-<h2>Unit extraction &amp; the induced taxonomy</h2>
-<p>The final data layer flattens both tracks into per-unit SQLite tables and assigns every unit to an induced taxonomy. Everything here is local compute — zero API cost — and fully scripted:</p>
+<h2>单元提取与归纳分类体系</h2>
+<p>最后的数据层把两轨展平为逐单元的 SQLite 表，并把每条单元分派到一套归纳得到的分类体系。这里的一切都是本地计算 — API 成本为零 — 并全部脚本化：</p>
 <pre><span class="c"># 1) flatten complete records into unit tables</span>
 uv run python scripts/extract_logic_units_2026.py     <span class="c"># → unit-taxonomy-2026-v1/units.sqlite3 · 410,586 units</span>
 uv run python scripts/extract_logic_units_direct.py   <span class="c"># → unit-taxonomy-direct-v1/units.sqlite3 · 1,009,592 units</span>
@@ -530,41 +530,41 @@ uv run python scripts/induce_unit_taxonomy.py --sample-size 12000 --min-cluster-
 uv run python scripts/assign_unit_taxonomy.py          <span class="c"># 2026 track</span>
 uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct track, reusing the same centroids</span></pre>
 <ul>
-  <li><b>Selection rule</b>: only <code>status='complete'</code> rows of each source run are extracted (outputs also exist for some failed rows; those are excluded).</li>
-  <li><b>Embedding</b>: <code>BAAI/bge-small-en-v1.5</code>, normalized, batch 256, local. Fields <code>inspected_object</code> and <code>reasoning</code> embedded separately.</li>
-  <li><b>Clustering</b>: UMAP (15 components, 30 neighbors, min_dist 0, cosine, random_state 7) → HDBSCAN (min_cluster_size 60, min_samples 10, EOM). Yield: 36 object clusters (37.6% noise) and 17 reasoning clusters (61.5% noise).</li>
-  <li><b>Human step</b>: cluster exemplars were read and merged by hand into <b>12 objects × 12 standards</b>, with definitions, recorded in <code>taxonomy-v1.json</code>. Two heterogeneous clusters were excluded from centroid construction. No prior scheme (including the project's own Atlas cards) was used as seed.</li>
-  <li><b>Assignment</b>: category centroid = normalized mean of member-cluster sample embeddings (the seeded pipeline re-run reproduces cluster membership exactly — verified); every unit gets its nearest centroid by cosine, with the similarity stored as per-unit confidence. High-confidence (≥0.75) share: objects 94.5%, standards 87.9% (2026 track); per-year mean similarity on the direct track is flat at ~0.81, so cross-year comparisons are not a transfer artifact.</li>
-  <li><b>Caveat</b>: the taxonomy was induced on 2026 compact memos and transferred to the direct track; identical centroids, different memo style. The flat similarity profile is the evidence this transfer holds.</li>
-  <li><b>Scheme validity</b>: the four-part unit grain and the 12 &times; 12 taxonomy are one induced carving of the review text &mdash; internally consistent by the checks above, and externally anchored once (the construct-validity grid in &sect;07: the categories dent the venue's own sub-scores where they should) &mdash; but no check establishes them as the <em>right</em> carving. A different grain or a different merge would draw a different map; every downstream count is a count within this scheme.</li>
+  <li><b>选取规则</b>：只提取各源运行中 <code>status='complete'</code> 的行（部分失败行也有输出；它们被排除）。</li>
+  <li><b>嵌入</b>：<code>BAAI/bge-small-en-v1.5</code>，归一化，批大小 256，本地。字段 <code>inspected_object</code> 与 <code>reasoning</code> 分别嵌入。</li>
+  <li><b>聚类</b>：UMAP（15 个分量、30 个近邻、min_dist 0、余弦、random_state 7）→ HDBSCAN（min_cluster_size 60、min_samples 10、EOM）。得到：36 个审视对象簇（37.6% 噪声）与 17 个推理簇（61.5% 噪声）。</li>
+  <li><b>人工步骤</b>：人工阅读各簇范例并手工合并为 <b>12 审视对象 × 12 推理标准</b>，附定义，记录于 <code>taxonomy-v1.json</code>。两个异质簇被排除在质心构建之外。没有以任何既有方案（包括本项目自己的 Atlas 卡片）作种子。</li>
+  <li><b>分派</b>：类别质心 = 成员簇样本嵌入的归一化均值（带种子的流水线重跑可精确复现簇成员 — 已核验）；每条单元按余弦取最近质心，相似度作为该单元的置信度存储。高置信度（≥0.75）占比：审视对象 94.5%，推理标准 87.9%（2026 轨道）；直接轨道上逐年平均相似度平稳在约 0.81，因此跨年比较不是迁移产生的伪影。</li>
+  <li><b>注意</b>：分类体系在 2026 紧凑备忘上归纳，再迁移到直接轨道；质心相同，备忘风格不同。平稳的相似度曲线是这一迁移成立的证据。</li>
+  <li><b>方案效度</b>：四部分的单元粒度与 12 &times; 12 分类体系是对评审文本的一种归纳切分 &mdash; 按上述检查内部一致，并有一次外部锚定（&sect;07 的构念效度网格：这些类别在应当起作用之处确实撼动了会议自身的分项评分）&mdash; 但没有任何检查确立它们是<em>正确的</em>切分。换一种粒度或换一种合并会画出另一张图；下游的每一个计数都是此方案之内的计数。</li>
 </ul>
 
-<div class="diagram"><p class="cap">The induction at a glance — from raw units to the 12 × 12 taxonomy</p>
+<div class="diagram"><p class="cap">归纳一览 — 从原始单元到 12 × 12 分类体系</p>
 <div class="fm-row">
-  <div class="fm-box"><div class="t">Sampled units</div><div class="s">12,000 of 410,586<br>seed 7</div></div>
-  <div class="fm-arrow"><span class="g">→</span><span class="lbl">embed</span></div>
-  <div class="fm-box"><div class="t">Embeddings</div><div class="s">bge-small-en-v1.5<br>object &amp; reasoning, separately</div></div>
-  <div class="fm-arrow"><span class="g">→</span><span class="lbl">project</span></div>
-  <div class="fm-box"><div class="t">UMAP</div><div class="s">15 comp · 30 nbrs<br>cosine · seed 7</div></div>
+  <div class="fm-box"><div class="t">抽样单元</div><div class="s">410,586 中的 12,000<br>种子 7</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">嵌入</span></div>
+  <div class="fm-box"><div class="t">嵌入向量</div><div class="s">bge-small-en-v1.5<br>对象与推理，分别嵌入</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">投影</span></div>
+  <div class="fm-box"><div class="t">UMAP</div><div class="s">15 分量 · 30 近邻<br>余弦 · 种子 7</div></div>
 </div>
-<div class="fm-down">↓ &nbsp; HDBSCAN, min cluster 60 — 36 object clusters (37.6% noise) · 17 reasoning clusters (61.5% noise) &nbsp; ↓</div>
+<div class="fm-down">↓ &nbsp; HDBSCAN，最小簇 60 — 36 个审视对象簇（37.6% 噪声）· 17 个推理簇（61.5% 噪声） &nbsp; ↓</div>
 <div class="fm-row">
-  <div class="fm-box"><div class="t">Hand merge</div><div class="s">exemplars read &amp; named<br>2 mixed clusters excluded</div></div>
-  <div class="fm-arrow"><span class="g">→</span><span class="lbl">record</span></div>
-  <div class="fm-box acc"><div class="t">taxonomy-v1.json</div><div class="s">12 objects × 12 standards<br>with definitions</div></div>
-  <div class="fm-arrow"><span class="g">→</span><span class="lbl">assign all</span></div>
-  <div class="fm-box"><div class="t">Nearest centroid</div><div class="s">cosine, both tracks<br>similarity kept as confidence</div></div>
+  <div class="fm-box"><div class="t">人工合并</div><div class="s">阅读并命名范例<br>排除 2 个混合簇</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">记录</span></div>
+  <div class="fm-box acc"><div class="t">taxonomy-v1.json</div><div class="s">12 审视对象 × 12 推理标准<br>附定义</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">全量分派</span></div>
+  <div class="fm-box"><div class="t">最近质心</div><div class="s">余弦，两轨<br>相似度存为置信度</div></div>
 </div>
 </div>
-<p>Everything downstream of these two labeled databases — aggregation files and the atlas's plates — is a separate, continuously evolving layer, documented in the <a href="index.html">atlas</a> appendix itself.</p>
+<p>这两个带标签数据库之下游的一切 — 聚合文件与图谱的图版 — 是一个独立的、持续演进的层，记录在<a href="index.html">图谱</a>自身的附录中。</p>
 
 </div></div>
 <div class="pwin" id="pii" data-bay="1">
   <div class="pwin-card">
-    <div class="part-rule"><span>Part II</span></div>
-    <h2 class="part-name">The instrument tested</h2>
-    <div class="part-lat">probatio instrumenti — the testing of the instrument</div>
-    <p class="part-sub">how well the reading reads, and where it cannot</p>
+    <div class="part-rule"><span>第二部分</span></div>
+    <h2 class="part-name">受测的仪器</h2>
+    <div class="part-lat">probatio instrumenti — 仪器之测试</div>
+    <p class="part-sub">机器读取读得多准，以及它读不到的地方</p>
   </div>
 </div>
 <div class="sheet"><div class="shell">
@@ -595,37 +595,37 @@ uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct 
 </style>
 
 <div class="no" id="s7">07</div>
-<h2>Instrument checks — reading the reader</h2>
-<p>Everything above describes how the data was made; this section asks how far the machine reading can be trusted. Two checks, both computed from the shipped unit databases. They are also shown in the atlas, but they belong here: they are statements about the instrument, not findings about reviewers.</p>
+<h2>仪器校验 — 读取读者本身</h2>
+<p>以上各节描述数据如何生成；本节问的是机器读取可信到什么程度。两项校验，都从随发布的单元数据库计算得出。它们也出现在图谱里，但归属于此：它们是关于仪器的陈述，而非关于审稿人的发现。</p>
 
-<h3>Support status — where the instrument speaks with its own voice</h3>
-<p>Every unit carries a <code>support_status</code> field assigned at structuring time: <b>reviewer_explicit</b> (grounded in the reviewer's stated words), <b>memo_inferred</b> (articulated by the DeepSeek memo from context rather than quoted), or <b>mixed</b>. The two tracks differ sharply by construction — the review-level 2026 track runs 19.8% explicit / 77.1% inferred / 3.1% mixed, while the forum-level track runs 57.4% / 40.8% / 1.7% — because the Layered prompts ask the memo to synthesize, and the Direct prompts demand line-ID citations. The share is not uniform across categories or years:</p>
-<div class="fig-cap">Memo-inferred share, object × year — forum-level track (deeper violet = more inferred)</div>
+<h3>支撑状态 — 仪器以自己的声音发言之处</h3>
+<p>每个单元带有一个在结构化时赋值的 <code>support_status</code> 字段：<b>reviewer_explicit</b>（以审稿人明述的文字为依据）、<b>memo_inferred</b>（由 DeepSeek 分析备忘依上下文阐述而非引用）或 <b>mixed</b>。两条轨道按构造就差异悬殊 — 评审级 2026 轨道为 19.8% 明述 / 77.1% 推断 / 3.1% 混合，forum 级轨道为 57.4% / 40.8% / 1.7% — 因为 Layered 提示词要求备忘做综合，Direct 提示词则要求引用行 ID。这一占比在类别与年份之间并不均匀：</p>
+<div class="fig-cap">备忘推断占比，对象 × 年份 — forum 级轨道（紫色越深 = 推断越多）</div>
 <div class="hm-wrap"><div class="hm" id="mx-rel"></div></div>
-<p class="hm-note">Categories and years where the violet deepens are where downstream figures speak more with the instrument's voice than the reviewer's. Rebuild: <code>uv run python scripts/build_panel_data.py</code> → <code>panel-data.json</code> (key <code>reliability</code>).</p>
+<p class="hm-note">紫色加深的类别与年份，正是下游各图更多以仪器之声而非审稿人之声发言的地方。重建：<code>uv run python scripts/build_panel_data.py</code> → <code>panel-data.json</code>（键 <code>reliability</code>）。</p>
 
-<h3>Construct validity — do the induced categories track the venue's own decomposition?</h3>
-<p>The taxonomy was induced from embeddings, not designed, so it needs an external criterion. ICLR asks reviewers for three sub-scores (soundness · presentation · contribution, 1–4; the fields exist only since 2024). For each object of scrutiny we compare mean sub-scores of reviews that carry at least one negative unit on that object against reviews at the <em>same overall rating</em> without one, weight the per-rating deltas by prevalence (cells with fewer than 30 reviews on either side are dropped), and read whether each criticism dents the sub-score it should. Computed over all 74,380 rated 2026 reviews.</p>
-<div class="fig-cap">Rating-adjusted Δ sub-score when a negative unit is present (oxblood = drops, verdigris = rises)</div>
+<h3>构念效度 — 归纳得到的类别是否跟随会议自身的分解？</h3>
+<p>分类体系由嵌入归纳得到，并非设计出来，因此需要一个外部判据。ICLR 要求审稿人给出三项子评分（soundness · presentation · contribution，1–4 分；这些字段自 2024 年起才存在）。对每个审视对象，我们比较在该对象上至少带一个否定单元的评审与<em>同一总评分</em>下不带此类单元的评审的子评分均值，按流行度对各评分档的差值加权（任一侧评审数少于 30 的格子剔除），再看每种批评是否压低了它应当压低的那项子评分。在全部 74,380 篇有评分的 2026 评审上计算。</p>
+<div class="fig-cap">存在否定单元时经评分校正的 Δ 子评分（赭色 = 下降，铜绿色 = 上升）</div>
 <div class="hm-wrap"><div class="hm" id="mx-con"></div></div>
-<p class="hm-note">The grid largely agrees with the venue's own decomposition — clarity criticism dents <em>presentation</em> specifically (−0.35), novelty dents <em>contribution</em> (−0.12) — with one telling leak: theory criticism dents presentation more than soundness, as if "I could not follow the theory" were filed under presentation. Rebuild: <code>uv run python scripts/build_construct_data.py</code> → <code>construct-data.json</code>.</p>
+<p class="hm-note">这张网格与会议自身的分解大体一致 — 清晰度批评专门压低 <em>presentation</em>（−0.35），新颖性压低 <em>contribution</em>（−0.12）— 但有一处耐人寻味的泄漏：理论批评对 presentation 的压低多于 soundness，仿佛 "I could not follow the theory" 被归到了 presentation 之下。重建：<code>uv run python scripts/build_construct_data.py</code> → <code>construct-data.json</code>。</p>
 
-<h3 id="ruler">The moving ruler — nine years of the rating scale</h3>
-<p>The venue's own instrument did not hold still. Enumerating every rating string in the record (all 199,031 official reviews) gives four distinct scoring forms, and any figure that compares scores across years has to reckon with them:</p>
+<h3 id="ruler">移动的标尺 — 评分量表的九年</h3>
+<p>会议自身的仪器并未保持静止。枚举记录中的每一条评分字符串（全部 199,031 篇官方评审），得到四种不同的评分形式，任何跨年比较评分的图都必须考虑它们：</p>
 <div class="tw"><table>
-  <tr><th>Years</th><th>Field</th><th>Levels observed</th><th>Anchors</th></tr>
-  <tr><td>2018–19, 2021</td><td><code>rating</code></td><td>ten: 1–10</td><td>labeled; 5 = "marginally below the acceptance threshold", 6 = "marginally above"</td></tr>
-  <tr><td>2020</td><td><code>rating</code></td><td>four: 1, 3, 6, 8</td><td>Reject / Weak Reject / Weak Accept / Accept; the only year with no confidence score (an "experience assessment" instead)</td></tr>
-  <tr><td>2022–25</td><td><code>recommendation</code> ('22–23), then <code>rating</code></td><td>six: 1, 3, 5, 6, 8, 10</td><td>labeled through 2024 (same threshold anchors at 5/6); bare integers in the 2025 record</td></tr>
-  <tr><td>2026</td><td><code>rating</code></td><td>six: 0, 2, 4, 6, 8, 10</td><td>bare even integers; no shared threshold anchor with earlier years</td></tr>
+  <tr><th>年份</th><th>字段</th><th>观察到的等级</th><th>锚点</th></tr>
+  <tr><td>2018–19, 2021</td><td><code>rating</code></td><td>十级：1–10</td><td>带文字标签；5 = "marginally below the acceptance threshold"，6 = "marginally above"</td></tr>
+  <tr><td>2020</td><td><code>rating</code></td><td>四级：1, 3, 6, 8</td><td>Reject / Weak Reject / Weak Accept / Accept；唯一没有置信度评分的年份（代之以 "experience assessment"）</td></tr>
+  <tr><td>2022–25</td><td><code>recommendation</code>（'22–23），之后为 <code>rating</code></td><td>六级：1, 3, 5, 6, 8, 10</td><td>到 2024 年为止带文字标签（同样以 5/6 为阈值锚点）；2025 年记录中为裸整数</td></tr>
+  <tr><td>2026</td><td><code>rating</code></td><td>六级：0, 2, 4, 6, 8, 10</td><td>裸偶数整数；与早年没有共同的阈值锚点</td></tr>
 </table></div>
-<h3 id="elements-audit">The elements audit — three blind readers</h3>
-<p>Plate X decomposes "not novel" into elements by clustering (data-driven terrain) and analyst merging (hand-drawn borders). To audit the borders, three independent machine readers (Claude Haiku agents) were each given 60 raw novelty denials and <em>no taxonomy</em>, and asked what each denial actually says. All three independently re-derived the plate's main families — the obvious combination, the insufficient increment, undifferentiated prior art, anticipation, restating the known, mere transfer, the discounted non-method contribution, and the venue-indexed bar — and one reader independently reproduced the decision to keep the <em>imported evidence rule</em> as its own element. Two elements the clustering had folded away surfaced in the audit and are recorded here as finer clauses: the <b>false-priority accusation</b> (the paper claims to be first, and the reviewer says the claim is untrue — an accusation of attribution, not of similarity; ≈3–7% of audited samples, folded inside "restating the known"), and the <b>unlocated contribution</b> (the reviewer cannot find what the paper claims is new; ≈5–10%, all three readers surfaced it). The second is best read the way the imported evidence rule is read: the charge is filed in novelty's docket but the operative law is presentation's — with one substantive twist that keeps it from being a mere clarity issue: reviewers treat novelty that cannot be located as novelty that does not exist, which is to say the venue's operative novelty is a property of the artifact <em>plus its argument</em>, never the artifact alone — consistent with the differentiation rule's burden-of-articulation clause, and with the fact that the dominant remedy for novelty is work of writing. Audit protocol and transcripts ship with the repository.</p>
+<h3 id="elements-audit">要件审计 — 三位盲读者</h3>
+<p>图版 X 通过聚类（数据驱动的地形）与分析者合并（手绘的边界）把 "不新颖" 分解为要件。为审计这些边界，三个独立的机器读者（Claude Haiku 智能体）各拿到 60 条原始新颖性否决，<em>不给分类体系</em>，被问每条否决究竟说了什么。三者都独立重新推导出该图版的主要族 — 显而易见的组合、增量不足、未加区分的现有技术、已被预见、复述已知、单纯迁移、被打折的非方法贡献、按会议定标的门槛 — 其中一位读者还独立重现了把<em>引入的证据规则</em>保留为独立要件的决定。两个被聚类折叠掉的要件在审计中浮现，在此记录为更细的条款：<b>虚假优先权的指控</b>（论文声称自己是第一个，审稿人说此说不实 — 这是对归属的指控，而非对相似性的指控；≈3–7% 的审计样本，折叠在 "复述已知" 之内），以及<b>找不到的贡献</b>（审稿人找不到论文声称的新东西；≈5–10%，三位读者都发现了它）。第二条最好按引入的证据规则的读法来读：指控归入新颖性的案卷，但生效的法则是表述的 — 只有一处实质性的转折使它不止是清晰度问题：审稿人把找不到的新颖性当作不存在的新颖性，也就是说，会议实际运作的新颖性是产物<em>加其论证</em>的属性，从来不是产物本身的属性 — 这与区分规则的阐明责任条款一致，也与新颖性的主要修复是写作之工这一事实一致。审计协议与记录随仓库发布。</p>
 
-<p>How the atlas handles this: score distributions are always drawn per year on that year's own levels (Figs. 11d, 11e) and the scale changes are named in the captions; the score-spread claim (Fig. 10c) uses entropy normalized to each year's own level count, so a change of form cannot masquerade as a change of behavior; the intraclass correlation (Fig. 10a) is a variance ratio and so survives relabeling, but coarser grids mechanically deflate it — the 2026 point is dashed and flagged for exactly this reason. Raw-point quantities (means, reviewer-pair gaps) are never compared across form boundaries. Sub-scores (soundness · presentation · contribution) exist only from 2024, which is why the construct-validity check above is confined to recent years.</p>
+<p>图谱如何处理这一点：评分分布始终按年、在该年自身的等级上绘制（图 11d、11e），量表变化在图注中点明；评分离散度的断言（图 10c）使用按各年自身等级数归一化的熵，因此形式的变化无法伪装成行为的变化；组内相关系数（图 10a）是方差比，所以在重新标注后仍然成立，但更粗的网格会机械地压低它 — 2026 年的点画成虚线并加标记，正是出于这个原因。原始分值量（均值、审稿人两两之差）从不跨形式边界比较。子评分（soundness · presentation · contribution）自 2024 年起才存在，这就是上文构念效度校验限于近年的原因。</p>
 
 <script>
-const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability", "baselines_ablations": "Baselines & ablations", "theory": "Theory, assumptions & guarantees", "method_design": "Method design rationale", "compute_cost": "Compute cost & scalability", "clarity": "Clarity & presentation", "novelty": "Novelty & contribution", "related_work": "Related work & citations", "stats_metrics": "Statistical rigor & metrics", "robustness_sensitivity": "Robustness & sensitivity", "reproducibility": "Reproducibility & code", "problem_framing": "Problem framing & motivation"}, "reaLabel": {"novelty_standard": "Novelty standard", "claim_evidence_match": "Claim-evidence scope matching", "fair_comparison": "Fair comparison norm", "statistical_identifiability": "Statistical identifiability", "confound_hypothesis": "Confound / alternative explanation", "design_justification": "Design justification demand", "robustness_norm": "Robustness norm", "cost_benefit": "Practical cost-benefit", "construct_validity": "Measurement construct validity", "reproducibility_norm": "Reproducibility norm", "presentation_trust": "Presentation as trust signal", "merit_recognition": "Merit recognition"}, "objOrder": ["empirical_scope", "method_design", "theory", "stats_metrics", "compute_cost", "clarity", "baselines_ablations", "robustness_sensitivity", "problem_framing", "novelty", "related_work", "reproducibility"], "reaOrder": ["design_justification", "novelty_standard", "merit_recognition", "robustness_norm", "fair_comparison", "presentation_trust", "claim_evidence_match", "cost_benefit", "statistical_identifiability", "confound_hypothesis", "construct_validity", "reproducibility_norm"], "rel": {"years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026], "memo_inferred_share": {"baselines_ablations": [0.3248, 0.3133, 0.2941, 0.27, 0.3096, 0.3199, 0.4171, 0.4341, 0.463], "clarity": [0.2903, 0.2822, 0.2816, 0.2613, 0.2906, 0.3296, 0.4016, 0.4281, 0.4484], "compute_cost": [0.3442, 0.2971, 0.2716, 0.2778, 0.3011, 0.318, 0.4087, 0.4371, 0.4545], "empirical_scope": [0.3008, 0.2641, 0.2913, 0.2598, 0.3082, 0.3188, 0.4033, 0.426, 0.4513], "method_design": [0.3167, 0.2795, 0.2852, 0.2633, 0.2865, 0.3198, 0.4063, 0.4278, 0.4526], "novelty": [0.3333, 0.3157, 0.3203, 0.2521, 0.3091, 0.3479, 0.4157, 0.4323, 0.4734], "problem_framing": [0.2807, 0.2762, 0.3103, 0.2852, 0.3039, 0.3408, 0.4186, 0.4348, 0.4609], "related_work": [0.345, 0.3671, 0.3466, 0.322, 0.3351, 0.3845, 0.4486, 0.463, 0.497], "reproducibility": [0.3454, 0.3333, 0.3401, 0.2649, 0.2996, 0.3258, 0.423, 0.4345, 0.4678], "robustness_sensitivity": [0.3481, 0.2414, 0.2715, 0.2463, 0.2899, 0.3241, 0.4014, 0.4251, 0.4514], "stats_metrics": [0.3219, 0.3092, 0.2922, 0.2738, 0.2945, 0.3533, 0.4176, 0.4431, 0.4754], "theory": [0.295, 0.2613, 0.2881, 0.2507, 0.2969, 0.2891, 0.3801, 0.3988, 0.425]}}, "construct": {"empirical_scope": {"soundness": -0.0253, "presentation": 0.0294, "contribution": -0.0025}, "baselines_ablations": {"soundness": -0.0425, "presentation": -0.0168, "contribution": -0.0042}, "theory": {"soundness": -0.0217, "presentation": -0.0683, "contribution": -0.0066}, "method_design": {"soundness": -0.0301, "presentation": 0.0305, "contribution": -0.0198}, "compute_cost": {"soundness": 0.0038, "presentation": 0.022, "contribution": 0.0026}, "clarity": {"soundness": -0.0175, "presentation": -0.3465, "contribution": 0.037}, "novelty": {"soundness": 0.0147, "presentation": 0.0251, "contribution": -0.1219}, "related_work": {"soundness": -0.0233, "presentation": -0.117, "contribution": -0.0336}, "stats_metrics": {"soundness": -0.0457, "presentation": -0.0123, "contribution": 0.0047}, "robustness_sensitivity": {"soundness": -0.0202, "presentation": 0.0034, "contribution": 0.02}, "reproducibility": {"soundness": -0.0509, "presentation": -0.0851, "contribution": 0.0342}, "problem_framing": {"soundness": -0.0306, "presentation": -0.0825, "contribution": -0.0221}}};
+const MX = {"objLabel": {"empirical_scope": "实证范围与泛化性", "baselines_ablations": "基线与消融", "theory": "理论、假设与保证", "method_design": "方法设计依据", "compute_cost": "计算成本与可扩展性", "clarity": "清晰度与表述", "novelty": "新颖性与贡献", "related_work": "相关工作与引用", "stats_metrics": "统计严谨性与指标", "robustness_sensitivity": "鲁棒性与敏感性", "reproducibility": "可复现性与代码", "problem_framing": "问题界定与动机"}, "reaLabel": {"novelty_standard": "新颖性标准", "claim_evidence_match": "主张与证据范围匹配", "fair_comparison": "公平比较规范", "statistical_identifiability": "统计可辨识性", "confound_hypothesis": "混杂因素 / 替代解释", "design_justification": "设计论证要求", "robustness_norm": "鲁棒性规范", "cost_benefit": "实际成本收益", "construct_validity": "测量构念效度", "reproducibility_norm": "可复现性规范", "presentation_trust": "表述即信任信号", "merit_recognition": "价值认可"}, "objOrder": ["empirical_scope", "method_design", "theory", "stats_metrics", "compute_cost", "clarity", "baselines_ablations", "robustness_sensitivity", "problem_framing", "novelty", "related_work", "reproducibility"], "reaOrder": ["design_justification", "novelty_standard", "merit_recognition", "robustness_norm", "fair_comparison", "presentation_trust", "claim_evidence_match", "cost_benefit", "statistical_identifiability", "confound_hypothesis", "construct_validity", "reproducibility_norm"], "rel": {"years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026], "memo_inferred_share": {"baselines_ablations": [0.3248, 0.3133, 0.2941, 0.27, 0.3096, 0.3199, 0.4171, 0.4341, 0.463], "clarity": [0.2903, 0.2822, 0.2816, 0.2613, 0.2906, 0.3296, 0.4016, 0.4281, 0.4484], "compute_cost": [0.3442, 0.2971, 0.2716, 0.2778, 0.3011, 0.318, 0.4087, 0.4371, 0.4545], "empirical_scope": [0.3008, 0.2641, 0.2913, 0.2598, 0.3082, 0.3188, 0.4033, 0.426, 0.4513], "method_design": [0.3167, 0.2795, 0.2852, 0.2633, 0.2865, 0.3198, 0.4063, 0.4278, 0.4526], "novelty": [0.3333, 0.3157, 0.3203, 0.2521, 0.3091, 0.3479, 0.4157, 0.4323, 0.4734], "problem_framing": [0.2807, 0.2762, 0.3103, 0.2852, 0.3039, 0.3408, 0.4186, 0.4348, 0.4609], "related_work": [0.345, 0.3671, 0.3466, 0.322, 0.3351, 0.3845, 0.4486, 0.463, 0.497], "reproducibility": [0.3454, 0.3333, 0.3401, 0.2649, 0.2996, 0.3258, 0.423, 0.4345, 0.4678], "robustness_sensitivity": [0.3481, 0.2414, 0.2715, 0.2463, 0.2899, 0.3241, 0.4014, 0.4251, 0.4514], "stats_metrics": [0.3219, 0.3092, 0.2922, 0.2738, 0.2945, 0.3533, 0.4176, 0.4431, 0.4754], "theory": [0.295, 0.2613, 0.2881, 0.2507, 0.2969, 0.2891, 0.3801, 0.3988, 0.425]}}, "construct": {"empirical_scope": {"soundness": -0.0253, "presentation": 0.0294, "contribution": -0.0025}, "baselines_ablations": {"soundness": -0.0425, "presentation": -0.0168, "contribution": -0.0042}, "theory": {"soundness": -0.0217, "presentation": -0.0683, "contribution": -0.0066}, "method_design": {"soundness": -0.0301, "presentation": 0.0305, "contribution": -0.0198}, "compute_cost": {"soundness": 0.0038, "presentation": 0.022, "contribution": 0.0026}, "clarity": {"soundness": -0.0175, "presentation": -0.3465, "contribution": 0.037}, "novelty": {"soundness": 0.0147, "presentation": 0.0251, "contribution": -0.1219}, "related_work": {"soundness": -0.0233, "presentation": -0.117, "contribution": -0.0336}, "stats_metrics": {"soundness": -0.0457, "presentation": -0.0123, "contribution": 0.0047}, "robustness_sensitivity": {"soundness": -0.0202, "presentation": 0.0034, "contribution": 0.02}, "reproducibility": {"soundness": -0.0509, "presentation": -0.0851, "contribution": 0.0342}, "problem_framing": {"soundness": -0.0306, "presentation": -0.0825, "contribution": -0.0221}}};
 (function () {
   const fmt = n => n.toLocaleString("en-US");
   const pct = x => (100 * x).toFixed(1) + "%";
@@ -643,7 +643,7 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
       const cell = document.createElement("div");
       cell.className = "cell";
       cell.style.background = `color-mix(in oklab, #6b5d94 ${Math.min(92, Math.round(4 + v * 96))}%, #f3ead2)`;
-      cell.title = `${objLabel[o]} · ${R.years[i]}: ${pct(v)} memo-inferred`;
+      cell.title = `${objLabel[o]} · ${R.years[i]}：${pct(v)} 由备忘推断`;
       rel.appendChild(cell);
     });
   }
@@ -670,123 +670,123 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 </script>
 <!-- METHOD-EXTRAS END -->
 <div class="no" id="s8">08</div>
-<h2>What cannot be reproduced</h2>
+<h2>无法复现之处</h2>
 <ul>
-  <li><b>LLM sampling</b>: DeepSeek runs at temperature 0.4 without a seed; Qwen sets neither temperature nor seed. Re-running regenerates structurally similar but textually different memos and units. Every <code>seed</code> in the project governs <em>input selection</em>, not model output.</li>
-  <li><b>One-off manual repairs</b>: two hardcoded fix scripts (28 episode IDs; 7 chain templates) patched earlier pilot artifacts and would need conscious re-application after any from-scratch rerun.</li>
-  <li><b>Human judgment points</b>: prompt-freeze timing, calibration-config adoption, and stop decisions are documented but not mechanically reproducible.</li>
-  <li><b>Upstream drift</b>: OpenReview does not expose full edit history; the raw snapshot cannot detect post-collection changes on the platform.</li>
-  <li><b>Hash coverage</b>: protocol/schema SHA-256 pinning covers the Qwen-era runs (16 manifests); older pilot artifacts rely on documentary cross-reference only.</li>
+  <li><b>LLM 采样</b>：DeepSeek 以温度 0.4 运行，未设随机种子；Qwen 既未设温度也未设随机种子。重新运行会生成结构相似但文本不同的备忘与单元。项目中的每个 <code>seed</code> 都控制<em>输入选择</em>，而非模型输出。</li>
+  <li><b>一次性手工修复</b>：两个硬编码的修复脚本（28 个 episode ID；7 个链模板）修补了早期的试点产物，从零重跑后需要有意识地重新施加。</li>
+  <li><b>人工判断点</b>：提示词冻结的时机、校准配置的采用以及停止决定都有文档记录，但无法机械复现。</li>
+  <li><b>上游漂移</b>：OpenReview 不公开完整的编辑历史；原始快照无法察觉平台上采集之后发生的更改。</li>
+  <li><b>哈希覆盖</b>：协议/模式的 SHA-256 固定覆盖 Qwen 时期的运行（16 份清单）；更早的试点产物只能依靠文档互证。</li>
 </ul>
 
 </div></div>
 <div class="pwin" id="piii" data-bay="2">
   <div class="pwin-card">
-    <div class="part-rule"><span>Part III</span></div>
-    <h2 class="part-name">The record</h2>
-    <div class="part-lat">acta — what was done</div>
-    <p class="part-sub">what was actually done, in what order, and on whose prompting</p>
+    <div class="part-rule"><span>第三部分</span></div>
+    <h2 class="part-name">记录</h2>
+    <div class="part-lat">acta — 所做之事</div>
+    <p class="part-sub">实际做了什么，按什么顺序，受谁的推动</p>
   </div>
 </div>
 <div class="sheet"><div class="shell">
 <div class="no" id="s9">09</div>
-<h2>The actual path — pilots, failures, decisions</h2>
-<p>The raw, sanitized session history behind this chronicle — every command and decision as it happened, 21,386 events — is published in <a href="https://github.com/t46/atlas-of-judgment">the project repository</a> (<code>codex-history/</code>), alongside the full pipeline code and these pages. The sections above describe the pipeline as it finally ran. This section records how it actually got there — the small trials, dead ends, and mid-course corrections, in order. Nothing here is retrospective varnish; each item is backed by an artifact directory or manifest still on disk.</p>
-<h3>Every production stage was piloted first</h3>
+<h2>实际的路径 — 试点、失败、决定</h2>
+<p>这份编年记背后经过脱敏的原始会话历史 — 每条命令与每个决定按发生时的原样，共 21,386 个事件 — 发布于<a href="https://github.com/t46/atlas-of-judgment">项目仓库</a>（<code>codex-history/</code>），与完整流水线代码和这些页面一起。以上各节描述流水线最终运行的样子。本节记录它实际如何走到那里 — 小规模试验、死路与中途修正，按顺序排列。这里没有事后的粉饰；每一项都有仍在磁盘上的产物目录或清单作支撑。</p>
+<h3>每个生产阶段都先做了试点</h3>
 <ul>
-  <li>Nothing ran at full scale untried. Pilot ledgers (all read-only verifiable): initial_blind <b>395 pilot jobs</b> ($0.33), trajectory 327 ($0.51), paper_synthesis 100 ($0.52), forum_direct 100 ($0.32), and a dedicated 100-forum method-comparison run ($0.40).</li>
-  <li><b>The method fork</b>: Layered (3 DeepSeek calls per review chain) vs Direct (whole forum in one call) were compared head-to-head on 100 forums, judged blind by the same model — <b>Layered won 69–31</b>. Direct was chosen anyway for the nine-year corpus, on cost and because layered errors propagate downstream. The quality trade was accepted knowingly and recorded, not hidden; Layered still powers the high-resolution 2026 track.</li>
+  <li>没有任何东西未经试验就全规模运行。试点账簿（均可只读核验）：initial_blind <b>395 个试点作业</b>（$0.33），trajectory 327（$0.51），paper_synthesis 100（$0.52），forum_direct 100（$0.32），以及一次专门的 100 个 forum 方法比较运行（$0.40）。</li>
+  <li><b>方法的分岔</b>：Layered（每条评审链 3 次 DeepSeek 调用）与 Direct（整个 forum 一次调用）在 100 个 forum 上正面比较，由同一模型盲评 — <b>Layered 以 69–31 胜出</b>。九年语料仍选了 Direct，出于成本，也因为分层的错误会向下游传播。这一质量上的取舍是明知而接受并记录在案的，没有隐藏；Layered 仍然驱动高分辨率的 2026 轨道。</li>
 </ul>
-<h3>The episode detour (a productive failure)</h3>
+<h3>episode 弯路（一次有收获的失败）</h3>
 <ul>
-  <li>An intermediate "evaluation episode" schema (v0.1, then a leaner v0.2 Lite/Deep) was designed and validated on curated sets: 1,000 stratified reviews (selection seed 20260816) plus 63 deep extractions — both kept as calibration assets.</li>
-  <li>Scaling it to all 75,859 reviews failed three ways in sequence: a first full run was rejected for shallow extraction; a v2 was rejected for templated, copy-paste fields; three calibration configs were then run head-to-head (r5-low, r15-medium, r8-medium-v3) and <b>r8-medium-v3 adopted</b> — but the projected wall-clock for the full corpus was roughly a week, and the run was deliberately stopped mid-flight (~9,774 shards planned).</li>
-  <li>The agentic Luna engine itself was then retired for this job: it had completed 876 of 75,859 with 186 failures when it was stopped "safely" and the whole extraction was re-designed around a lighter compact schema on Qwen. The 876 Luna outputs were kept as a comparison baseline, not merged.</li>
+  <li>一个中间的 "evaluation episode" 模式（v0.1，之后是更精简的 v0.2 Lite/Deep）被设计出来，并在精选集上验证：1,000 篇分层抽样的评审（选择用随机种子 20260816）加 63 次深度抽取 — 两者都保留为校准资产。</li>
+  <li>把它扩展到全部 75,859 篇评审时接连以三种方式失败：第一次全量运行因抽取浅薄被否；v2 因字段模板化、复制粘贴被否；随后三个校准配置正面比较（r5-low、r15-medium、r8-medium-v3），<b>采用了 r8-medium-v3</b> — 但全语料的预计墙钟时间约为一周，运行在中途被有意停止（计划 ~9,774 个分片）。</li>
+  <li>随后智能体式的 Luna 引擎本身也从这项工作中撤下：它在被 "安全地" 停止时已完成 75,859 中的 876 篇，失败 186 次，整个抽取围绕 Qwen 上一个更轻的紧凑模式重新设计。那 876 份 Luna 输出保留为比较基线，未合并。</li>
 </ul>
-<h3>The Qwen gauntlet (compact track)</h3>
+<h3>Qwen 的试炼（紧凑轨道）</h3>
 <ul>
-  <li>Batch API first: <b>0 of 27 pilot requests succeeded</b> (<code>model_not_found</code> on the batch endpoint). Switched to the realtime endpoint: 22/27. Two single-review control runs followed (46/54, then 53/54), a two-reviews-per-request packing was tried and <b>rejected for coverage loss</b>, and a 206-request load test (203 ok) served as the final go/no-go gate before the 75,859-request production run.</li>
+  <li>先试 Batch API：<b>27 个试点请求 0 个成功</b>（批处理端点返回 <code>model_not_found</code>）。改用实时端点：22/27。随后两次单评审对照运行（46/54，然后 53/54），尝试了每请求打包两篇评审并<b>因覆盖率损失而否决</b>，一次 206 个请求的负载测试（203 个成功）作为 75,859 个请求的生产运行之前最后的放行关卡。</li>
 </ul>
-<h3>Direct-track fits and starts</h3>
+<h3>Direct 轨道的走走停停</h3>
 <ul>
-  <li>Pilot v1: <b>0/90</b> — a dead end. v2 stalled with most requests stuck in <code>prepared</code>. v3 completed exactly one forum. v4 reached 79/90 and froze the method; only then did the 51,813-forum production run launch.</li>
+  <li>试点 v1：<b>0/90</b> — 一条死路。v2 停滞，多数请求卡在 <code>prepared</code>。v3 恰好完成了一个 forum。v4 达到 79/90 并冻结了方法；此后 51,813 个 forum 的生产运行才启动。</li>
 </ul>
-<h3>The truncation ladder</h3>
+<h3>截断阶梯</h3>
 <ul>
-  <li>The first full pass (16k output tokens) left <b>7,166 truncated responses</b>. A retry round at 24k re-ran 7,270 eligible rows and recovered 6,223. The 959 still failing were retried at 32k, recovering 812 more. <b>107 rows never parsed at any budget</b> and remain excluded.</li>
-  <li>A separate cluster of <b>32 rows failed identically at 16k, 24k, and 32k</b> with the provider's content-policy refusal (<code>DataInspectionFailed</code>, HTTP 400) — proof this failure mode has nothing to do with token budgets. They were not retried further; only successes were merged, each merge preceded by an automatic online-backup snapshot of the target database.</li>
-  <li>Semantic-validation failures (813 rows with valid JSON that failed local evidence/schema checks) were deliberately <em>excluded</em> from every retry round — re-billing the API cannot fix a local validation rule; that exclusion is enforced by a unit test.</li>
+  <li>第一次全量遍历（16k 输出 token）留下 <b>7,166 条截断的响应</b>。一轮 24k 的重试重跑了 7,270 条符合条件的行，找回 6,223 条。仍失败的 959 条以 32k 重试，又找回 812 条。<b>107 行在任何预算下都未能解析</b>，仍被排除。</li>
+  <li>另有一簇 <b>32 行在 16k、24k 与 32k 下以同样方式失败</b>，返回服务商的内容政策拒答（<code>DataInspectionFailed</code>，HTTP 400）— 证明这种失败模式与 token 预算无关。它们没有再重试；只有成功的结果被合并，每次合并前都对目标数据库自动做一次在线备份快照。</li>
+  <li>语义校验失败（813 行 JSON 合法但未通过本地证据/模式检查）被有意<em>排除</em>在每一轮重试之外 — 再向 API 付一次费修不好本地的校验规则；这一排除由单元测试强制执行。</li>
 </ul>
-<h3>Small scars, recorded</h3>
+<h3>小伤痕，记录在案</h3>
 <ul>
-  <li>The 32k retry's supervisor shell script crashed <em>after</em> all 959 rows were committed — it used <code>status</code>, a reserved zsh variable, as a local. Renamed to <code>exit_status</code>; zero data impact, but the lesson is written down.</li>
-  <li>Two one-off manual repairs patched earlier pilot artifacts (28 malformed episode IDs migrated via a hardcoded table; 7 placeholder chain-templates restored by hand). Both are irreproducible-by-construction and flagged in §08.</li>
-  <li>The taxonomy stage had its own iteration: reasoning-side clustering came back with 61.5% noise (vs 37.6% for objects), so the standard taxonomy was accepted as a skeleton induced from the clusterable ~40% — reported as a limitation rather than silently smoothed over.</li>
+  <li>32k 重试的监督 shell 脚本在全部 959 行提交<em>之后</em>崩溃 — 它把 zsh 的保留变量 <code>status</code> 用作了局部变量。已改名为 <code>exit_status</code>；对数据零影响，但教训写了下来。</li>
+  <li>两次一次性手工修复修补了早期试点产物（28 个格式错误的 episode ID 通过硬编码表迁移；7 个占位链模板手工恢复）。两者按构造即不可复现，已在 §08 标记。</li>
+  <li>分类体系阶段有自己的迭代：推理侧聚类返回 61.5% 的噪声（对象侧为 37.6%），因此标准分类体系被接受为从可聚类的 ~40% 中归纳出的骨架 — 作为局限如实报告，而未悄悄抹平。</li>
 </ul>
 
 <div class="no" id="s10">10</div>
-<h2 id="order-of-work">The order of the plates is not the order of the work</h2>
-<p>A page like this can read as though every analysis had been foreseen and each plate had waited for the one before it. It did not happen that way, and saying otherwise would be a research practice worth naming: inventing the motivation after seeing the result. So, plainly:</p>
+<h2 id="order-of-work">图版的顺序不是工作的顺序</h2>
+<p>这样一页读起来可能像是每项分析都已预见、每张图版都在等前一张。事情并非如此，若声称如此，就是一种值得点名的研究做法：看到结果之后再发明动机。所以，直说：</p>
 <ul>
-<li><b>The sequence is editorial, and it was imposed after the fact.</b> The analyses were built over weeks in the order questions occurred to us; the plates were then grouped into acts and ordered for reading. That arrangement has now been revised three times — from a loose sequence into six acts; split into seven when the act on judgment was carrying two different questions; and regrouped again so that each act opens with the question its plates share (the current form). None of these rearrangements changed any analysis. No plate's position is evidence that it was done for the plate before it.</li>
-<li><b>Some plates began as a stated question, before any number existed.</b> The nine plates added in the seven-act revision — the syntax of reasoning, the early verdict, the combination clause, the unnamed precedent, the law's price, the charge sheet, the moves, the borrowed verdict, the unamended code — were each written down as a question first, and computed afterwards. Two of them came back as nulls and are reported as nulls (the rebuttal moves; the interrogative). One candidate question was dropped <em>before</em> running, as too obviously answerable in advance: whether reviewers had grown a clause about prompt engineering in the LLM years. The timelessness test that occupies that plate replaced it.</li>
-<li><b>Some plates are frankly exploratory.</b> The script, the ladder and the oracle exist because the data supported the description, not because a hypothesis demanded them. Their ledes say so rather than manufacturing a motive.</li>
-<li><b>One published claim was wrong and was corrected in place.</b> The early-verdict plate first stated that a review's verdict was readable by its sixth unit "against a median review length of eleven units". The median is five, which makes the original claim close to circular. The analysis was re-run restricted to reviews of ten units or more — where the question is real — and the plate now reports that curve, which saturates at eight or nine. The error and the fix are recorded here rather than quietly overwritten.</li>
-<li><b>A second claim was corrected the day it was published.</b> The Watermark&#8217;s first posted reading (2026-08-27, morning) presented the rise in co-reviewers&#8217; object-set overlap after 2023 as content-level convergence, noting its turn &#8220;lands on the watermark&#8217;s arrival year.&#8221; A size-matched null run the same day — same forums, same set sizes, contents drawn at random from the year&#8217;s mix — absorbed the rise: reviewers simply charge more objects per review in the LLM years (mean set size 3.4 &#8594; 3.8), and the excess of choice over size is flat (+0.037&#8211;0.054, maximum in 2018). Fig.&nbsp;29c now draws the null; Fig.&nbsp;29d reports the two further structural nulls (mix entropy, reasoning-embedding gap) run at the same time. The uncorrected reading survived on the live page for roughly half a day.</li>
-<li><b>A third claim fell to the same kind of null, hours later.</b> The corrected plate&#8217;s Fig.&nbsp;29d stated that an individual reviewer&#8217;s own attention entropy &#8220;rises 0.742 &#8594; 0.766: the individual reviewer looks at slightly more, not fewer, kinds of things.&#8221; An adversarial audit run the same evening — looking deliberately for siblings of the set-size artifact — found this rise mostly mechanical too: an n-matched null (same reviewers&#8217; unit counts, objects drawn at random from the year&#8217;s own mix) rises almost in step, because reviewers file more units per review in the LLM years and the year&#8217;s mix itself grew more even. Only +0.008 of the +0.024 rise survives the null, with no trend. Fig.&nbsp;29d now draws that null and claims only what survives: no narrowing after 2023. The same audit sharpened, rather than weakened, the wording-convergence panel: split by section, the within-paper rise concentrates in the summaries (+20%, still climbing) while the criticism prose rises +6% and stalls after 2025 — both decompositions now on the plate. The affirmative &#8220;spreads more&#8221; reading survived on the live page for under a day.</li>
-<li><b>Where a caption gives a reason for an analysis, it is the reason the analysis was run</b> — a question we had — or it is marked as what the result turned out to bear on. Reasons of the second kind are written as consequences ("what this bears on"), never as motives.</li>
+<li><b>顺序是编辑上的安排，事后才加上。</b>这些分析历经数周，按问题出现在我们脑中的先后建成；之后图版才被归入各幕，并为阅读排序。这一安排至今已修订三次 — 从松散的序列到六幕；当关于评判的那一幕承载着两个不同的问题时拆成七幕；再重新分组，使每一幕以其图版共有的问题开场（即当前形式）。这些重排都没有改变任何分析。没有哪张图版的位置能证明它是为前一张而做的。</li>
+<li><b>有些图版始于一个明述的问题，在任何数字存在之前。</b>七幕修订中新增的九张图版 — 推理的句法、早判、组合条款、无名判例、法则的代价、控罪单、招式、借来的裁决、未修订的法典 — 每张都先写下问题，之后才计算。其中两张返回零结果，并按零结果报告（rebuttal 招式；疑问式）。一个候选问题在运行<em>之前</em>就被放弃，因为答案事先过于明显：审稿人是否在 LLM 时代长出了一条关于提示工程的条款。占据那张图版的恒常性检验取代了它。</li>
+<li><b>有些图版坦白说是探索性的。</b>脚本、阶梯与神谕的存在，是因为数据支撑得起这样的描述，而非某个假设要求它们。它们的导语如实说明，没有制造动机。</li>
+<li><b>一条已发表的断言有错，已就地更正。</b>早判图版起初写道，一篇评审的裁决到第六个单元即可读出，"相对于十一个单元的评审长度中位数"。中位数其实是五，这使原断言近乎循环论证。分析限于十个单元及以上的评审重跑 — 在那里问题才是真问题 — 图版现在报告的是那条曲线，它在八或九处饱和。错误与修正记录于此，而非悄悄覆盖。</li>
+<li><b>第二条断言在发布当天即被更正。</b>水印图版首次发布的读数（2026-08-27 上午）把 2023 年后同稿审稿人对象集合重叠度的上升呈现为内容层面的趋同，并指出其转折&#8220;正落在水印到来的那一年。&#8221;当天运行的一次规模匹配零检验 — 同样的 forum、同样的集合大小、内容从当年的构成中随机抽取 — 吸收了这一上升：审稿人在 LLM 时代每篇评审指控的对象更多（平均集合大小 3.4 &#8594; 3.8），而选择超出规模的部分持平（+0.037&#8211;0.054，2018 年最高）。图&nbsp;29c 现已画出该零模型；图&nbsp;29d 报告同时运行的另外两项结构零检验（构成熵、推理嵌入差距）。未更正的读数在线上页面留存了大约半天。</li>
+<li><b>第三条断言几小时后倒在同类零检验之下。</b>更正后图版的图&nbsp;29d 曾写道，单个审稿人自身的注意力熵&#8220;从 0.742 &#8594; 0.766 上升：单个审稿人看的东西种类略多，而不是略少。&#8221;当晚运行的一次对抗审计 — 刻意寻找集合大小假象的同类 — 发现这一上升也大多是机械性的：一个 n 匹配的零模型（同一批审稿人的单元数，对象从当年自身构成中随机抽取）几乎同步上升，因为审稿人在 LLM 时代每篇评审提交的单元更多，当年的构成本身也变得更均匀。+0.024 的上升中只有 +0.008 在零检验后留存，且无趋势。图&nbsp;29d 现已画出该零模型，只断言留存下来的部分：2023 年后没有收窄。同一次审计没有削弱用语趋同面板，反而使它更锐利：按章节拆分，论文内的上升集中在总结部分（+20%，仍在攀升），而批评正文上升 +6% 并在 2025 年后停滞 — 两种分解现都已上图。&#8220;分布更广&#8221;这一肯定读法在线上页面留存了不到一天。</li>
+<li><b>凡图注为某项分析给出理由之处，那要么是该分析被运行的原因</b> — 我们当时有的一个问题 — 要么被标明为结果最终所关涉之事。第二类理由写成后果（“这关涉什么”），绝不写成动机。</li>
 </ul>
 
 
 <div class="no" id="s11">11</div>
-<h2 id="provenance-ledger">Where each plate came from</h2>
-<p>The table below records, for every plate, the question it answers and what we can honestly say about when that question was formed. It exists so that a reader can tell the difference between a question we asked and then answered, and a description we produced and then found interesting. "Not recorded" is a real answer and appears where it appears honestly. Where a record exists, it was recovered from the project's own working history — the full conversation log between the researcher and the assistant, timestamped — not from memory. The log is kept in Japanese; the excerpts quoted below are translated. That log will stay private (decided 2026-08-27): the code-side session history is published in <code>codex-history/</code>, but the conversation log contains material that cannot be responsibly scrubbed at full length, so the dated excerpts quoted in this table are the parts of it that appear. Reconstructing a motive with no record would be exactly the practice this table is meant to prevent.</p>
-<ul class="pv-key"><li><b>stated first</b> — the question was written down before the numbers existed</li><li><b>foundational</b> — built together with the taxonomy itself; no separate hypothesis</li><li><b>exploratory</b> — run because the data allowed the description; nothing predicted</li><li><b>part stated</b> — partly specified in advance, partly added afterwards</li><li><b>not recorded</b> — we do not have a reliable record of what prompted it, and are not going to invent one</li></ul>
-<p style="margin-top:4px">The tally over all 34 ledger rows, before the row-by-row record — a one-glance answer to "how honest is this project about its own process":</p>
+<h2 id="provenance-ledger">每张图版的来处</h2>
+<p>下表为每张图版记录它回答的问题，以及关于该问题何时形成我们能诚实说出的内容。它的存在是为了让读者分清两种东西：我们先提出再回答的问题，和我们先做出、随后觉得有趣的描述。“未记录”是一个真实的答案，出现在它诚实出现的地方。凡有记录之处，记录取自项目自身的工作历史 — 研究者与助手之间带时间戳的完整对话日志 — 而非记忆。该日志以日文保存；下文所引摘录为译文。该日志将保持私密（2026-08-27 决定）：代码侧的会话历史发布于 <code>codex-history/</code>，但对话日志包含无法负责任地全文脱敏的材料，因此本表所引的带日期摘录就是它公开的全部部分。在没有记录的情况下重建动机，正是本表要防止的做法。</p>
+<ul class="pv-key"><li><b>先行陈述</b> — 问题在数字存在之前已写下</li><li><b>奠基性</b> — 与分类体系本身一同建立；无单独假设</li><li><b>探索性</b> — 因数据允许这种描述而运行；无任何预测</li><li><b>部分陈述</b> — 部分事先指定，部分事后添加</li><li><b>未记录</b> — 我们没有关于其起因的可靠记录，也不打算编造一个</li></ul>
+<p style="margin-top:4px">在逐行记录之前，先给出全部 34 行台账的合计 — 对“这个项目对自身过程有多诚实”的一眼之答：</p>
 <div class="diagram" style="margin-top:2px">
-<div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">17 stated first<span class="s">question on record before the numbers</span></div></div>
-<div class="fun-row"><div><div class="fun-bar" style="width:52.9%;background:#72654f"></div></div><div class="fun-lbl">9 not recorded<span class="s">and not reconstructed</span></div></div>
-<div class="fun-row"><div><div class="fun-bar" style="width:23.5%;background:#a3803f"></div></div><div class="fun-lbl">4 part stated<span class="s">seed on record, final design not</span></div></div>
-<div class="fun-row"><div><div class="fun-bar" style="width:17.6%;background:#5b4d3a"></div></div><div class="fun-lbl">3 foundational<span class="s">built with the taxonomy itself</span></div></div>
-<div class="fun-row"><div><div class="fun-bar" style="width:5.9%;background:#b45036"></div></div><div class="fun-lbl">1 exploratory<span class="s">descriptive, nothing predicted</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">17 先行陈述<span class="s">问题在数字之前已有记录</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:52.9%;background:#72654f"></div></div><div class="fun-lbl">9 未记录<span class="s">亦未重建</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:23.5%;background:#a3803f"></div></div><div class="fun-lbl">4 部分陈述<span class="s">种子有记录，最终设计无</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:17.6%;background:#5b4d3a"></div></div><div class="fun-lbl">3 奠基性<span class="s">与分类体系本身一同建立</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:5.9%;background:#b45036"></div></div><div class="fun-lbl">1 探索性<span class="s">描述性，无任何预测</span></div></div>
 </div>
 <div class="pv-wrap"><table class="pv-table">
-<thead><tr><th>Plate</th><th>The question it answers</th><th>Provenance</th><th>Notes</th></tr></thead>
+<thead><tr><th>图版</th><th>它回答的问题</th><th>溯源</th><th>备注</th></tr></thead>
 <tbody>
-<tr><td>Plate 0 · The Specimen</td><td>Orientation: one review's anatomy, keyed to the nine acts</td><td class="pv-st">stated first</td><td>Navigation, not analysis; it carries no claim about the corpus. Built to a stated request, at the head of the site's full-screen contents overlay ("The Chart"). The specimen is chosen by a stated rule, not picked by hand: among the 232 <code>sample_reviews</code>, the review with 4&#8211;6 units showing the most distinct valences, ties broken by <code>review_id</code> ascending &#8212; today that resolves to review 08lMHzVzba (5 units, all five valences, decision Reject). Each unit is drawn as a band split into four strata (inspected object / observation / reasoning / judgment); each stratum's drawn length is the character count of the text actually stored at that layer, scaled to the longest field in the specimen, so the visual dominance of the reasoning stratum is the record's own shape, not a design choice. Leader lines key each of the nine acts to the part of the specimen it examines. The rating scale is drawn empty: this review's unit record carries no rating, so none is marked.</td></tr>
-<tr><td>Prolegomenon · The Field</td><td>Venue counts, no machine reading</td><td class="pv-nr">not recorded</td><td>Scene-setting; needed before any claim about reviews.</td></tr>
-<tr><td>Prolegomenon II · The Season</td><td>The calendar of one cycle</td><td class="pv-ps">part stated</td><td>A time-axis view was approved by the researcher from early prototypes (2026-08-18: "the time axis is interesting — let's do it"); the plate's final form evolved afterwards, so the link is a matter of record only in that general sense.</td></tr>
-<tr><td>The Door</td><td>Entry by the sentence a reader was handed</td><td class="pv-st">stated first</td><td>Navigation, not analysis. Proposed and built in the seven-act revision.</td></tr>
-<tr><td>Plate I · The Anatomy</td><td>The whole corpus at once; fixes the vocabulary</td><td class="pv-fo">foundational</td><td>Built with the taxonomy itself; no separate hypothesis. Fig.&nbsp;1c added 2026-08-27, stated first: an already-computed validity check (construct-data.json, until then unrendered) promoted to the plate on the researcher’s direction.</td></tr>
-<tr><td>Plate II · The Grammar</td><td>Are object and standard coupled?</td><td class="pv-fo">foundational</td><td>Its bearing on later plates is a consequence, not the reason it was drawn.</td></tr>
-<tr><td>Plate III · The Rhetoric</td><td>The shape of the argument, not just its subject</td><td class="pv-fo">foundational</td><td>Required training a classifier on 600 analyst-labelled units; its error is reported in the caption.</td></tr>
-<tr><td>Plate IV · The Syntax</td><td>Do argument forms follow one another?</td><td class="pv-st">stated first</td><td>Seven-act revision. Result is weak and is described as weak.</td></tr>
-<tr><td>Plate V · The Itinerary</td><td>In what order is criticism set down in the document? (Prologue: position within the whole review)</td><td class="pv-ps">part stated</td><td>Prologue (formerly the Script plate, merged 2026-08-24): exploratory — descriptive, nothing predicted. Itinerary: stated first — Analyst-proposed mid-project when line anchors made position recoverable: &#8220;where does each kind of unit appear when the review is unrolled as a scroll?&#8221; The whole-review cut was template-dominated (all medians &#8776; 0.5) and was re-cut inside the weaknesses section.</td></tr>
-<tr><td>Plate VI · The Early Verdict</td><td>How much of a review must you read?</td><td class="pv-st">stated first</td><td>Seven-act revision. First published claim was wrong (median units) and was corrected in place; see above. Extended 2026-08-21 with two analyst-proposed follow-ups (raw-text ceiling; per-topic tally weights), declared exploratory with results committed to publication before they were seen.</td></tr>
-<tr><td>Plate VII · The Elements</td><td>What does a charge actually say?</td><td class="pv-st">stated first</td><td>Built to a stated request: decompose each criticism into ground, rule and remedy. Fig.&nbsp;7d added 2026-08-27, stated first: an orphaned pilot (argument-raw-novelty.json) surfaced, independently re-verified, and drawn with its faintness as the headline, on the researcher’s direction.</td></tr>
-<tr><td>Plate VIII · The Combination Clause</td><td>What is the 'unless' in the combination rule?</td><td class="pv-st">stated first</td><td>Asked before computing, as a follow-on to Plate VIII.</td></tr>
-<tr><td>Plate IX · The Unnamed Precedent</td><td>Which prior works kill novelty?</td><td class="pv-st">stated first</td><td>Set out to rank a canon; found none. Reported as a null.</td></tr>
-<tr><td>Plate X · The Formulary</td><td>Bespoke criticism or standard formula?</td><td class="pv-nr">not recorded</td><td></td></tr>
-<tr><td>Plate XI · The Repair Manual</td><td>What do reviewers ask authors to do?</td><td class="pv-nr">not recorded</td><td></td></tr>
-<tr><td>Plate XII · The Verdicts</td><td>Which objects are discussed only in the negative?</td><td class="pv-nr">not recorded</td><td></td></tr>
-<tr><td>Plate XIII · The Charge Sheet</td><td>Which rules are filed together?</td><td class="pv-st">stated first</td><td>Seven-act revision.</td></tr>
-<tr><td>Plate XIV · The Price</td><td>What does each objection cost — and does the stated rule set the price?</td><td class="pv-ps">part stated</td><td>The researcher asked for score and decision joins in general terms (2026-08-18: "it might be good to see trends by review score"); the within-paper tariff design specifically is not on record. The Law's-Price extension (does one rule cost the same everywhere?) was stated first in the seven-act revision and merged into this plate 2026-08-24.</td></tr>
-<tr><td>Plate XV · The Consequence</td><td>Does criticism — and its breadth — track the outcome?</td><td class="pv-nr">not recorded</td><td>Same general seed as the Price (the researcher's score/decision request of 2026-08-18); the specific with-vs-without design is not on record. Decisions were deliberately withheld from the reading pipeline, which is what makes the join meaningful. The breadth count (formerly the Gauntlet plate) merged in 2026-08-24. Fig.&nbsp;15b added 2026-08-27, stated first: target and design declared before any number was seen (build_decision_commit.py, seed 7); the researcher approved the question (“does criticism predict the decision, not just the score”) before computation.</td></tr>
-<tr><td>Plate XVI · The Shapes of Talk</td><td>What happens beneath a review, counted without reading it?</td><td class="pv-nr">not recorded</td><td>Deliberately uses no machine reading, so it is immune to errors in the reading.</td></tr>
-<tr><td>Plate XVII · The Rebuttal</td><td>Does the author response move anything?</td><td class="pv-nr">not recorded</td><td>The working history shows the analysis already existed as a chart by mid-morning of 2026-08-18 (the researcher asks only that it be animated); what prompted it is not on record. The nine-year reading records judgment change, which is what makes it measurable at all.</td></tr>
-<tr><td>Plate XVIII · The Moves</td><td>Which authorial move travels with softening?</td><td class="pv-st">stated first</td><td>Seven-act revision. Result is a null for every move except one; reported as a null.</td></tr>
-<tr><td>Plate XIX · The Fate of an Objection</td><td>Is an objection ever revisited?</td><td class="pv-nr">not recorded</td><td>Its second figure — asked versus asserted — was picked from a proposal menu on 2026-08-19 and computed after approval; it is a null and is reported as one. The first figure predates any recorded request.</td></tr>
-<tr><td>Plate XX · The Panel</td><td>Where do co-reviewers split?</td><td class="pv-nr">not recorded</td><td>The researcher's standing wish — reviewer trajectories "between multiple reviewers" (2026-08-19) — names the direction, but not these specific figures. The third figure (panel coverage) was proposed separately.</td></tr>
-<tr><td>Plate XXI · The Deliberation</td><td>What does one panel's discussion look like in full?</td><td class="pv-ps">part stated</td><td>The aggregate figures were added first, on request, so the fourteen hand-picked cases could not be mistaken for a sample.</td></tr>
-<tr><td>Plate XXII · The Higher Court</td><td>What does the area chair weigh?</td><td class="pv-st">stated first</td><td>From a menu of proposed questions, approved before computation (2026-08-19: "which kinds of criticism does the AC decline to forgive?").</td></tr>
-<tr><td>Plate XXIII · The Borrowed Verdict</td><td>Whose words reach the decision?</td><td class="pv-st">stated first</td><td>Seven-act revision.</td></tr>
-<tr><td>Plate XXIV · The Ladder</td><td>What does each rung of the scale contain?</td><td class="pv-st">stated first</td><td>Asked by the researcher before computation (2026-08-18: "why is a low score low, why is a high score high" — and, on seeing a 2-vs-8 example, "looks like we could do this beyond just 2 and 8"). Some findings are near-tautological; the caption marks which are not.</td></tr>
-<tr><td>Plate XXV · The Measurement</td><td>How repeatable is a rating?</td><td class="pv-st">stated first</td><td>Proposed in an idea list and approved by the researcher before computation (2026-08-19: reproduce the NeurIPS consistency experiment observationally, across all ICLR years, interactive) — with one constraint imposed at approval and kept: frame it as a property of the system, never as an accusation against reviewers. The counterfactual redraw was specified before it was run.</td></tr>
-<tr><td>Plate XXVI · The Drift</td><td>Has any of this changed over nine years?</td><td class="pv-st">stated first</td><td>The nine-year corpus was built for this question.</td></tr>
-<tr><td>Plate XXVII · The Unamended Code</td><td>Has the definition of novelty itself changed?</td><td class="pv-st">stated first</td><td>Replaced a question dropped before running as too obvious. Run expecting change; found none.</td></tr>
-<tr><td>Plate XXVIII · The Oracle</td><td>Is criticism uniform across fields?</td><td class="pv-ex">exploratory</td><td>Comparison only; a field's profile mixes what it submits with how it is judged.</td></tr>
-<tr><td>Plate XXIX · The Watermark</td><td>Does the record shift toward the documented signature of LLM-assisted writing — and when?</td><td class="pv-st">stated first</td><td>Requested by the researcher 2026-08-27 as an explicitly cautious question (trends consistent with, never attributable to, LLM use). Marker set, counterfactual, placebos and decision rules frozen in notes/llm-era-analysis-plan.md before computation; post-hoc robustness additions are labeled as addenda in the same file.</td></tr>
-<tr><td>Plate XXX · The Specimens</td><td>The raw material, checkable against the source</td><td class="pv-st">stated first</td><td>Exists so the machine reading can be held against the originals.</td></tr>
+<tr><td>图版 0 · 标本</td><td>导览：一篇评审的解剖，逐一对应九幕</td><td class="pv-st">先行陈述</td><td>导航而非分析；它不含关于语料的任何断言。按一项明确的请求建造，置于站点全屏目录浮层（“总图”）的开头。标本按一条明述规则选出，而非手工挑选：在 232 条 <code>sample_reviews</code> 中，取带 4&#8211;6 个单元且判定种类最多的那篇评审，并列时按 <code>review_id</code> 升序打破 &#8212; 今天解析为评审 08lMHzVzba（5 个单元，五种判定齐全，录用决定 Reject）。每个单元画成一条分为四层的带（审视对象 / 观察 / 推理 / 判断）；每层画出的长度是该层实际存储文本的字符数，按标本中最长的字段缩放，因此推理层在视觉上的主导地位是记录自身的形状，而非设计选择。引线把九幕各自对应到标本中它所检视的部分。评分刻度画为空：这篇评审的单元记录不含评分，故未标出。</td></tr>
+<tr><td>绪论 · 领域</td><td>会议计数，无机器读取</td><td class="pv-nr">未记录</td><td>铺陈场景；先于任何关于评审的断言。</td></tr>
+<tr><td>绪论 II · 评审季</td><td>一个周期的日历</td><td class="pv-ps">部分陈述</td><td>研究者在早期原型阶段即认可了时间轴视图（2026-08-18：“时间轴有意思 — 做吧”）；图版的最终形态随后才演化出来，所以这一关联只在这个泛泛的意义上有记录。</td></tr>
+<tr><td>门</td><td>从读者拿到的那句话进入</td><td class="pv-st">先行陈述</td><td>导航而非分析。在七幕修订中提出并建造。</td></tr>
+<tr><td>图版 I · 解剖</td><td>整个语料一览；固定词汇</td><td class="pv-fo">奠基性</td><td>与分类体系本身一同建立；无单独假设。图&nbsp;1c 于 2026-08-27 添加，先行陈述：一项已算出的效度检验（construct-data.json，此前未绘出）按研究者的指示提升到图版上。</td></tr>
+<tr><td>图版 II · 语法</td><td>审视对象与推理标准是否耦合？</td><td class="pv-fo">奠基性</td><td>它对后续图版的意义是后果，而非绘制它的原因。</td></tr>
+<tr><td>图版 III · 修辞</td><td>论证的形状，而不只是它的主题</td><td class="pv-fo">奠基性</td><td>需要在 600 个分析者标注的单元上训练一个分类器；其误差在图注中报告。</td></tr>
+<tr><td>图版 IV · 句法</td><td>论证形式是否相互接续？</td><td class="pv-st">先行陈述</td><td>七幕修订。结果弱，也被描述为弱。</td></tr>
+<tr><td>图版 V · 行程</td><td>批评在文档中按什么顺序写下？（序幕：在整篇评审中的位置）</td><td class="pv-ps">部分陈述</td><td>序幕（原脚本图版，2026-08-24 合并）：探索性 — 描述性，无任何预测。行程：先行陈述 — 项目中期由分析者提出，当时行锚点使位置可恢复：&#8220;把评审展开成一卷长轴时，每类单元出现在哪里？&#8221;整篇评审的切法被模板主导（所有中位数 &#8776; 0.5），于是在 Weaknesses 部分内部重新切分。</td></tr>
+<tr><td>图版 VI · 早判</td><td>一篇评审必须读多少？</td><td class="pv-st">先行陈述</td><td>七幕修订。首次发布的断言有误（中位单元数），已原地更正；见上。2026-08-21 扩展了两项分析者提出的后续分析（原始文本上限；逐主题计数权重），声明为探索性，结果在看到之前即承诺发布。</td></tr>
+<tr><td>图版 VII · 要件</td><td>一条指控究竟说了什么？</td><td class="pv-st">先行陈述</td><td>按一项明确的请求建造：把每条批评分解为依据、规则与修复。图&nbsp;7d 于 2026-08-27 添加，先行陈述：一个被遗落的试点（argument-raw-novelty.json）被发现，经独立复核，并按研究者的指示以其微弱作为标题绘出。</td></tr>
+<tr><td>图版 VIII · 组合条款</td><td>组合规则中的“除非”是什么？</td><td class="pv-st">先行陈述</td><td>计算之前提出，作为图版 VIII 的后续。</td></tr>
+<tr><td>图版 IX · 无名判例</td><td>哪些先前工作会扼杀新颖性？</td><td class="pv-st">先行陈述</td><td>本想给一份经典名录排序；未找到。作为零结果报告。</td></tr>
+<tr><td>图版 X · 套语集</td><td>定制的批评还是标准套语？</td><td class="pv-nr">未记录</td><td></td></tr>
+<tr><td>图版 XI · 修复手册</td><td>审稿人要求作者做什么？</td><td class="pv-nr">未记录</td><td></td></tr>
+<tr><td>图版 XII · 裁决</td><td>哪些对象只在否定意义上被讨论？</td><td class="pv-nr">未记录</td><td></td></tr>
+<tr><td>图版 XIII · 控罪单</td><td>哪些规则被一同归档？</td><td class="pv-st">先行陈述</td><td>七幕修订。</td></tr>
+<tr><td>图版 XIV · 代价</td><td>每条异议代价几何 — 明述规则是否定价？</td><td class="pv-ps">部分陈述</td><td>研究者曾泛泛地要求把评分与录用决定连接起来（2026-08-18：“按评审分数看趋势可能不错”）；论文内量刑表这一具体设计没有记录。法则的代价扩展（同一条规则在各处代价是否相同？）在七幕修订中先行陈述，并于 2026-08-24 合并进本图版。</td></tr>
+<tr><td>图版 XV · 后果</td><td>批评 — 及其广度 — 是否跟随结果？</td><td class="pv-nr">未记录</td><td>与代价图版同出一源（研究者 2026-08-18 关于评分/录用决定的请求）；有与无对比的具体设计没有记录。录用决定被刻意隔离在读取流水线之外，这正是让这一连接有意义之处。广度计数（原试炼图版）于 2026-08-24 合并进来。图&nbsp;15b 于 2026-08-27 添加，先行陈述：目标与设计在看到任何数字之前已声明（build_decision_commit.py，随机种子 7）；研究者在计算之前认可了这个问题（“批评能否预测录用决定，而不只是评分”）。</td></tr>
+<tr><td>图版 XVI · 对话的形状</td><td>不读评审、只靠计数，评审之下发生了什么？</td><td class="pv-nr">未记录</td><td>刻意不用机器读取，因此免受读取误差影响。</td></tr>
+<tr><td>图版 XVII · Rebuttal</td><td>作者回应是否改变了什么？</td><td class="pv-nr">未记录</td><td>工作历史显示该分析在 2026-08-18 上午过半时已作为图表存在（研究者只要求把它做成动画）；其起因没有记录。九年读取记录了判断的变化，这正是它能被度量的前提。</td></tr>
+<tr><td>图版 XVIII · 招式</td><td>哪种作者招式与软化同行？</td><td class="pv-st">先行陈述</td><td>七幕修订。除一种招式外，结果对每种招式都是零结果；作为零结果报告。</td></tr>
+<tr><td>图版 XIX · 一条异议的命运</td><td>一条异议是否曾被重新审视？</td><td class="pv-nr">未记录</td><td>其第二张图 — 提问对断言 — 于 2026-08-19 从一份提案清单中选出，经批准后计算；它是零结果，也作为零结果报告。第一张图早于任何有记录的请求。</td></tr>
+<tr><td>图版 XX · 评审组</td><td>同稿审稿人在哪里分歧？</td><td class="pv-nr">未记录</td><td>研究者长期的愿望 — “多个审稿人之间”的审稿人轨迹（2026-08-19）— 指明了方向，但没有指明这几张具体的图。第三张图（评审组覆盖）是另行提出的。</td></tr>
+<tr><td>图版 XXI · 合议</td><td>一个评审组的完整讨论是什么样？</td><td class="pv-ps">部分陈述</td><td>按要求先添加了汇总图，使十四个手工挑选的案例不会被误认为样本。</td></tr>
+<tr><td>图版 XXII · 上级法庭</td><td>领域主席权衡什么？</td><td class="pv-st">先行陈述</td><td>从一份提议问题清单中选出，计算之前经批准（2026-08-19：“哪些类型的批评是 AC 拒绝宽宥的？”）。</td></tr>
+<tr><td>图版 XXIII · 借来的裁决</td><td>谁的话到达了录用决定？</td><td class="pv-st">先行陈述</td><td>七幕修订。</td></tr>
+<tr><td>图版 XXIV · 阶梯</td><td>评分刻度的每一级包含什么？</td><td class="pv-st">先行陈述</td><td>研究者在计算之前提出（2026-08-18：“低分为何低，高分为何高” — 并在看到一个 2 对 8 的例子后说，“看来不止 2 和 8，我们可以做全部”）。部分发现近于同义反复；图注标出哪些不是。</td></tr>
+<tr><td>图版 XXV · 度量</td><td>一个评分的可重复性有多高？</td><td class="pv-st">先行陈述</td><td>在一份想法清单中提出，计算之前经研究者批准（2026-08-19：以观察方式复现 NeurIPS 一致性实验，覆盖全部 ICLR 年份，可交互）— 批准时附加并保留了一条约束：把它表述为系统的属性，绝不表述为对审稿人的指控。反事实重绘在运行前已指定。</td></tr>
+<tr><td>图版 XXVI · 漂移</td><td>这一切在九年里变了吗？</td><td class="pv-st">先行陈述</td><td>九年语料就是为这个问题建的。</td></tr>
+<tr><td>图版 XXVII · 未修订的法典</td><td>新颖性的定义本身变了吗？</td><td class="pv-st">先行陈述</td><td>取代了一个因过于显然而在运行前放弃的问题。预期有变化而运行；未发现变化。</td></tr>
+<tr><td>图版 XXVIII · 神谕</td><td>批评在各领域间是否一致？</td><td class="pv-ex">探索性</td><td>仅作比较；一个领域的画像混合了它提交什么与它如何被评判。</td></tr>
+<tr><td>图版 XXIX · 水印</td><td>记录是否朝着有文献记载的 LLM 辅助写作特征偏移 — 何时？</td><td class="pv-st">先行陈述</td><td>研究者于 2026-08-27 提出，明确作为一个谨慎的问题（趋势与 LLM 使用一致，但绝不归因于它）。标记集、反事实、安慰剂与决策规则在计算之前冻结于 notes/llm-era-analysis-plan.md；事后添加的鲁棒性检验在同一文件中标为补遗。</td></tr>
+<tr><td>图版 XXX · 标本</td><td>原始材料，可对照来源核验</td><td class="pv-st">先行陈述</td><td>存在的目的是让机器读取能与原文对照。</td></tr>
 </tbody></table></div>
 <style>
 .pv-key { font-size: 13px; color: var(--ink-2); margin: 10px 0 18px; }
@@ -806,81 +806,82 @@ const MX = {"objLabel": {"empirical_scope": "Empirical scope & generalizability"
 </style>
 
 <div class="no" id="s12">12</div>
-<h2 id="new-instruments">Notes for the added plates</h2>
-<p>Nine plates were added in the seven-act revision (the Syntax, the Early Verdict, the Combination Clause, the Unnamed Precedent, the Law&#8217;s Price, the Charge Sheet, the Moves, the Borrowed Verdict, the Unamended Code), plus the Door, which is navigation and makes no claims. (In the 2026-08-24 restructure the Law's Price merged into the Price plate, the Gauntlet into the Consequence, and the Script into the Itinerary as its prologue; their instruments are unchanged.) One later addition, the Watermark (2026-08-27), closes the list. Their instruments, and where each can mislead:</p>
+<h2 id="new-instruments">新增图版的说明</h2>
+<p>七幕修订新增了九张图版（句法、早判、组合条款、无名判例、法则的代价、控罪单、招式、借来的裁决、未修订的法典），外加门，它只是导航，不作断言。（在 2026-08-24 的重组中，法则的代价并入代价图版，试炼并入后果，脚本并入行程作为其序幕；它们的仪器未变。）后来的一次添加，水印（2026-08-27），收束此列。它们的仪器，以及各自可能误导之处：</p>
 <ul>
-<li><b>The Syntax</b> — form labels come from the Plate III classifier (5-fold CV accuracy 0.685, macro-F1 in the file); transitions are compared against a null that shuffles each review internally, so the reported lifts are within-review order effects only, and they are small — the plate says so rather than dressing them up.</li>
-<li><b>The Early Verdict</b> — "readable by unit six" is a statement about a classifier over coarse features (object &#215; valence counts), not about when the reviewer <em>decided</em>; reviewers may draft conclusions first. Target is the 2026 even scale at 6+, 3-fold CV, seed fixed. The 2026-08-21 follow-ups share that target and CV: the raw-text bar is TF-IDF (1&#8211;2-grams, min_df 5) over the concatenated review fields; the tally weights are L2-logistic coefficients on whole-review per-topic negative counts (plus total positive and hedged counts) &#8212; descriptive coefficients on correlated counts, reported with their fold spread.</li>
-<li><b>The Combination Clause</b> — sub-clusters are k-means (k=8, seed 46) over bge-small embeddings; names were drafted by a machine reader over exemplars and reviewed by the analyst; four near-duplicate referent clusters were merged into one generic charge and the merge is recorded in the builder. Raw clusters ship with the dataset. The referents are clustered on the units' distilled observations, so the headline share (46% name no parts) was audited against source reviews: in a 30-case sample of no-name observations, wherever the source charge sentence could be located its specificity matched the observation's — generic in the reviewer's own words whenever the observation was generic, with one ambiguous exception where a descriptive sentence named parts the charging sentence did not. The audit transcript ships with the repository (notes/combo-audit-30.txt).</li>
-<li><b>The Unnamed Precedent</b> — the extractor is a citation regex plus arXiv IDs, with venue acronyms excluded; prose references ("the BERT paper") are missed, so all lit shares are floors — the conclusion (no canon) survives any plausible extractor. The (surname, year) key deliberately over-merges, which only strengthens the null. The measurement was run twice, and both runs are reported (design of the second declared before its results): first on the distilled unit text (5 / 29 / 66; naming 8.4%→3.5% by year; max key 10 forums), then re-measured on the raw review text with the unit serving only to locate the charge — every sentence mentioning novelty ±2 sentences, in the best-token-overlap review of the unit's forum (window found for 79% of units; the window is deliberately generous to naming, since it can absorb a neighbouring criticism's citation). The raw reading gives 12 / 25 / 63, naming 20%→11% by year, max key 21 of 23,251 forums. The naming level is instrument-sensitive (floor 5%, generous window 12%); the two headline facts are not: about two thirds of objections carry no referent under either instrument, the naming rate halves 2018→2026 under both, and no canon appears under either. Builder: build_canon_native.py.</li>
-<li><b>The Law&#8217;s Price &amp; the Charge Sheet</b> (today Plate XIV &#183; The Price and Plate XIII &#183; The Charge Sheet, after the 2026-08-24 merge) — per-unit law assignments come from the sampled sentence clusters (40k per docket), so absolute co-filing rates are thinned; the plates therefore report only ratios (lift), which the independent-sampling design leaves unbiased to first order, and per-law mean deficits, which sampling thins but does not bias. Deficits are normalized by each year&#8217;s rating standard deviation; ratings join reviewer keys to OpenReview signatures by suffix match. The charge sheet&#8217;s within-review lifts were additionally tested against a paper-quality confound (build_chargesheet_control.py, declared before results): every displayed pair re-measured across two different reviewers of the same paper. Attractions kept a median ×1.44 across reviewers against ×1.87 within one review (part paper, part reviewer); repulsions showed no cross-reviewer suppression at all (×0.97 against ×0.75 within), placing the one-filing habit with the reviewer, not the paper. Cross-docket pairs cannot share a unit, so multi-law sentences cannot inflate either list.</li>
-<li><b>The Moves</b> — the outcome instrument counts only judgment changes the reviewer recorded in post-response units ("weakened/reversed"); silent score raises are invisible to it. Markers are deterministic regexes, quoted in the builder. The contest&#8217;s premium is the association of a chosen move — authors contest when they hold a strong hand. A parallel embedding clustering of the same 722,406 reply sentences (k=12) separated topics more than tactics and found the same null; it ships as moves-raw.</li>
-<li><b>The Borrowed Verdict</b> — echo tiers are cosine conventions (0.75 / 0.90) over cached reasoning embeddings; moving the thresholds moves the levels, not the comparisons. Nearest-neighbor attribution measures textual proximity, not causal influence — an AC and a reviewer may independently echo the paper. Concentration is computed only on forums with three or more echoed units.</li>
-<li><b>The Unamended Code</b> — the timelessness claim is calibrated by a split-half control (a code fitted on half of 2026, held-out half at 0.152); every year sits within 0.008 of it. Two resolution limits are owned in the caption: sentence embeddings can miss register-preserving semantic shifts, and the transfer clause rides on the code&#8217;s one genuinely mixed cluster (majority register transfer; differentiation a defensible second reading), so its 5&#8211;7% band is the least certain of the six. The reverse fit (a 2018&#8211;19 code applied forward) uses k=6 over only 417 sentences and is reported as weak corroboration, not evidence.</li>
-<li><b>The Watermark</b> (added 2026-08-27, after a literature survey of LLM-in-peer-review work) — corpus-level only, by design: per-review AI detectors are excluded on the record of non-native-speaker false positives (Liang et al., Patterns 2023) and instance-level unreliability (Yu et al., ICLR 2026). The instrument: a thirteen-word marker list frozen verbatim from Liang et al. (ICML 2024) and Kobak et al. (Science Advances 2025) before any counting; each year&#8217;s document frequency against its own 2018&#8211;2022 linear extrapolation (Kobak&#8217;s excess-vocabulary design); 2023 as a built-in placebo year and a frozen ten-word negative-control list run through identical machinery. Free text only — the five review-form eras&#8217; enumerated fields are stripped, and similarity levels are never compared across a form boundary; the headline convergence claim lives inside the constant-form 2024&#8211;2026 window under one shared TF&#8211;IDF vocabulary. The correlate battery stratifies by length deciles (presence measures are length-sensitive — the control list&#8217;s below-trend drift shows the ambient tide), benchmarks the score comparison against the paper&#8217;s longest review, and permutes marked labels within papers 200&times; before reading any quality gradient (conditioning on the comparison group manufactures one from mean reversion alone). Plan, hypotheses and decision rules: notes/llm-era-analysis-plan.md, frozen before computation; addenda after run 1 (fixed vocabulary, length stratification, permutation control, quality strata after Sharma et al. arXiv:2601.20920) are labeled in the plan file. Prior art cited on the plate: Liang et al. 2024; Kobak et al. 2025 and Gray, arXiv:2512.01560 (the excess-vocabulary method&#8217;s ancestors — papers at large, not reviews); Latona et al. 2024; Wu et al. arXiv:2604.19578 (nearest neighbour — same venues, aspect-coverage not similarity); Sharma et al. 2026; Kim et al. arXiv:2605.20668 (AI reviewers&#8217; 21%-vs-3% mutual overlap, by expert annotation); Baumann et al. arXiv:2605.03202 (the &#8220;hivemind effect&#8221;); and arXiv:2607.10511, which reads a 2022&#8211;23 shift in ICLR review-text diagnostics — the timing neighbour this plate&#8217;s placebo disagrees with by one cycle. A Semantic Scholar + arXiv search on 2026-08-27 found no published within-paper co-review similarity-over-years measurement on real OpenReview data; that is recorded as a search result, not a proof of novelty. Builders: build_llmtrace_data.py (raw text), build_llmtrace_mix.py (addendum E+F: category-mix entropy, size-matched overlap null, reasoning-embedding dispersion — the instruments behind Fig.&nbsp;29d and the same-day correction of Fig.&nbsp;29c recorded in &#167;&nbsp;10).</li>
+<li><b>句法</b> — 形式标签来自图版 III 的分类器（5 折交叉验证准确率 0.685，宏 F1 见文件）；转移与一个在每篇评审内部置换的零模型比较，因此报告的提升度只是评审内的顺序效应，而且很小 — 图版直说这一点，不加粉饰。</li>
+<li><b>早判</b> — “到第六个单元即可读出”说的是一个基于粗特征（对象 &#215; 判定计数）的分类器，而不是审稿人何时<em>做出决定</em>；审稿人可能先起草结论。目标是 2026 年偶数刻度上 6 分及以上，3 折交叉验证，随机种子固定。2026-08-21 的后续分析共用该目标与交叉验证：原始文本条是拼接评审字段上的 TF-IDF（1&#8211;2 元语法，min_df 5）；计数权重是整篇评审逐主题否定计数（加上肯定与有保留计数总量）上的 L2 逻辑回归系数 &#8212; 相关计数上的描述性系数，连同其各折离散度一并报告。</li>
+<li><b>组合条款</b> — 子聚类为 bge-small 嵌入上的 k-means（k=8，随机种子 46）；名称由机器读取器基于样例起草、经分析者复核；四个近乎重复的所指聚类被合并为一项笼统指控，合并记录在构建脚本中。原始聚类随数据集发布。所指是在单元的蒸馏观察上聚类的，因此标题份额（46% 未点名任何部件）对照源评审做了审计：在 30 例未点名观察的样本中，凡能定位到源指控句的，其具体程度都与观察一致 — 观察笼统时，审稿人原话同样笼统；仅有一例含糊，其描述句点出了指控句未点出的部件。审计记录随代码库发布（notes/combo-audit-30.txt）。</li>
+<li><b>无名判例</b> — 抽取器是一个引用正则加 arXiv ID，排除会议缩写；行文中的提及（"the BERT paper"）会被漏掉，因此所有文献份额都是下限 — 结论（不存在正典）在任何合理的抽取器下都成立。（姓氏，年份）键刻意过度合并，这只会强化零假设。测量跑了两遍，两遍都报告（第二遍的设计在出结果前已声明）：先在蒸馏后的单元文本上（5 / 29 / 66；点名率按年 8.4%→3.5%；最大键 10 个 forum），再在原始评审文本上重测，单元只用于定位指控 — 取该单元所在 forum 中词元重叠最高的那篇评审里每一句提到新颖性的句子 ±2 句（79% 的单元找到了窗口；窗口刻意偏向点名，因为它可能吸入相邻批评的引用）。原始读法给出 12 / 25 / 63，点名率按年 20%→11%，最大键覆盖 23,251 个 forum 中的 21 个。点名水平对仪器敏感（下限 5%，宽松窗口 12%）；两个标题事实则不然：在两种仪器下约三分之二的异议全无所指，点名率在两种仪器下都于 2018→2026 减半，正典在两种仪器下都不出现。构建脚本：build_canon_native.py。</li>
+<li><b>法则的代价 &amp; 控罪单</b>（经 2026-08-24 合并后，即今日的图版 XIV &#183; 代价与图版 XIII &#183; 控罪单）— 逐单元的法则归属来自抽样的句子聚类（每份案卷 40k），因此绝对的共同提出率被稀释；两张图版因而只报告比值（提升度）— 独立抽样设计使其在一阶上无偏 — 以及各法则的平均赤字 — 抽样使其变稀，但不引入偏差。赤字按各年评分的标准差归一化；评分通过后缀匹配把审稿人键接到 OpenReview 签名。控罪单的评审内提升度还额外检验了论文质量混杂（build_chargesheet_control.py，在出结果前已声明）：每一对展示的配对都在同一论文的两位不同审稿人之间重测。相吸在跨审稿人时保持中位数 ×1.44，对比评审内的 ×1.87（一部分归于论文，一部分归于审稿人）；相斥则完全没有跨审稿人的抑制（×0.97，对比评审内的 ×0.75），把只提其一的习惯归于审稿人，而非论文。跨案卷配对不可能共享一个单元，因此多法则句子无法抬高任何一份清单。</li>
+<li><b>招式</b> — 结果仪器只计入审稿人在回应后单元中记录下的判断变化（"减弱/反转"）；无声的提分对它不可见。标记是确定性的正则，原文引在构建脚本中。争辩的溢价是一个自选招式所带的关联 — 作者手握强牌时才争辩。对同一批 722,406 条回复句子做的并行嵌入聚类（k=12）分开的是话题多于策略，得到同样的零结果；它以 moves-raw 之名发布。</li>
+<li><b>借来的裁决</b> — 回声层级是缓存推理嵌入上的余弦约定（0.75 / 0.90）；移动阈值改变的是水平，不是比较。最近邻归因度量的是文本接近度，而非因果影响 — AC 与审稿人可能各自独立地呼应了论文。集中度只在有三条或更多回声单元的 forum 上计算。</li>
+<li><b>未修订的法典</b> — 不随时间改变这一断言用分半对照校准（在 2026 年的一半数据上拟合法典，留出的另一半为 0.152）；每一年都落在其 0.008 之内。图注承认两个分辨率限制：句子嵌入可能漏掉保持语域不变的语义变化；迁移条款依托法典中唯一一个真正混合的聚类（多数为语域迁移；区分是站得住的第二种读法），因此其 5&#8211;7% 区间是六个中最不确定的。反向拟合（把 2018&#8211;19 的法典向前应用）在仅 417 句上用 k=6，报告为薄弱的佐证，而非证据。</li>
+<li><b>水印</b>（2026-08-27 加入，在对 LLM 参与同行评审的文献做过调研之后）— 设计上仅在语料层面：逐篇评审的 AI 检测器被排除，依据是对非母语作者误报的记录（Liang et al., Patterns 2023）与实例层面的不可靠（Yu et al., ICLR 2026）。仪器：一份十三词标记表，在任何计数之前从 Liang et al.（ICML 2024）与 Kobak et al.（Science Advances 2025）逐字冻结；各年的文档频率对照其自身 2018&#8211;2022 的线性外推（Kobak 的超额词汇设计）；2023 作为内置的安慰剂年份，另有一份冻结的十词阴性对照表跑过完全相同的机制。只取自由文本 — 五个评审表时代的枚举字段被剔除，相似度水平从不跨表格边界比较；标题所称的趋同断言只在表格不变的 2024&#8211;2026 窗口内、在一套共享的 TF&#8211;IDF 词表下成立。相关量组按长度十分位分层（存在性度量对长度敏感 — 对照表低于趋势的漂移显示了背景潮汐），把评分比较以该论文最长的评审为基准，并在读取任何质量梯度之前把标记标签在论文内置换 200&times;（以比较组为条件，单凭均值回归就能制造出一个梯度）。计划、假设与决策规则：notes/llm-era-analysis-plan.md，计算前冻结；第 1 轮之后的补遗（固定词表、长度分层、置换对照、依 Sharma et al. arXiv:2601.20920 划分的质量层）在计划文件中有标注。图版上引用的先前工作：Liang et al. 2024；Kobak et al. 2025 与 Gray, arXiv:2512.01560（超额词汇方法的先驱 — 面向论文整体，而非评审）；Latona et al. 2024；Wu et al. arXiv:2604.19578（最近邻 — 同一批会议，度量的是方面覆盖而非相似度）；Sharma et al. 2026；Kim et al. arXiv:2605.20668（AI 审稿人 21% 对 3% 的相互重叠，由专家标注）；Baumann et al. arXiv:2605.03202（&#8220;蜂群思维效应&#8221;）；以及 arXiv:2607.10511，它在 ICLR 评审文本诊断量中读出 2022&#8211;23 的转折 — 本图版的安慰剂年份与这位时间上的近邻相差一个周期。2026-08-27 在 Semantic Scholar + arXiv 上的检索未找到任何已发表的、基于真实 OpenReview 数据的论文内同稿评审相似度逐年测量；这只记为一条检索结果，不作为新颖性的证明。构建脚本：build_llmtrace_data.py（原始文本），build_llmtrace_mix.py（补遗 E+F：类别构成熵、规模匹配的重叠零模型、推理嵌入离散度 — 图&nbsp;29d 背后的仪器，以及 &#167;&nbsp;10 所记录的对图&nbsp;29c 的同日更正）。</li>
 </ul>
 
 <div class="no" id="s13">13</div>
-<h2 id="instrument-extensions">Instrument extensions (2026-08-24 review pass)</h2>
-<p>During the plate-by-plate review, several caption claims turned out to live only in a builder&#8217;s one-off print output — verifiable at the time, unverifiable once the run scrolled away. The rule adopted: any number in a caption or stat rail must either sit in the shipped JSON or be recomputable by a named script. The following were persisted accordingly:</p>
+<h2 id="instrument-extensions">仪器扩展（2026-08-24 审阅轮）</h2>
+<p>逐图版审阅时，发现若干图注断言只存在于构建脚本一次性的打印输出里 — 当时可核验，输出滚走后便无法核验。于是定下规则：图注或统计栏里的任何数字，要么落在发布的 JSON 中，要么可由一个具名脚本重新算出。以下各项据此持久化：</p>
 <ul class="ni-list">
-<li><b>build_acecho_data.py</b> — now emits <code>gap_by_cutoff</code>: per-valence shares of meta-review units at nearest-neighbor cosine &ge; 0.70 / 0.75 / 0.80, backing the Borrowed Verdict&#8217;s claim that criticism is echoed more than praise at every cutoff (+7.0 / +6.6 / +3.3 pp).</li>
-<li><b>build_score_depth.py</b> — now emits <code>dispersion.accept_unan_div</code>: acceptance for unanimous vs divided panels at <em>exact</em> means 4.0 and 6.0 (the banded version confounds range with mean inside the band and is retained only as the naive contrast). Backs the Measurement&#8217;s &#8220;the decision is a mean, not a variance&#8221; (92.1% vs 91.8% at mean 6.0; 12.1% vs 13.1% at 4.0).</li>
-<li><b>build_timeless_data.py</b> — now emits <code>dist_se</code>: per-year sentence-bootstrap SEs of the mean distance to the 2026 code (2018: 0.0034 &#8230; 2026: 0.0006), so the Unamended Code&#8217;s null is stated with its resolution: the early years sit measurably (+2&#8211;3 SE) but minutely (+0.006) above calibration; sentences cluster within reviews, so even those SEs are optimistic.</li>
-<li><b>scripts/verify_drift_ci.py</b> (new) — reviewer-clustered bootstrap for the Drift&#8217;s four named movers (clarity, theory, compute cost, statistical rigor): all four sit at 8&#8211;16&#215; their clustered standard errors (2,721 vs 73,427 reviewer clusters, 1,000 draws).</li>
-<li><b>scripts/verify_remedy_quartiles.py</b> (new) — recomputes the Elements&#8217; length-quartile robustness check from units.sqlite3: novelty offers a fix for 60&#8211;61% of its denials in every quartile of unit length, against 76&#8211;94% for the other eleven objects, and novelty units are slightly longer than the pooled rest (221.5 vs 203.0 chars) — terseness ruled out. Supersedes the earlier 63&#8211;66%/80&#8211;92% figures, which predated a pipeline rebuild.</li>
-<li><b>scripts/build_mirage_data.py</b> (new) — permanent rebuild of the multinomial null that deleted the Kinds plate (2026-08-21), now feeding Appendix III&#8217;s centerpiece figure: real reviewer roses vs roses clustered from synthetic profiles drawn i.i.d. from one shared field mix (seed 46, matched unit counts). Reproduces the recorded numbers exactly: k-means explained variance 35.8% real vs 31.0% null; per-standard overdispersion median 1.15, max 1.58.</li>
-<li><b>build_moves_markers.py</b> — now emits <code>delta_by_quartile_all</code> and <code>n_by_quartile</code>, so the Moves&#8217; effort-stratified premiums disclose the sub-threshold stratum (contest Q1, +1.43pp, drawn faint) instead of silently dropping it.</li>
-<li><b>build_overrule_data.py</b> — now emits <code>margins</code>: the mercy asymmetry of the 2026 bench recomputed at overrule margins &#188;&#8211;1 pt (&#215;2.4 / &#215;2.7 / &#215;3.9 / &#215;3.9), backing the Panel&#8217;s &#8220;survives any margin&#8221; claim.</li>
+<li><b>build_acecho_data.py</b> — 现在输出 <code>gap_by_cutoff</code>：最近邻余弦 &ge; 0.70 / 0.75 / 0.80 时元评审单元按判向的份额，支撑借来的裁决中批评比称许在每个阈值下都被更多回声的断言（+7.0 / +6.6 / +3.3 pp）。</li>
+<li><b>build_score_depth.py</b> — 现在输出 <code>dispersion.accept_unan_div</code>：均值<em>恰为</em> 4.0 与 6.0 时一致评审组与分歧评审组的接收率（分段版本在段内把极差与均值混在一起，只作为朴素对比保留）。支撑度量中的&#8220;录用决定是均值，而非方差&#8221;（均值 6.0 时 92.1% 对 91.8%；4.0 时 12.1% 对 13.1%）。</li>
+<li><b>build_timeless_data.py</b> — 现在输出 <code>dist_se</code>：到 2026 年法典的平均距离按年做句子自助法得到的 SE（2018：0.0034 &#8230; 2026：0.0006），使未修订的法典的零假设连同其分辨率一起陈述：早年可测地（+2&#8211;3 SE）却微小地（+0.006）高于校准值；句子在评审内成簇，所以即便这些 SE 也偏乐观。</li>
+<li><b>scripts/verify_drift_ci.py</b>（新增）— 为漂移中点名的四个变动项（清晰度、理论、计算成本、统计严谨性）做按审稿人聚类的自助法：四项都落在其聚类标准误的 8&#8211;16&#215; 处（2,721 对 73,427 个审稿人簇，1,000 次抽样）。</li>
+<li><b>scripts/verify_remedy_quartiles.py</b>（新增）— 从 units.sqlite3 重新计算要件的长度四分位鲁棒性检验：在单元长度的每个四分位中，新颖性只为其 60&#8211;61% 的否决给出修复，其他十一个对象为 76&#8211;94%，且新颖性单元比合并的其余单元略长（221.5 对 203.0 字符）— 排除了简短之说。取代早先的 63&#8211;66%/80&#8211;92%，那组数字来自流水线重建之前。</li>
+<li><b>scripts/build_mirage_data.py</b>（新增）— 把删掉「类型」图版（2026-08-21）的那个多项零模型永久重建，现在为附录 III 的核心图供数：真实审稿人玫瑰图，对比从同一领域构成中 i.i.d. 抽取的合成画像聚类而成的玫瑰图（随机种子 46，单元数匹配）。精确复现记录在案的数字：k-means 解释方差真实 35.8% 对零模型 31.0%；各标准的过度离散中位数 1.15，最大 1.58。</li>
+<li><b>build_moves_markers.py</b> — 现在输出 <code>delta_by_quartile_all</code> 与 <code>n_by_quartile</code>，使招式中按投入分层的溢价披露低于阈值的那一层（争辩 Q1，+1.43pp，淡色绘出），而非默默丢弃。</li>
+<li><b>build_overrule_data.py</b> — 现在输出 <code>margins</code>：2026 年法官席的宽宥不对称在推翻边际 &#188;&#8211;1 分处重新计算（&#215;2.4 / &#215;2.7 / &#215;3.9 / &#215;3.9），支撑评审组中&#8220;在任何边际下都成立&#8221;的断言。</li>
 </ul>
-<p>Naming provenance for the added plates: the novelty direct-track clause map and the combination sub-cluster names follow the same workflow as the eleven-docket elements — machine-drafted over exemplars, analyst-reviewed (one contested cluster, the transfer/differentiation mixture, is flagged in both the map file and the caption). All raw cluster exports, per-unit assignments, and the builders that made them ship with the repository and the HF dataset.</p>
+<p>新增图版的命名溯源：新颖性 Direct 轨道的条款图与组合子聚类的名称沿用十一份案卷要件的同一流程 — 机器基于样例起草，分析者复核（一个有争议的聚类，即迁移/区分的混合体，在图文件与图注中都有标注）。所有原始聚类导出、逐单元归属，以及生成它们的构建脚本，都随代码库与 HF 数据集发布。</p>
 
 
 <div class="no" id="s14">14</div>
-<h2 id="nav-instruments">The long rule and the cast shadow — instruments, not plates</h2>
-<p>Two persistent graphics recur across the atlas and are neither plates nor ledger entries. They are editorial apparatus, and the honest thing is to say so here rather than let a reader mistake them for figures: neither claims anything about the corpus. Each has exactly one real dependency on the data, and it is named below.</p>
-<p><b>The long rule</b>, a folding rule in the right margin, is built from the document itself: its hinges mark the act boundaries, its segment lengths are proportional to each act's plate count &#8212; counted at runtime from the page, not hand-tuned &#8212; and its graduations are one per plate, each one clickable. What is engraved along it is a vocabulary of magnifications (SENTENCE &#183; REVIEW &#183; CLAIM &#183; COST &#183; ROOM &#183; COURT &#183; RATING &#183; YEARS &#183; RECORD), one word per act, naming the size of the object that act holds under the lens. That vocabulary is editorial: it is the authors' own description of the book's structure, not a measurement of anything, and it should be read the way a table of contents is read, not the way a plate is read.</p>
-<p><b>The cast shadow</b> is a shadow thrown across the page when a heading arrives, inside which real sentences from the corpus develop and fade. It is decorative. The sentences are genuine corpus text &#8212; that much is a real data dependency &#8212; but nothing is claimed by which ones appear; no frequency, ranking or representativeness should be read into the selection. The whole layer is absent under <code>prefers-reduced-motion</code> and in print, which is itself a statement that it carries no content the page depends on.</p>
+<h2 id="nav-instruments">长标尺与投影 — 仪器，而非图版</h2>
+<p>有两件常驻图形在图谱各处反复出现，既不是图版，也不是账目条目。它们是编辑装置，诚实的做法是在此说明，而不让读者误以为是图：两者都不对语料做任何断言。每一件对数据只有恰好一处真实依赖，下文点明。</p>
+<p><b>长标尺</b>是右侧页边的一把折尺，由文档本身构成：它的铰链标出各幕的边界，各段长度与该幕的图版数成比例 &#8212; 加载时从页面上数出，非手工调定 &#8212; 刻度每图版一格，每格可点击。沿尺刻着一套放大倍率词汇（句子 &#183; 评审 &#183; 断言 &#183; 代价 &#183; 房间 &#183; 法庭 &#183; 评分 &#183; 年份 &#183; 档案），每幕一词，点出该幕置于镜下的对象有多大。这套词汇属于编辑：它是作者对本书结构的自述，不是对任何东西的度量，应当像读目录那样读它，而非像读图版那样。</p>
+<p><b>投影</b>是标题到来时投过页面的一道阴影，其中有语料里的真实句子显现、消隐。它是装饰。这些句子是真实的语料文本 &#8212; 这一点是真实的数据依赖 &#8212; 但出现哪几句不构成任何断言；不应从选取中读出频率、排名或代表性。整个图层在 <code>prefers-reduced-motion</code> 下和打印时都不存在，这本身就表明它不承载页面所依赖的任何内容。</p>
 
 </div></div>
 <div class="pwin" id="piv" data-bay="3">
   <div class="pwin-card">
-    <div class="part-rule"><span>Part IV</span></div>
-    <h2 class="part-name">The bill</h2>
-    <div class="part-lat">ratio impensarum — the account of expenses</div>
-    <p class="part-sub">what it cost, itemized</p>
+    <div class="part-rule"><span>第四部分</span></div>
+    <h2 class="part-name">账单</h2>
+    <div class="part-lat">ratio impensarum — 开支账目</div>
+    <p class="part-sub">花了多少，逐项列出</p>
   </div>
 </div>
 <div class="sheet"><div class="shell">
 <div class="no" id="s15">15</div>
-<h2>Cost ledger</h2>
+<h2>成本账</h2>
 <div class="tw"><table>
-  <tr><th>Stage</th><th>Cost (USD)</th></tr>
-  <tr><td>Collection + normalization</td><td class="n">0 (API-free)</td></tr>
-  <tr><td>DeepSeek Full Layered memos (151,193)</td><td class="n">314.416569</td></tr>
-  <tr><td>DeepSeek Direct memos (51,813)</td><td class="n">194.753528</td></tr>
-  <tr><td>Qwen Direct track incl. both retries</td><td class="n">74.795158</td></tr>
-  <tr><td>Qwen Compact 2026 track</td><td class="n">28.793265</td></tr>
-  <tr><td>Unit extraction, taxonomy, assignment (local)</td><td class="n">0</td></tr>
+  <tr><th>阶段</th><th>成本（美元）</th></tr>
+  <tr><td>采集 + 规范化</td><td class="n">0（不用 API）</td></tr>
+  <tr><td>DeepSeek Full Layered 备忘（151,193 条）</td><td class="n">314.416569</td></tr>
+  <tr><td>DeepSeek Direct 备忘（51,813 条）</td><td class="n">194.753528</td></tr>
+  <tr><td>Qwen Direct 轨道，含两次重试</td><td class="n">74.795158</td></tr>
+  <tr><td>Qwen Compact 2026 轨道</td><td class="n">28.793265</td></tr>
+  <tr><td>单元抽取、分类体系、归类（本地）</td><td class="n">0</td></tr>
 </table></div>
-<p style="font-size:13px">Pilot-phase spend (episode schemas, calibrations, judge comparisons) is additional and itemized in the project's internal provenance ledger; there is deliberately no single "grand total" field — sums must be composed explicitly from the stages used.</p>
+<p style="font-size:13px">试点阶段的开支（episode 模式、校准、评判器比较）另计，逐项列于项目内部的溯源账目；刻意不设单一的"总计"字段 — 总和必须由所用阶段显式合成。</p>
 
 </div></div>
 <div class="pwin pclose" id="pclose">
   <div class="pwin-card">
-    <div class="part-rule"><span>The cabinet</span></div>
-    <h2 class="part-name">Drawn from the page it stands behind</h2>
-    <div class="part-lat">index sui — its own index</div>
-    <p class="part-sub">Four bays are the four parts; sixteen drawers are the sixteen sections; each drawer is as deep as its section is long, measured off this page when it loads rather than set by hand, and the card on each front is ruled from that section's own title. Like the atlas's long rule, it is apparatus: it claims nothing about the corpus, and the page reads without it.</p>
+    <div class="part-rule"><span>陈列柜</span></div>
+    <h2 class="part-name">绘自它身后的这一页</h2>
+    <div class="part-lat">index sui — 自身的索引</div>
+    <p class="part-sub">四个格间是四个部分；十六个抽屉是十六节；每个抽屉的深度与其小节的长度相当，在页面加载时从这一页量出，而非手工设定，每个抽屉正面的卡片按该节自己的标题划线。和图谱的长标尺一样，它是装置：不对语料做任何断言，没有它页面照样可读。</p>
   </div>
 </div>
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
-  <div class="col-mark">Atlas of Judgment</div>
-  <div class="col-sub">the reproduction record — how the data was made, verified</div>
-  <div class="col-stats">1,420,178 units of reviewer logic · 52,460 forums · nine years of ICLR · engraved MMXXVI</div>
-  <div class="col-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="resources.html">Resources</a><a href="api/">API</a></div>
-  <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
+  <div class="col-mark">评判图谱 · Atlas of Judgment</div>
+  <div class="col-sub">复现记录 — 数据如何产生、如何核验</div>
+  <div class="col-stats">1,420,178 条审稿人逻辑单元 · 52,460 个 forum · 九年 ICLR · 刻于 MMXXVI</div>
+  <div class="col-links"><a href="index.html">图谱</a><a href="about.html">关于</a><a href="resources.html">资源</a><a href="api/">API</a></div>
+  <div class="col-fine">衍生数据以 CC BY 4.0 发布。评审归其匿名作者所有，经 OpenReview 公开。这里的一切都是机器读取——请对照原文核验，每个标本都链接到原文。</div>
+<div class="col-fine col-zh">本站是 Shiro Takagi 所作 <a href="https://atlas-of-judgment.pages.dev">Atlas of Judgment</a> 的中文译本。原文、图与派生数据 CC BY 4.0，代码 MIT；数据与机读接口与原站同源、未作改动。译文由 <a href="https://github.com/Lauorie/atlas-of-judgment">Lauorie/atlas-of-judgment</a> 维护，译文问题请到该仓库提 issue；数据与断言的更正请报到<a href="https://github.com/t46/atlas-of-judgment/issues">原仓库</a>。</div>
 </footer>
 </main>
 
@@ -951,8 +952,8 @@ h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
 }
 </style>
 <canvas id="ether" aria-hidden="true"></canvas>
-<nav id="topbar" aria-label="site"><a class="tb-mark" href="#top">Atlas of Judgment</a><div class="tb-links"><a href="index.html">The Atlas</a><a href="about.html">About</a><a href="#top" class="tb-here">Method</a><a href="resources.html">Resources</a><a href="api/">API</a></div></nav>
-<nav id="meridian" aria-label="sections"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
+<nav id="topbar" aria-label="站点"><a class="tb-mark" href="#top">评判图谱</a><div class="tb-links"><a href="index.html">图谱</a><a href="about.html">关于</a><a href="#top" class="tb-here">方法</a><a href="resources.html">资源</a><a href="api/">API</a></div></nav>
+<nav id="meridian" aria-label="章节"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
 <div id="reticle" aria-hidden="true"></div>
 <script>
 (function pageMotion() {

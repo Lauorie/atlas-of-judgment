@@ -1,0 +1,7 @@
+{
+ "note": "Corpus sizes for /api/v1/index.json and llms.txt. Source: README.md and the upstream index.json (verified 2026-08-27).",
+ "units_2026": 410586,
+ "reviews_2026": 74380,
+ "units_direct": 1009592,
+ "forums_direct": 50861
+}

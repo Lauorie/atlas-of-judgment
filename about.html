@@ -1,12 +1,12 @@
 <!doctype html>
-<html lang="en">
+<html lang="zh-CN">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="icon" type="image/svg+xml" href="/favicon.svg">
-<meta name="description" content="What this project is, why the reasoning and not the score, and why ICLR: the question, the pipeline, and the findings digest.">
+<meta name="description" content="这个项目是什么，为何看推理而非评分，为何选 ICLR：问题、流水线与发现摘要。">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Atlas of Judgment">
-<meta property="og:title" content="About — Atlas of Judgment">
-<meta property="og:description" content="What this project is, why the reasoning and not the score, and why ICLR: the question, the pipeline, and the findings digest.">
+<meta property="og:title" content="关于 — 评判图谱">
+<meta property="og:description" content="这个项目是什么，为何看推理而非评分，为何选 ICLR：问题、流水线与发现摘要。">
 <meta property="og:url" content="https://atlas-of-judgment.pages.dev/about">
 <meta property="og:image" content="https://atlas-of-judgment.pages.dev/card.jpg">
 <meta property="og:image:width" content="1200">
@@ -15,17 +15,17 @@
 <meta name="twitter:site" content="@takagi_shiro">
 <meta name="twitter:creator" content="@takagi_shiro">
 <meta charset="utf-8">
-<title>About the Atlas</title>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<title>关于图谱</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
 <style>
 :root {
   --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
   --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
   --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
   --v-negative: #6f1f45; --v-positive: #356b43; --v-conditional: #7c5f10;
-  --mono: "IBM Plex Mono", ui-monospace, monospace;
-  --display: "Cormorant Garamond", Georgia, serif;
-  --serif: "Source Serif 4", Georgia, serif;
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
   --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1);
   --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
 }
@@ -439,48 +439,48 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
 <div id="vig" aria-hidden="true"></div>
 <div id="grain" aria-hidden="true"></div>
 
-<nav id="topbar" aria-label="site">
-  <a class="tb-mark" href="#top">Atlas of Judgment</a>
+<nav id="topbar" aria-label="站点">
+  <a class="tb-mark" href="#top">评判图谱</a>
   <div class="tb-links">
-    <a href="index.html">The Atlas</a>
-    <a href="#top" class="tb-here">About</a>
-    <a href="method.html">Method</a>
-    <a href="resources.html">Resources</a>
+    <a href="index.html">图谱</a>
+    <a href="#top" class="tb-here">关于</a>
+    <a href="method.html">方法</a>
+    <a href="resources.html">资源</a>
     <a href="api/">API</a>
     
   </div>
 </nav>
-<nav id="tiers" aria-label="tiers"><div class="tk"></div><div class="tf" id="tf"></div></nav>
+<nav id="tiers" aria-label="阶"><div class="tk"></div><div class="tf" id="tf"></div></nav>
 <div id="reticle" aria-hidden="true"></div>
 <div id="witness" aria-live="off"><div class="wl"></div><div class="ws"></div></div>
 
 <main id="top">
 
 <section class="hero">
-  <div class="eb">Atlas of Judgment · the companion</div>
-  <h1>What this <em>is</em></h1>
-  <div class="lat">theatrum judicii — the theatre of judgment</div>
-  <div class="cue"><i></i><span class="cue-m">rise through the tiers</span><span class="cue-s">nine tiers, and a colophon</span></div>
+  <div class="eb">评判图谱 · 伴读</div>
+  <h1>这<em>是</em>什么</h1>
+  <div class="lat">theatrum judicii — 评判的剧场</div>
+  <div class="cue"><i></i><span class="cue-m">拾级而上</span><span class="cue-s">九阶，加一则版记</span></div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════ I · the project ═══ -->
 <div class="gap" data-tier="0" id="t1"><div class="plate-cap">
-  <div class="rn">Tier I</div>
-  <h2>The project</h2>
-  <div class="lat">theatrum — the room this is modelled on</div>
+  <div class="rn">第一阶</div>
+  <h2>项目</h2>
+  <div class="lat">theatrum — 本站所仿的那间屋子</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">I · what it is</div>
-  <h2 class="hd rv">An attempted description of peer review, at the resolution of a single thought</h2>
-  <p class="lede rv">The <a href="index.html">Atlas of Judgment</a> is a metascience instrument: an analysis of every public peer review of ICLR — the International Conference on Learning Representations — asking what the act of reviewing is. To make that analysable, each review is read into atomic units of evaluative logic — and what kinds of unit the record turns out to contain is itself part of the question — then the units are counted, compared, and tested at scale. Not <em>what did reviewers decide</em>, but <em>how did they think</em>.</p>
-  <p class="rv drop">Peer review decides what counts as knowledge in machine learning. It runs on the unpaid attention of tens of thousands of people, it is argued about constantly, and its interior is studied far less than its verdicts. What is visible from outside is the output — a score, an accept, a reject — the way a verdict is visible while the deliberation behind it is not. This project is an attempt to open the deliberation and describe it.</p>
-  <p class="rv">The result is 1,420,178 atomic units of reviewer reasoning, drawn from nine years of ICLR and analysed across thirty-three plates. It is not an argument about peer review. It is an attempt at a description of it — made in one chosen form, carried all the way through — and it was built so that any part of the description can be taken apart by someone who doubts it.</p>
+  <div class="hdl rv">I · 它是什么</div>
+  <h2 class="hd rv">一次对同行评审的描述尝试，分辨率到单个念头</h2>
+  <p class="lede rv"><a href="index.html">评判图谱</a>是一件元科学仪器：对 ICLR — 国际学习表征会议 — 全部公开同行评审的分析，追问评审这一行为是什么。为使其可分析，每篇评审被读成评价逻辑的原子单元 — 记录里究竟含有哪些种类的单元，本身也是问题的一部分 — 然后对这些单元做大规模的计数、比较与检验。不问<em>审稿人决定了什么</em>，只问<em>他们如何思考</em>。</p>
+  <p class="rv drop">同行评审决定机器学习里什么算知识。它靠数万人无偿的注意力运转，争议不断，而其内部远不如其裁决受到研究。从外部可见的只有输出 — 一个分数、一个接收、一个拒稿 — 正如裁决可见，背后的合议却不可见。本项目试图打开这场合议并描述它。</p>
+  <p class="rv">结果是 1,420,178 条审稿人推理的原子单元，取自九年的 ICLR，在三十三张图版上分析。它不是一篇关于同行评审的论辩。它是一次描述的尝试 — 以一种选定的形式做成，一路贯彻到底 — 而且它的建造方式，让任何怀疑者都能把描述的任何部分拆开来看。</p>
 
-  <div class="frame rv cd-frame" role="figure" aria-label="Concept diagram: the public record is dissected into four-part units, the units are classified into a 12 by 12 taxonomy, and the taxonomy is counted and drawn into 33 plates.">
+  <div class="frame rv cd-frame" role="figure" aria-label="概念图：公开记录被解剖为四部分单元，单元被归入 12 乘 12 的分类体系，分类体系再被计数并绘成 33 张图版。">
     <div class="frame-inner cd-inner">
-      <div class="cd-eyebrow">The whole instrument, at a glance</div>
+      <div class="cd-eyebrow">整件仪器，一览</div>
       <div class="cd-lat">conspectus totius operis</div>
       <div class="cd-flow">
         <div class="cd-st">
@@ -491,11 +491,11 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <path class="cd-lnf cd-draw" pathLength="1" d="M21 28H53M21 35H53M21 42H53M21 56H53M21 63H53"/>
             <path class="cd-br cd-draw" pathLength="1" d="M21 49H53"/>
           </svg>
-          <div class="cd-k">The record</div>
-          <div class="cd-d">Nine years of ICLR, public on OpenReview — every review, rebuttal, and verdict, rejected papers included.</div>
-          <div class="cd-n">52,460 submissions<br>792,703 messages</div>
+          <div class="cd-k">记录</div>
+          <div class="cd-d">九年 ICLR，公开于 OpenReview — 每篇评审、每篇 rebuttal、每个裁决，包括被拒论文。</div>
+          <div class="cd-n">52,460 篇投稿<br>792,703 条消息</div>
         </div>
-        <div class="cd-arr"><span>dissected</span>
+        <div class="cd-arr"><span>解剖</span>
           <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
           <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
         </div>
@@ -513,11 +513,11 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <text class="cd-t cd-fade" x="51" y="50.6">iii</text>
             <text class="cd-t cd-fade" x="69" y="50.6">iv</text>
           </svg>
-          <div class="cd-k">The unit</div>
-          <div class="cd-d">Each criticism cut into one movement of a reviewer&#8217;s mind: inspected &#183; observed &#183; reasoned &#183; judged.</div>
-          <div class="cd-n">1,420,178 units</div>
+          <div class="cd-k">单元</div>
+          <div class="cd-d">每条批评切成审稿人心智的一次运动：审视 &#183; 观察 &#183; 推理 &#183; 判断。</div>
+          <div class="cd-n">1,420,178 条单元</div>
         </div>
-        <div class="cd-arr"><span>classified</span>
+        <div class="cd-arr"><span>分类</span>
           <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
           <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
         </div>
@@ -531,11 +531,11 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
               <rect class="cd-cell-f" x="26.9" y="10.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="48.2" y="21.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="16.2" y="32.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="58.9" y="37.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="32.2" y="48.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="64.2" y="26.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="69.6" y="58.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="42.9" y="64.2" width="3.5" height="3.5"/>
             </g>
           </svg>
-          <div class="cd-k">The taxonomy</div>
-          <div class="cd-d">Every unit assigned in a grammar induced from the data: 12 objects of scrutiny &#215; 12 reasoning standards.</div>
-          <div class="cd-n">144 cells</div>
+          <div class="cd-k">分类体系</div>
+          <div class="cd-d">每条单元都归入一套从数据归纳得到的语法：12 个审视对象 &#215; 12 个推理标准。</div>
+          <div class="cd-n">144 个格</div>
         </div>
-        <div class="cd-arr"><span>counted, drawn</span>
+        <div class="cd-arr"><span>计数，绘制</span>
           <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
           <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
         </div>
@@ -551,53 +551,53 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <rect class="cd-ln cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(6 42 76)"/>
             <circle class="cd-br cd-draw" pathLength="1" cx="42" cy="34" r="3.2" transform="rotate(6 42 76)"/>
           </svg>
-          <div class="cd-k">The atlas</div>
-          <div class="cd-d">Every figure a count of units &#8212; and every number a door, opening back down to a reviewer&#8217;s sentence.</div>
-          <div class="cd-n">33 plates &#183; 8 acts</div>
+          <div class="cd-k">图谱</div>
+          <div class="cd-d">每张图都是单元的计数 &#8212; 每个数字都是一扇门，向下打开，直抵审稿人的一句话。</div>
+          <div class="cd-n">33 张图版 &#183; 8 幕</div>
         </div>
       </div>
     </div>
   </div>
-  <p class="fig-cap rv">The whole project in one strip: the public record, the four-part unit it is dissected into, the 12&#160;&#215;&#160;12 grammar each unit is filed under, and the plates that count them. Read backwards, it is the route of doubt: any number on any plate descends, step by step, to the reviewer sentences beneath it.</p>
+  <p class="fig-cap rv">整个项目，一条长带：公开记录，它被解剖成的四部分单元，每条单元归档所依的 12&#160;&#215;&#160;12 语法，以及计数它们的图版。倒着读，这是怀疑的路线：任何图版上的任何数字，都能一步步下降到其下的审稿人句子。</p>
 
-  <div class="spec rv"><b>410,586</b> units (ICLR 2026, review-level) · <b>1,009,592</b> units (2018–2026, forum-level) · <b>52,460</b> submissions collected · verified 2026-08-18</div>
+  <div class="spec rv"><b>410,586</b> 条单元（ICLR 2026，评审级） · <b>1,009,592</b> 条单元（2018–2026，forum 级） · 收集 <b>52,460</b> 篇投稿 · 核验于 2026-08-18</div>
 </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════ II · the motive ═══ -->
 <div class="gap" data-tier="1" id="t2"><div class="plate-cap">
-  <div class="rn">Tier II</div>
-  <h2>The motive</h2>
-  <div class="lat">cur ratio, non numerus — why the reasoning, not the number</div>
+  <div class="rn">第二阶</div>
+  <h2>动机</h2>
+  <div class="lat">cur ratio, non numerus — 为何看推理，而非数字</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">II · why the reasoning, and not the score</div>
-  <h2 class="hd rv">A score is a judgment with the reasons thrown away</h2>
-  <p class="rv drop">Two reviewers write 5. One means <em>the idea is not new</em>. The other means <em>the experiments do not support the claim</em>. Averaged into a panel statistic, the difference disappears — and the difference was the whole of what happened. A score is a compression, and what it compresses away is precisely the part that could be argued with, learned from, or improved.</p>
-  <p class="rv">The project's research question was fixed early, and verbatim, in its design documents: not whether a paper was accepted, nor whether a review was favorable, but — <em>what do reviewers inspect, and through which criteria, comparisons, assumptions, and inferences does that observation become a judgment?</em></p>
-  <p class="rv">Peer review is a central quality-control mechanism of science, yet the reasoning inside it is rarely studied as an object in its own right. Reviews are usually reduced to scores, sentiment, or accept/reject outcomes. This project treats the <b>reasoning itself</b> as the data.</p>
-  <p class="rv">That choice sets the shape of everything downstream. Sentiment analysis would have counted how reviewers felt. Outcome modelling would have predicted what became of the paper. Neither says what was being <em>weighed</em>. The atlas is built for a narrower and more stubborn question: which part of a paper was looked at, and which standard was held against it. Asking that at scale meant choosing a grain and a vocabulary before any answer could exist — the four-part unit, the twelve-by-twelve grammar — so every answer the atlas gives is an answer in that chosen vocabulary: one way of carving the reasoning, carried through, not the only way it could have been carved.</p>
+  <div class="hdl rv">II · 为何看推理，而非评分</div>
+  <h2 class="hd rv">评分是丢掉了理由的判断</h2>
+  <p class="rv drop">两位审稿人都写下 5。一位的意思是<em>想法不新</em>。另一位的意思是<em>实验不支持主张</em>。平均成评审组统计量后，差异消失了 — 而差异正是所发生的全部。评分是一种压缩，被压掉的恰是可以争辩、可以借鉴、可以改进的那部分。</p>
+  <p class="rv">项目的研究问题早已在设计文档中逐字定下：不问论文是否被接收，也不问评审是否有利，只问 — <em>审稿人审视什么，那个观察又经由哪些标准、比较、假设与推断成为判断？</em></p>
+  <p class="rv">同行评审是科学的核心质量控制机制，其内部的推理却很少被当作独立对象来研究。评审通常被归约为评分、情感或接收/拒稿结果。本项目把<b>推理本身</b>当作数据。</p>
+  <p class="rv">这一选择定下了下游一切的形状。情感分析会去数审稿人的感受。结果建模会去预测论文的下场。两者都不说什么在被<em>权衡</em>。图谱为一个更窄、更执拗的问题而建：论文的哪一部分被看了，又被拿哪条标准来衡量。要在大规模上问这个问题，就得在任何答案存在之前先选定粒度与词汇 — 四部分单元、十二乘十二的语法 — 因此图谱给出的每个答案，都是用这套选定词汇给出的答案：一种切分推理的方式，贯彻到底，并非唯一可能的切法。</p>
 </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════ III · the venue ═══ -->
 <div class="gap" data-tier="2" id="t3"><div class="plate-cap">
-  <div class="rn">Tier III</div>
-  <h2>The venue</h2>
-  <div class="lat">unum forum — one forum, and only one</div>
+  <div class="rn">第三阶</div>
+  <h2>会议</h2>
+  <div class="lat">unum forum — 一个会场，仅此一个</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">III · why ICLR</div>
-  <h2 class="hd rv">The venue that publishes the reviews of the papers it rejects</h2>
-  <p class="rv drop">One property makes ICLR nearly unique among top machine-learning venues: it publishes the reviews of <b>rejected papers</b>. Public review archives usually begin where acceptance ends — and a record without the rejected majority shows judgment only where judgment said yes. ICLR's OpenReview forums carry the full distribution — every submission, every review, every rebuttal, every verdict — for nine consecutive years, 2018 through 2026. That is 52,460 submissions and 792,703 forum messages, all from a single source with a single collection path.</p>
-  <div class="frame rv cd-frame ff-frame" role="figure" aria-label="One ICLR forum's public record: the submission, its official reviews with summary, strengths, weaknesses and questions, the open rebuttal exchange, the meta-review, and a decision fork whose record stays public whether the paper is accepted or rejected.">
+  <div class="hdl rv">III · 为何选 ICLR</div>
+  <h2 class="hd rv">那个公开其所拒论文评审的会议</h2>
+  <p class="rv drop">一项特性让 ICLR 在顶级机器学习会议中近乎独一无二：它公开<b>被拒论文</b>的评审。公开评审档案通常从接收之处才开始 — 而一份缺了被拒多数的记录，只在评判说“是”的地方显示评判。ICLR 的 OpenReview forum 承载完整分布 — 每篇投稿、每篇评审、每篇 rebuttal、每个裁决 — 连续九年，2018 至 2026。即 52,460 篇投稿与 792,703 条 forum 消息，全部来自单一来源、单一采集路径。</p>
+  <div class="frame rv cd-frame ff-frame" role="figure" aria-label="一个 ICLR forum 的公开记录：投稿，附 summary、strengths、weaknesses 与 questions 的正式评审，公开的 rebuttal 往来，元评审，以及无论接收还是拒稿记录都保持公开的决定分岔。">
     <div class="frame-inner"><div class="cd-inner">
-      <div class="cd-eyebrow">One forum, as anyone may read it</div>
-      <div class="cd-lat">acta integra — the record, entire</div>
+      <div class="cd-eyebrow">一个 forum，任何人都可读到的样子</div>
+      <div class="cd-lat">acta integra — 完整的记录</div>
       <div class="ff-tree">
         <div class="ff-row">
           <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
@@ -608,8 +608,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <path class="cd-br cd-draw" pathLength="1" d="M9,30 h11"/>
           </svg>
           <div class="ff-b cd-fade">
-            <div class="ff-k">The submission</div>
-            <div class="ff-d">the paper itself, public from the day the forum opens — and it stays.</div>
+            <div class="ff-k">投稿</div>
+            <div class="ff-d">论文本身，从 forum 开放之日起公开 — 且一直公开。</div>
           </div>
         </div>
         <div class="ff-row">
@@ -623,8 +623,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <path class="cd-lnf cd-draw" pathLength="1" d="M8,34 h16"/>
           </svg>
           <div class="ff-b cd-fade">
-            <div class="ff-k">The official reviews <span class="ff-x">&#8776; 3.8 per paper</span></div>
-            <div class="ff-d">each on one form &#8212; <b>summary &#183; strengths &#183; weaknesses &#183; questions</b> &#8212; with a rating and a confidence attached: &#8776;425 words of judgment, signed by a stable pseudonym.</div>
+            <div class="ff-k">正式评审 <span class="ff-x">每篇论文 &#8776; 3.8 份</span></div>
+            <div class="ff-d">每份都填同一张表 &#8212; <b>summary &#183; strengths &#183; weaknesses &#183; questions</b> &#8212; 附评分与置信度：&#8776;425 词的评判，署以固定化名。</div>
           </div>
         </div>
         <div class="ff-row">
@@ -638,8 +638,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <path class="cd-lnf cd-draw" pathLength="1" d="M16,34.5 h14"/>
           </svg>
           <div class="ff-b cd-fade">
-            <div class="ff-k">The exchange</div>
-            <div class="ff-d">the authors answer under every review, and reviewers may return &#8212; the whole volley, timestamped, stays in the thread.</div>
+            <div class="ff-k">往来</div>
+            <div class="ff-d">作者在每篇评审下作答，审稿人可再回复 &#8212; 整轮交锋带着时间戳留在线程里。</div>
           </div>
         </div>
         <div class="ff-row">
@@ -649,8 +649,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <circle class="cd-br cd-draw" pathLength="1" cx="31" cy="28" r="4"/>
           </svg>
           <div class="ff-b cd-fade">
-            <div class="ff-k">The meta-review</div>
-            <div class="ff-d">the area chair reads the panel and writes reasons of their own.</div>
+            <div class="ff-k">元评审</div>
+            <div class="ff-d">领域主席读完评审组，写下自己的理由。</div>
           </div>
         </div>
         <div class="ff-row">
@@ -662,104 +662,104 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <path class="cd-lnf cd-draw" pathLength="1" d="M27,26 h8 M27,29 h8 M27,32 h5"/>
           </svg>
           <div class="ff-b cd-fade">
-            <div class="ff-k">The decision</div>
+            <div class="ff-k">录用决定</div>
             <div class="ff-fork">
-              <span class="ff-o">accepted &#183; record stays open</span>
-              <span class="ff-o">rejected &#183; record stays open</span>
+              <span class="ff-o">接收 &#183; 记录保持公开</span>
+              <span class="ff-o">拒稿 &#183; 记录保持公开</span>
             </div>
           </div>
         </div>
       </div>
-      <div class="ff-n cd-fade">52,460 submissions &#183; 792,703 public messages &#183; nine years, one source</div>
+      <div class="ff-n cd-fade">52,460 篇投稿 &#183; 792,703 条公开消息 &#183; 九年，一个来源</div>
     </div></div>
   </div>
-  <p class="fig-cap rv">One forum&#8217;s record, drawn to its parts. The counts are the corpus&#8217;s own: &#8776;3.8 official reviews per paper and &#8776;425 words per review are the 2026 means (74,380 reviews over 19,474 papers); 52,460 submissions and 792,703 messages are the nine-year totals. The fork&#8217;s two ends are drawn with the same ink on purpose &#8212; the record&#8217;s completeness does not depend on the verdict, and that is the property this atlas rests on.</p>
-  <p class="rv">The choice is a constraint, not an endorsement. ICLR is one venue, in one field, with one culture and a review form that changed four times across the nine years. Everything in the atlas describes ICLR; nothing in it should be read as a fact about peer review in general unless the plate says so, and none of them do.</p>
+  <p class="fig-cap rv">一个 forum 的记录，按部件绘出。数字是语料自己的：每篇论文 &#8776;3.8 份正式评审、每份评审 &#8776;425 词，是 2026 年的均值（19,474 篇论文上的 74,380 份评审）；52,460 篇投稿与 792,703 条消息是九年总计。分岔的两端有意用同一种墨绘出 &#8212; 记录的完整性不取决于裁决，这正是本图谱所依托的特性。</p>
+  <p class="rv">这个选择是一种约束，并非背书。ICLR 是一个会议，在一个领域，有一种文化，评审表在九年间改了四次。图谱中的一切描述的都是 ICLR；除非图版明说，其中没有任何内容应被读成关于同行评审的一般事实，而没有一张图版这样说。</p>
 </div>
 </section>
 
 <!-- ═════════════════════════════════════════════════════ IV · the atom ═══ -->
 <div class="gap" data-tier="3" id="t4"><div class="plate-cap">
-  <div class="rn">Tier IV</div>
-  <h2>The atom</h2>
-  <div class="lat">unitas judicii — one unit of judgment</div>
+  <div class="rn">第四阶</div>
+  <h2>原子</h2>
+  <div class="lat">unitas judicii — 一个评判单元</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">IV · the unit of analysis</div>
-  <h2 class="hd rv">One complete movement of a reviewer's mind</h2>
-  <p class="rv drop">The unit of analysis is what this project treats as one complete movement of a reviewer's mind — from a thing inspected, through an observation, through the standard invoked, to a judgment. A real unit from the corpus:</p>
+  <div class="hdl rv">IV · 分析单元</div>
+  <h2 class="hd rv">审稿人心智的一次完整运动</h2>
+  <p class="rv drop">分析单元，即本项目视为审稿人心智一次完整运动的东西 — 从被审视之物，经观察，经所援引的标准，到判断。一条来自语料的真实单元：</p>
   <div class="frame rv"><div class="frame-inner">
     <div class="unit-demo">
-      <div class="step"><div class="sl">Inspected</div>The paper's notation system and formatting consistency.</div>
-      <div class="step"><div class="sl">→ Observed</div>The reviewer finds the notation "difficult to follow" due to inconsistencies in subscript/superscript usage.</div>
-      <div class="step"><div class="sl">→ Reasoned</div>Clear notation is a prerequisite for verifying correctness; ambiguity here creates a barrier to evaluating technical soundness.</div>
-      <div class="step"><div class="sl">→ Judged</div>The presentation quality is insufficiently rigorous — a formal weakness that hinders scrutiny.</div>
+      <div class="step"><div class="sl">审视</div>论文的符号系统与格式一致性。</div>
+      <div class="step"><div class="sl">→ 观察</div>审稿人认为符号 "difficult to follow"，原因是上下标用法不一致。</div>
+      <div class="step"><div class="sl">→ 推理</div>清晰的符号是核验正确性的前提；此处的含混为评估技术可靠性设置了障碍。</div>
+      <div class="step"><div class="sl">→ 判断</div>表述质量不够严谨 — 一处妨碍审视的形式缺陷。</div>
     </div>
   </div></div>
-  <p class="fig-cap rv">Specimen № 335 of 410,586, from ICLR 2026 submission <code>hPUjTTj64O</code>. The same unit is opened part-by-part on the atlas's own Plate 0.</p>
-  <p class="rv">Each unit also carries a verdict polarity (negative / positive / conditional / uncertain / mixed), a suggested fix when the reviewer offered one, line-level citations back to the source review, and a flag recording whether it is grounded in the reviewer's explicit words or inferred by the analysis layer.</p>
-  <p class="rv">Everything in the atlas is a count of these. No plate holds anything that is not, at bottom, a pile of units — which is why every figure can be opened until a sentence written by an actual reviewer is showing. A number here is a door, not a conclusion.</p>
+  <p class="fig-cap rv">标本 № 335，共 410,586 件，来自 ICLR 2026 投稿 <code>hPUjTTj64O</code>。同一单元在图谱自己的图版 0 上被逐部分打开。</p>
+  <p class="rv">每条单元还带有判定极性（否定 / 肯定 / 有条件 / 存疑 / 混合），审稿人若给出修复建议则一并记录，指回源评审的行级引用，以及一个标记，记录它是基于审稿人的明确文字还是由分析层推断得出。</p>
+  <p class="rv">图谱中的一切都是对它们的计数。没有一张图版装着归根到底不是一堆单元的东西 — 所以每张图都能一直打开，直到露出一位真实审稿人写下的句子。这里的数字是一扇门，并非结论。</p>
 </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════ V · the making ═══ -->
 <div class="gap" data-tier="4" id="t5"><div class="plate-cap">
-  <div class="rn">Tier V</div>
-  <h2>The making</h2>
-  <div class="lat">manus artificis — the maker's hand, shown</div>
+  <div class="rn">第五阶</div>
+  <h2>制作</h2>
+  <div class="lat">manus artificis — 示出匠人之手</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">V · how it was made</div>
-  <h2 class="hd rv">Three layers, kept separate on purpose</h2>
-  <p class="rv drop">No one reads 792,703 forum messages. The scale that makes the question answerable is exactly the scale that puts a machine between the reader and the reviewer. The honest way to handle that is not to hide the machine but to name the layers and keep them apart, so that a claim can always be traced to the layer that produced it.</p>
+  <div class="hdl rv">V · 如何做成</div>
+  <h2 class="hd rv">三层，有意分开</h2>
+  <p class="rv drop">没有人会读完 792,703 条 forum 消息。让问题可回答的规模，恰恰是把一台机器放在读者与审稿人之间的规模。诚实的处理办法是给各层命名并让它们彼此分开，而非隐藏机器，这样任何断言都能追溯到产生它的那一层。</p>
   <div class="layers rv">
-    <div class="layer"><span class="k">Layer I</span><span><b>Human reviews</b> — the raw OpenReview record, collected once and kept immutable. No anonymization is applied; the data is already public.</span></div>
-    <div class="layer"><span class="k">Layer II</span><span><b>Analytic memos</b> — a DeepSeek model reads each review (or forum) and writes a free-text metascientific analysis, under prompts that forbid re-reviewing the paper, require line-ID citations, and deliberately hide outcomes and other reviews at the initial stage.</span></div>
-    <div class="layer"><span class="k">Layer III</span><span><b>Structured logic units</b> — a Qwen model normalizes each memo into schema-constrained JSON. It never sees the raw review; it is a normalization layer over Layer II, not a second opinion.</span></div>
+    <div class="layer"><span class="k">第一层</span><span><b>人工评审</b> — 原始 OpenReview 记录，一次采集，保持不变。未做匿名化；数据本已公开。</span></div>
+    <div class="layer"><span class="k">第二层</span><span><b>分析备忘</b> — 一个 DeepSeek 模型读每篇评审（或 forum），写出自由文本的元科学分析；提示词禁止重新评审论文，要求引用行 ID，并在初始阶段有意隐去结果与其他评审。</span></div>
+    <div class="layer"><span class="k">第三层</span><span><b>结构化逻辑单元</b> — 一个 Qwen 模型把每份备忘规范化为模式约束的 JSON。它从不看原始评审；它是第二层之上的规范化层，并非第二意见。</span></div>
   </div>
-  <h3 class="rv">Two tracks, one taxonomy</h3>
-  <p class="rv">Two independent extraction tracks cover complementary views. The <b>2026 track</b> works review-by-review at high resolution: 74,380 reviews → 410,586 units. The <b>2018–2026 track</b> works forum-by-forum across nine years: 50,861 forums → 1,009,592 units, with temporal fields (before/after rebuttal, judgment change) that power the drift and rebuttal analyses.</p>
-  <p class="rv">Both tracks share one taxonomy — <b>12 objects of scrutiny × 12 reasoning standards</b> — induced from the data itself: a 12,000-unit sample was embedded and clustered with no seeding from prior schemes, the clusters were read and named by hand, and every unit in both tracks was then assigned to its nearest category. Definitions for every term are in the atlas <a href="index.html">lexicon</a>, and on hover throughout.</p>
+  <h3 class="rv">两条轨道，一套分类体系</h3>
+  <p class="rv">两条独立的抽取轨道覆盖互补的视角。<b>2026 轨道</b>逐篇评审、高分辨率地工作：74,380 份评审 → 410,586 条单元。<b>2018–2026 轨道</b>逐个 forum 横跨九年地工作：50,861 个 forum → 1,009,592 条单元，附时间字段（rebuttal 前/后、判断变化），驱动漂移与 rebuttal 分析。</p>
+  <p class="rv">两条轨道共用一套分类体系 — <b>12 个审视对象 × 12 个推理标准</b> — 从数据本身归纳得到：对 12,000 条单元的样本做嵌入与聚类，不以先前方案作种子，聚类经人工阅读并命名，再把两条轨道中的每条单元归入最近的类别。每个术语的定义见图谱<a href="index.html">词汇表</a>，全站悬停亦可见。</p>
 </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════ VI · the limits ═══ -->
 <div class="gap" data-tier="5" id="t6"><div class="plate-cap">
-  <div class="rn">Tier VI</div>
-  <h2>The limits</h2>
-  <div class="lat">quod non est — what it is not</div>
+  <div class="rn">第六阶</div>
+  <h2>界限</h2>
+  <div class="lat">quod non est — 它不是什么</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">VI · what this is not</div>
-  <h2 class="hd rv">A machine reading of reviews, not a measurement of reviewers</h2>
-  <p class="rv drop"><b>What this is not:</b> a direct measurement of human reviewers. Every unit is a two-stage machine reading. The <code>support_status</code> flag (explicit vs. inferred) and a per-category reliability grid in the atlas appendix exist so that every claim can be read against the instrument's own error.</p>
-  <p class="rv">Read the atlas with five caveats. <b>(1)</b> It measures a machine reading of reviews, not reviewers directly; the reliability grid shows where inference substitutes for quotation. <b>(2)</b> The negative share reflects the memo prompts' bias toward articulating criticism — it is not a sentiment ratio. <b>(3)</b> Coverage is 98.1–98.2% on both tracks; the missing tail (parse failures, provider content-policy refusals) is documented and its topic correlation unverified. <b>(4)</b> Decision-linked plates (the Consequence) are associations: outcomes were never shown to the extraction pipeline, but criticism breadth and paper quality are entangled by design. <b>(5)</b> The four-part unit and the 12 × 12 taxonomy are one induced carving of the text, not the only possible one: their internal reliability is measured, and the categories track ICLR's own sub-scores where they should, but no check can establish them as the <em>right</em> carving — a different scheme would draw a different map of the same reviews.</p>
-  <p class="rv">A caveat kept in an appendix is a caveat that has been hidden. These ride at the same weight as the findings, on the plates themselves as well as here — and the atlas's third appendix is given over entirely to results that <em>failed</em>: patterns that looked real, were tested against a null, and did not survive it.</p>
+  <div class="hdl rv">VI · 这不是什么</div>
+  <h2 class="hd rv">对评审的机器读取，而非对审稿人的测量</h2>
+  <p class="rv drop"><b>这不是什么：</b>对人类审稿人的直接测量。每条单元都是两阶段的机器读取。<code>support_status</code> 标记（明确 vs. 推断）与图谱附录中的分类别信度网格，正是为了让每条断言都能对照仪器自身的误差来读。</p>
+  <p class="rv">读这份图谱，带着五条注意。<b>(1)</b> 它度量的是机器对评审的读取，而非审稿人本身；信度网格标出了哪些地方是推断在替代引述。<b>(2)</b> 否定占比反映了分析备忘提示词偏向阐述批评 — 它不是情绪比例。<b>(3)</b> 两条轨道的覆盖率均为 98.1–98.2%；缺失的尾部（解析失败、服务商内容政策拒答）有记录，其与主题的相关性未经核验。<b>(4)</b> 与录用决定相连的图版（后果）是关联：结果从未展示给抽取流水线，但批评广度与论文质量在设计上就纠缠在一起。<b>(5)</b> 四部分单元和 12 × 12 分类体系是对文本的一种归纳得到的切分，并非唯一可能的切分：其内部信度经过测量，各类别在应当对应之处也追随 ICLR 自身的分项评分，但没有任何检验能确立它们是<em>正确的</em>切分 — 换一套方案，会为同一批评审画出另一张地图。</p>
+  <p class="rv">放进附录的注意事项，等于被藏起来的注意事项。这几条与发现同等分量，印在图版上，也写在这里 — 而图谱的第三个附录全部留给<em>失败</em>的结果：看上去真实、经零假设检验、没能挺过去的模式。</p>
 </div>
 </section>
 
 <!-- ════════════════════════════════════════════════════ VII · the atlas ═══ -->
 <div class="gap" data-tier="6" id="t7"><div class="plate-cap">
-  <div class="rn">Tier VII</div>
-  <h2>The atlas</h2>
-  <div class="lat">tabulae XXXIII — thirty-three plates</div>
+  <div class="rn">第七阶</div>
+  <h2>图谱</h2>
+  <div class="lat">tabulae XXXIII — 三十三张图版</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">VII · how to read it</div>
-  <h2 class="hd rv">Eight acts, a coda, three appendices</h2>
-  <p class="rv drop">The atlas proper is one continuous instrument, read by scrolling: <em>The Instrument</em>, <em>One Hand</em>, <em>The Law</em>, <em>The Tariff</em>, <em>The Encounter</em>, <em>The Higher Court</em>, <em>The Measure</em>, <em>Eras &amp; Territories</em>, a coda in the archive, and three appendices — thirty-three plates in all. Each plate asks one question, answers it with one figure, and states in its own caption what it cannot answer.</p>
+  <div class="hdl rv">VII · 怎么读</div>
+  <h2 class="hd rv">八幕、一段尾声、三个附录</h2>
+  <p class="rv drop">图谱正文是一件连续的仪器，靠滚动阅读：<em>仪器</em>、<em>一人之手</em>、<em>法则</em>、<em>量刑表</em>、<em>交锋</em>、<em>上级法庭</em>、<em>尺度</em>、<em>时代与疆域</em>，一段落在档案里的尾声，以及三个附录 — 共三十三张图版。每张图版提一个问题，用一张图作答，并在自己的图注里说明它答不了什么。</p>
 
-  <div class="frame rv cd-frame ar-frame" role="figure" aria-label="The course of the atlas, condensed: nine stations from a single sentence to the whole record — Acts I through VIII and the coda, each one step farther from the sentence, each row linking to its act on the atlas.">
+  <div class="frame rv cd-frame ar-frame" role="figure" aria-label="图谱导览路线的浓缩版：从一个句子到整份记录的九个站点 — 第一幕到第八幕加尾声，每一幕离句子远一步，每一行链接到图谱上对应的幕。">
     <div class="frame-inner"><div class="cd-inner">
-      <div class="cd-eyebrow">The course — each act one step farther from the sentence</div>
+      <div class="cd-eyebrow">导览路线 — 每一幕离句子远一步</div>
       <div class="cd-lat">cursus operis</div>
       <div class="ar-rail">
         <svg class="ar-wedge" viewBox="0 0 38 1000" preserveAspectRatio="none" aria-hidden="true">
@@ -768,117 +768,117 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
           <path class="cd-draw" pathLength="1" d="M19 0L33 1000" fill="none" stroke="rgba(138,90,31,0.4)" stroke-width="1" vector-effect="non-scaling-stroke"/>
         </svg>
         <a class="ar-row cd-fade" href="index.html#act-i">
-          <span class="ar-mag">A sentence</span>
+          <span class="ar-mag">一个句子</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT I</b><span class="ar-title">The Instrument</span><span class="ar-pl">PLATES I–III</span></span>
-            <span class="ar-q">how a million reviews became countable units</span>
+            <span class="ar-l1"><b class="ar-no">第一幕</b><span class="ar-title">仪器</span><span class="ar-pl">图版 I–III</span></span>
+            <span class="ar-q">一百万条评审如何变成可计数的单元</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-ii">
-          <span class="ar-mag">One review</span>
+          <span class="ar-mag">一条评审</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT II</b><span class="ar-title">One Hand</span><span class="ar-pl">PLATES IV–VI</span></span>
-            <span class="ar-q">what one reviewer sets down, alone</span>
+            <span class="ar-l1"><b class="ar-no">第二幕</b><span class="ar-title">一人之手</span><span class="ar-pl">图版 IV–VI</span></span>
+            <span class="ar-q">一位审稿人独自写下的是什么</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-iii">
-          <span class="ar-mag">A criticism&#8217;s claim</span>
+          <span class="ar-mag">一条批评的断言</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT III</b><span class="ar-title">The Law</span><span class="ar-pl">PLATES VII–XIII</span></span>
-            <span class="ar-q">what a criticism actually says — and asks for</span>
+            <span class="ar-l1"><b class="ar-no">第三幕</b><span class="ar-title">法则</span><span class="ar-pl">图版 VII–XIII</span></span>
+            <span class="ar-q">一条批评实际在说什么 — 又在要什么</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-iv">
-          <span class="ar-mag">A criticism&#8217;s cost</span>
+          <span class="ar-mag">一条批评的代价</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT IV</b><span class="ar-title">The Tariff</span><span class="ar-pl">PLATES XIV–XV</span></span>
-            <span class="ar-q">what a criticism changes</span>
+            <span class="ar-l1"><b class="ar-no">第四幕</b><span class="ar-title">量刑表</span><span class="ar-pl">图版 XIV–XV</span></span>
+            <span class="ar-q">一条批评改变了什么</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-v">
-          <span class="ar-mag">A room</span>
+          <span class="ar-mag">一间屋子</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT V</b><span class="ar-title">The Encounter</span><span class="ar-pl">PLATES XVI–XXI</span></span>
-            <span class="ar-q">when people meet, does judgment move</span>
+            <span class="ar-l1"><b class="ar-no">第五幕</b><span class="ar-title">交锋</span><span class="ar-pl">图版 XVI–XXI</span></span>
+            <span class="ar-q">人与人相遇时，评判会不会动</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-vi">
-          <span class="ar-mag">A court</span>
+          <span class="ar-mag">一座法庭</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT VI</b><span class="ar-title">The Higher Court</span><span class="ar-pl">PLATES XXII–XXIII</span></span>
-            <span class="ar-q">the chair&#8217;s court — what it weighs, whose words it borrows</span>
+            <span class="ar-l1"><b class="ar-no">第六幕</b><span class="ar-title">上级法庭</span><span class="ar-pl">图版 XXII–XXIII</span></span>
+            <span class="ar-q">领域主席的法庭 — 它权衡什么，借用谁的话</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-vii">
-          <span class="ar-mag">A rating</span>
+          <span class="ar-mag">一个评分</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT VII</b><span class="ar-title">The Measure</span><span class="ar-pl">PLATES XXIV–XXV</span></span>
-            <span class="ar-q">can a rating be trusted as a measurement</span>
+            <span class="ar-l1"><b class="ar-no">第七幕</b><span class="ar-title">尺度</span><span class="ar-pl">图版 XXIV–XXV</span></span>
+            <span class="ar-q">评分能否被当作一次测量来信任</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-viii">
-          <span class="ar-mag">Nine years</span>
+          <span class="ar-mag">九年</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">ACT VIII</b><span class="ar-title">Eras &amp; Territories</span><span class="ar-pl">PLATES XXVI–XXIX</span></span>
-            <span class="ar-q">the instrument measured — is any of it particular to now, or to one field</span>
+            <span class="ar-l1"><b class="ar-no">第八幕</b><span class="ar-title">时代与疆域</span><span class="ar-pl">图版 XXVI–XXIX</span></span>
+            <span class="ar-q">仪器本身被测量 — 其中有哪些只属于当下，或只属于某一领域</span>
           </span>
         </a>
         <a class="ar-row cd-fade" href="index.html#act-coda">
-          <span class="ar-mag">The record itself</span>
+          <span class="ar-mag">记录本身</span>
           <span class="ar-node" aria-hidden="true"></span>
           <span class="ar-body">
-            <span class="ar-l1"><b class="ar-no">CODA</b><span class="ar-title">The Archive</span><span class="ar-pl">PLATE XXX</span></span>
-            <span class="ar-q">the raw reasoning, held against its originals</span>
+            <span class="ar-l1"><b class="ar-no">尾声</b><span class="ar-title">档案</span><span class="ar-pl">图版 XXX</span></span>
+            <span class="ar-q">原始推理，与其原文对照</span>
           </span>
         </a>
       </div>
-      <div class="ff-n cd-fade">after the coda, three appendices: <a href="index.html#lexicon">the lexicon</a> &#183; <a href="index.html#prov">provenance &amp; method</a> &#183; <a href="index.html#null-cabinet">the null cabinet</a> of retired analyses</div>
+      <div class="ff-n cd-fade">尾声之后是三个附录：<a href="index.html#lexicon">词汇表</a> &#183; <a href="index.html#prov">溯源与方法</a> &#183; 收纳撤下分析的<a href="index.html#null-cabinet">零假设陈列柜</a></div>
     </div></div>
   </div>
-  <p class="fig-cap rv">The same rail that opens the atlas, condensed: the wedge widens as the frame of reference does, from one sentence to the whole nine-year record. Each row opens its act.</p>
-  <p class="rv">Three habits make it read faster. Every technical term is defined on hover. Every number opens: click into a figure and it will keep going down until a real reviewer sentence, with a link to the OpenReview thread it came from, is on screen. And every plate has a machine-readable deposition — the same claim in JSON, with its counts, at <code>/api/v1/plates/</code>.</p>
-  <h3 class="rv">Some of what the plates hold</h3>
+  <p class="fig-cap rv">与图谱开篇同一条导轨的浓缩版：楔形随参照系一同变宽，从一个句子到整整九年的记录。每一行打开对应的幕。</p>
+  <p class="rv">三个习惯能让它读得更快。每个技术术语悬停即有定义。每个数字都能打开：点进一张图，它会一路向下，直到屏幕上出现一句真实的审稿人原句，并附上它所来自的 OpenReview 讨论串链接。每张图版还有一份机读存证 — 同一断言的 JSON 版本，带计数，位于 <code>/api/v1/plates/</code>。</p>
+  <h3 class="rv">图版里的一部分内容</h3>
   <ul class="findings rv">
-    <li><span class="v">71.8%</span><span>of all units resolve <b>negative</b> — the memo layer articulates the logic of criticism far more often than praise (a property of the instrument as much as of reviewers).</span></li>
-    <li><span class="v">138/144</span><span><b>the grammar</b>: each object of scrutiny has a canonical standard — novelty is judged by the novelty standard, cost by cost-benefit — and the coupling barely moved in nine years: 138 of 144 cells sit inside the shuffle-null floor.</span></li>
-    <li><span class="v">26→6→13%</span><span><b>the script</b>: reviews open conceptually (framing 1.9× base rate) and close with hygiene (reproducibility 1.4×); praise collapses mid-review and returns at the close.</span></li>
-    <li><span class="v">4.6%</span><span><b>the rebuttal</b>: of 130,650 post-response units, only 5.6% weaken or reverse (4.6% weakened, 1.0% reversed); even fresh experiments strengthen the original judgment ~3× more often than they soften it.</span></li>
-    <li><span class="v">−10.6pp</span><span><b>the tribunal</b>: novelty criticism shows the largest acceptance gap (association only, not causation); compute-cost and robustness criticism show none at all.</span></li>
-    <li><span class="v">0.65</span><span><b>the legible verdict</b>: counting what was criticised reads a paper&#8217;s accept-or-reject at AUC 0.65 (its words 0.74; the panel&#8217;s own scores 0.90) — and that legibility has fallen for nine years. (The old &#8220;gauntlet&#8221; slope — acceptance falling with each added front of criticism — turned out to be expected-by-construction and now hangs in the Null Cabinet.)</span></li>
-    <li><span class="v">38.6%</span><span><b>dissent</b>: reviewers of the same paper split most on problem framing — whether the question matters — and least on robustness, where evidence speaks.</span></li>
-    <li><span class="v">−13.7pp</span><span><b>the kinder judge</b>: meta-reviewers run 13.7 points less negative and 10.5 points more positive than the panels they summarize.</span></li>
-    <li><span class="v">+3.2pp</span><span><b>the drift</b>: 2018→2026, scrutiny moved from theory and clarity toward compute cost, statistical rigor, and reproducibility — from <em>what is this idea</em> toward <em>what does the evidence cost</em>.</span></li>
-    <li><span class="v">7.8→3.1%</span><span><b>the watermark</b>: a frozen thirteen-word LLM-vocabulary signature appears in 7.8% of 2024 reviews (the pre-2023 trend expects 1.6%), then fades to 3.1% by 2026 — while co-reviews of the same paper grow 14% more alike under a fixed vocabulary. The fade measures the practice&#8217;s <em>visibility</em>, not its prevalence; no single review is accused.</span></li>
+    <li><span class="v">71.8%</span><span>的单元判定为<b>否定</b> — 分析备忘层阐述批评逻辑的频率远高于称许（这既是仪器的属性，也是审稿人的属性）。</span></li>
+    <li><span class="v">138/144</span><span><b>语法</b>：每个审视对象都有其对应的标准 — 新颖性以新颖性标准评判，成本以成本收益评判 — 这种耦合九年间几乎没动：144 格中有 138 格落在置换零假设底线之内。</span></li>
+    <li><span class="v">26→6→13%</span><span><b>脚本</b>：评审以概念开场（问题界定为基准率的 1.9×），以卫生类事项收尾（可复现性 1.4×）；称许在评审中段塌落，到结尾回升。</span></li>
+    <li><span class="v">4.6%</span><span><b>rebuttal</b>：130,650 条回应后单元中，只有 5.6% 减弱或反转（4.6% 减弱，1.0% 反转）；即便是新补的实验，加强原判断的频率也约为软化它的 3 倍。</span></li>
+    <li><span class="v">−10.6pp</span><span><b>评审庭</b>：新颖性批评显示出最大的接收率差距（仅为关联，非因果）；计算成本与鲁棒性批评则完全没有差距。</span></li>
+    <li><span class="v">0.65</span><span><b>可读的裁决</b>：数一数被批评了什么，就能以 AUC 0.65 读出一篇论文的接收或拒稿（用它的词语是 0.74；评审组自己的评分是 0.90） — 而这种可读性九年来一直在下降。（旧的&#8220;夹道&#8221;斜率 — 每多一条批评战线接收率就下降 — 结果是构造上的必然，如今挂在零假设陈列柜里。）</span></li>
+    <li><span class="v">38.6%</span><span><b>分歧</b>：同一篇论文的审稿人在问题界定上分歧最大 — 这个问题是否重要 — 在鲁棒性上分歧最小，那里由证据说话。</span></li>
+    <li><span class="v">−13.7pp</span><span><b>更宽厚的法官</b>：元评审者比他们所总结的评审组少 13.7 个百分点的否定、多 10.5 个百分点的肯定。</span></li>
+    <li><span class="v">+3.2pp</span><span><b>漂移</b>：2018→2026，审视从理论与清晰度移向计算成本、统计严谨性与可复现性 — 从<em>这个想法是什么</em>移向<em>证据要花多少</em>。</span></li>
+    <li><span class="v">7.8→3.1%</span><span><b>水印</b>：一份冻结的十三词 LLM 词汇指纹出现在 7.8% 的 2024 年评审中（2023 年前的趋势预期为 1.6%），到 2026 年消退至 3.1% — 与此同时，在固定词表下，同一篇论文的同稿评审相似度提高了 14%。消退度量的是这种做法的<em>可见性</em>，而非其流行度；没有任何一条评审被指控。</span></li>
   </ul>
-  <p class="rv">Every figure above is interactive in the <a href="index.html">atlas</a>, with counts, definitions, and raw specimen units behind it. None of them is the point of the page you are reading; they are here so that you know what kind of thing is on the other side of the door.</p>
+  <p class="rv">上面每张图在<a href="index.html">图谱</a>里都可交互，背后有计数、定义和原始标本单元。它们都不是你正在读的这一页的重点；放在这里，是让你知道门的另一侧是什么样的东西。</p>
 </div>
 </section>
 
 <!-- ═════════════════════════════════════════════════ VIII · the open door ═══ -->
 <div class="gap" data-tier="7" id="t8"><div class="plate-cap">
-  <div class="rn">Tier VIII</div>
-  <h2>The open door</h2>
-  <div class="lat">janua aperta — everything that is public</div>
+  <div class="rn">第八阶</div>
+  <h2>敞开的门</h2>
+  <div class="lat">janua aperta — 一切皆公开</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
-  <div class="hdl rv">VIII · everything that is public</div>
-  <h2 class="hd rv">Nothing here is behind anything</h2>
-  <p class="rv drop">The corpus was public before this project touched it, the derived data is public now, and so is every step in between. There is no private supplement, no held-back table, no "results available on request".</p>
+  <div class="hdl rv">VIII · 一切皆公开</div>
+  <h2 class="hd rv">这里没有一样东西藏在别的东西后面</h2>
+  <p class="rv drop">语料在本项目触及之前就是公开的，派生数据现在也公开，中间每一步同样公开。没有私藏的补充材料，没有扣下的表格，没有"结果可应要求提供"。</p>
 
-  <div class="frame rv cd-frame oc-frame" role="figure" aria-label="Concept diagram: the public OpenReview record is read by the public pipeline code into 50 islands of derived data, which open to two readers — the atlas for people and the API for machines — while the method page documents the whole passage alongside. Every node links to its public home.">
+  <div class="frame rv cd-frame oc-frame" role="figure" aria-label="概念图：公开的 OpenReview 记录由公开的流水线代码读取，生成 50 个派生数据岛，数据岛向两类读者敞开 — 面向人的图谱与面向机器的 API — 而方法页在一旁记录整个过程。每个节点都链接到它的公开所在。">
     <div class="frame-inner"><div class="cd-inner">
-      <div class="cd-eyebrow">What is public, and how it connects</div>
-      <div class="cd-lat">omnia in aperto — the whole passage, in the open</div>
+      <div class="cd-eyebrow">什么是公开的，以及它们如何相连</div>
+      <div class="cd-lat">omnia in aperto — 全程公开</div>
       <div class="oc-grid">
         <div class="oc-flow">
           <a class="oc-row" href="#t3">
@@ -890,11 +890,11 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
               <path class="cd-br cd-draw" pathLength="1" d="M9,30 h11"/>
             </svg>
             <div class="cd-fade">
-              <div class="oc-k">The public record <span class="oc-x">52,460&nbsp;forums &#183; 792,703&nbsp;messages</span></div>
-              <div class="oc-d">reviews, rebuttals, verdicts — public on OpenReview before this project began. Tier III shows one forum entire.</div>
+              <div class="oc-k">公开记录 <span class="oc-x">52,460&nbsp;个 forum &#183; 792,703&nbsp;条消息</span></div>
+              <div class="oc-d">评审、rebuttal、裁决 — 在本项目开始前就已公开于 OpenReview。第三层完整展示了一个 forum。</div>
             </div>
           </a>
-          <div class="oc-via cd-fade">&#8595; read and normalized by</div>
+          <div class="oc-via cd-fade">&#8595; 读取并规范化它的是</div>
           <a class="oc-row" href="https://github.com/t46/atlas-of-judgment">
             <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
               <rect class="cd-ln cd-draw" pathLength="1" x="6" y="5" width="30" height="32" fill="rgba(248,241,224,0.9)"/>
@@ -902,11 +902,11 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
               <path class="cd-br cd-draw" pathLength="1" d="M15,18 l-4,4 4,4 M27,18 l4,4 -4,4 M23,16 l-4,12"/>
             </svg>
             <div class="cd-fade">
-              <div class="oc-k">The code <span class="oc-x">github &#183; one&nbsp;repository</span></div>
-              <div class="oc-d">the whole pipeline — collection, memos, structuring, taxonomy induction, aggregation — and the source of these pages themselves.</div>
+              <div class="oc-k">代码 <span class="oc-x">github &#183; 一个&nbsp;仓库</span></div>
+              <div class="oc-d">整条流水线 — 采集、分析备忘、结构化、分类体系归纳、聚合 — 以及这些页面自身的源码。</div>
             </div>
           </a>
-          <div class="oc-via cd-fade">&#8595; distilled into</div>
+          <div class="oc-via cd-fade">&#8595; 蒸馏为</div>
           <a class="oc-row" href="https://huggingface.co/datasets/t46/atlas-of-judgment">
             <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
               <path class="cd-ln cd-draw" pathLength="1" d="M4,33 h34"/>
@@ -915,11 +915,11 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
               <circle class="cd-lnf cd-draw" pathLength="1" cx="31.5" cy="30.5" r="2.5" fill="rgba(248,241,224,0.9)"/>
             </svg>
             <div class="cd-fade">
-              <div class="oc-k">The derived data <span class="oc-x">50&nbsp;islands &#183; 5.17&#8202;MB</span></div>
-              <div class="oc-d">the units and every aggregate the plates draw, as plain JSON — one induced reading of the record, mirrored as a Hugging Face dataset, CC&nbsp;BY&nbsp;4.0.</div>
+              <div class="oc-k">派生数据 <span class="oc-x">50&nbsp;个岛 &#183; 5.17&#8202;MB</span></div>
+              <div class="oc-d">单元以及图版所绘的每一项聚合，以纯 JSON 给出 — 对记录的一种归纳得到的读法，镜像为 Hugging Face 数据集，CC&nbsp;BY&nbsp;4.0。</div>
             </div>
           </a>
-          <div class="oc-via cd-fade">&#8595; open to two readers</div>
+          <div class="oc-via cd-fade">&#8595; 向两类读者敞开</div>
           <div class="oc-fork">
             <a class="oc-door" href="index.html">
               <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
@@ -929,8 +929,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
                 <circle class="cd-br cd-draw" pathLength="1" cx="21" cy="12" r="2.6"/>
               </svg>
               <div class="cd-fade">
-                <div class="oc-k">The atlas <span class="oc-x">33&nbsp;plates</span></div>
-                <div class="oc-d">the human door: every figure a count of the same units.</div>
+                <div class="oc-k">图谱 <span class="oc-x">33&nbsp;张图版</span></div>
+                <div class="oc-d">人的门：每张图都是对同一批单元的计数。</div>
               </div>
             </a>
             <a class="oc-door" href="/api/">
@@ -940,8 +940,8 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
                 <path class="cd-lnf cd-draw" pathLength="1" d="M17,16 h8 M17,21 h9 M17,26 h7"/>
               </svg>
               <div class="cd-fade">
-                <div class="oc-k">The API <span class="oc-x">33&nbsp;depositions</span></div>
-                <div class="oc-d">the machine door: per-plate claims and every island, with <code>llms.txt</code> and an OpenAPI schema.</div>
+                <div class="oc-k">API <span class="oc-x">33&nbsp;份存证</span></div>
+                <div class="oc-d">机器的门：逐图版的断言与每一个岛，附 <code>llms.txt</code> 和一份 OpenAPI schema。</div>
               </div>
             </a>
           </div>
@@ -953,75 +953,76 @@ footer.colophon { position: relative; z-index: 3; background: var(--ground); bor
             <circle class="cd-br cd-draw" pathLength="1" cx="28" cy="31" r="3.5"/>
           </svg>
           <div class="cd-fade">
-            <div class="oc-k">The method</div>
-            <div class="oc-d">the passage&#8217;s own record, kept beside the pipe rather than inside it: every script, model, seed and cost — and the corrections, written down as they happened.</div>
+            <div class="oc-k">方法</div>
+            <div class="oc-d">整个过程自身的记录，放在管道旁边而非里面：每个脚本、模型、随机种子与成本 — 以及更正记录，发生时即写下。</div>
           </div>
         </a>
       </div>
     </div></div>
   </div>
-  <p class="fig-cap rv">The circuit of the open door. The record was public before the project began; the code that reads it and the data it becomes are public now; and the two readers — the atlas for people, the API for machines — stand on the same 50 islands, with the method walking beside every arrow. Each node above is a door: it links to the public place it names.</p>
+  <p class="fig-cap rv">敞开之门的回路。记录在项目开始前就已公开；读取它的代码和它变成的数据现在公开；两类读者 — 面向人的图谱、面向机器的 API — 立在同样的 50 个岛上，方法伴着每一条箭头同行。上面每个节点都是一道门：链接到它所命名的公开之处。</p>
 
   <div class="doors rv">
-    <a href="method.html"><div class="dk">Method</div><div class="dt">The Atlas Method</div><div class="dd">Every script, model, parameter, seed, cost and failure mode, at the level of detail needed to rerun it.</div></a>
-    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">Code</div><div class="dt">GitHub</div><div class="dd">The pipeline, the taxonomy induction, the aggregations, and the source of the atlas itself.</div></a>
-    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">Data</div><div class="dt">Hugging Face</div><div class="dd">The derived units and their labels, released CC BY 4.0.</div></a>
-    <a href="/api/"><div class="dk">Machine readers</div><div class="dt">The API layer</div><div class="dd">Per-plate depositions and every data island as JSON, with <code>llms.txt</code> and an OpenAPI schema.</div></a>
+    <a href="method.html"><div class="dk">方法</div><div class="dt">图谱方法</div><div class="dd">每个脚本、模型、参数、随机种子、成本与失败模式，详细到足以重跑。</div></a>
+    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">代码</div><div class="dt">GitHub</div><div class="dd">流水线、分类体系归纳、各项聚合，以及图谱自身的源码。</div></a>
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">数据</div><div class="dt">Hugging Face</div><div class="dd">派生单元及其标签，以 CC BY 4.0 发布。</div></a>
+    <a href="/api/"><div class="dk">机读接口</div><div class="dt">API 层</div><div class="dd">逐图版的存证与每一个数据岛，以 JSON 给出，附 <code>llms.txt</code> 和一份 OpenAPI schema。</div></a>
   </div>
-  <h3 class="rv">The ledger</h3>
-  <p class="rv">What it cost to build, in full. The bill is small enough to be worth stating exactly, because the point of stating it is that anyone could pay it.</p>
+  <h3 class="rv">账目</h3>
+  <p class="rv">建造它花了多少，全数列出。这笔账小到值得精确写明，因为写明它的意义在于：任何人都付得起。</p>
   <table class="rv">
-    <tr><th>Stage</th><th>Scale</th><th>Cost (USD)</th></tr>
-    <tr><td>Collection + normalization (OpenReview)</td><td>52,460 forums · 792,703 messages</td><td>0</td></tr>
-    <tr><td>DeepSeek memos — Full Layered (2026)</td><td>151,193 memos</td><td>314.42</td></tr>
-    <tr><td>DeepSeek memos — Direct (2018–2026)</td><td>51,813 memos</td><td>194.75</td></tr>
-    <tr><td>Qwen structuring — both tracks, incl. retries</td><td>~1.42M units emitted</td><td>103.59</td></tr>
-    <tr><td>Taxonomy, embeddings, aggregation, atlas</td><td>local compute only</td><td>0</td></tr>
+    <tr><th>阶段</th><th>规模</th><th>成本（美元）</th></tr>
+    <tr><td>采集 + 规范化（OpenReview）</td><td>52,460 个 forum · 792,703 条消息</td><td>0</td></tr>
+    <tr><td>DeepSeek 分析备忘 — 全量分层（2026）</td><td>151,193 份分析备忘</td><td>314.42</td></tr>
+    <tr><td>DeepSeek 分析备忘 — 直接（2018–2026）</td><td>51,813 份分析备忘</td><td>194.75</td></tr>
+    <tr><td>Qwen 结构化 — 两条轨道，含重试</td><td>产出 ~1.42M 单元</td><td>103.59</td></tr>
+    <tr><td>分类体系、嵌入、聚合、图谱</td><td>仅本地计算</td><td>0</td></tr>
   </table>
-  <p class="fig-cap rv">Pilot-phase exploration (episode schemas, atlas cards, calibration runs) is additional and itemized in the project's provenance ledger; the figures above are the production spine.</p>
-  <h3 class="rv">Reproduce it</h3>
-  <p class="rv">The companion page, <a href="method.html">The Atlas Method</a>, records the full pipeline — every script, model, parameter, seed, cost, failure mode, and the exact commands — at the level of detail needed to rerun it, along with an honest account of what cannot be reproduced (LLM sampling nondeterminism, a handful of one-off manual repairs, and upstream drift in OpenReview itself).</p>
+  <p class="fig-cap rv">试点阶段的探索（episode 模式、图谱卡片、校准运行）另计，逐项列在项目的溯源账本中；上表数字是生产主干。</p>
+  <h3 class="rv">复现它</h3>
+  <p class="rv">配套页面<a href="method.html">图谱方法</a>记录了完整的流水线 — 每个脚本、模型、参数、随机种子、成本、失败模式和确切命令 — 详细到足以重跑，并如实交代哪些无法复现（LLM 采样的非确定性、少数几处一次性的手工修补，以及 OpenReview 自身的上游漂移）。</p>
 </div>
 </section>
 
 <section class="band">
 <div class="shell">
   <aside class="whynote rv">
-    <h3 class="rv">Why a theatre</h3>
-    <p class="rv">The shape of this page is borrowed from a building. In 1594 the university at Leiden raised a <em>theatrum anatomicum</em>: tiers of standing room in a tight ring, so that one body could be opened in front of witnesses and drawn. Peer review is that room with a paper on the table — a thing examined in public, by people who will say what they saw. This project is the same room turned one quarter further: the instrument pointed back at the hands that hold it.</p>
-    <p class="rv">And the crowd in the tiers you have been reading through is not decoration. Each mark is one unit of reviewer reasoning, roughly one in every hundred the atlas holds, and the colours are their verdicts in the true proportion — overwhelmingly ink, because the corpus is overwhelmingly critical. Section <b>VI</b> explains how much of that is peer review and how much is the instrument.</p>
+    <h3 class="rv">为什么是剧场</h3>
+    <p class="rv">这一页的形制借自一座建筑。1594 年，莱顿大学建起一座<em>theatrum anatomicum</em>：一圈紧密环绕的站席层层升高，让一具身体得以在见证者面前被打开、被绘下。同行评审就是那间屋子，只是桌上换了一篇论文 — 一件东西在公众面前被检视，检视者会说出自己所见。本项目是同一间屋子再转四分之一圈：仪器掉头指向握着它的手。</p>
+    <p class="rv">你一路读下来的看台上的人群，也不是装饰。每一个标记是一条审稿人推理单元，约占图谱所藏的百分之一，颜色是它们的判定，按真实比例 — 绝大多数是墨色，因为语料绝大多数是批评。第 <b>VI</b> 节解释了其中多少属于同行评审，多少属于仪器。</p>
   </aside>
   <aside class="whynote rv">
-    <h3 class="rv">Why a site, and not a paper</h3>
-    <p class="rv">The form is part of the motive. A paper binds a piece of research to one fixed presentation. Here the record is kept apart from its presentations: the same fifty data files feed the plates a human walks and the API a machine reads — because the readership of a research record is no longer only human. And anyone may draw a third view from the same files; <a href="resources.html">the storeroom</a> and its licence exist for that. The thought owes something to <a href="https://openreview.net/forum?id=-RKZoHd2-Ca">a 2022 note</a> arguing that research data and its display can have different makers.</p>
+    <h3 class="rv">为什么是网站，而非论文</h3>
+    <p class="rv">形式是动机的一部分。一篇论文把一项研究绑定在一种固定的呈现上。这里的记录与其呈现分开保存：同样的五十个数据文件，既喂给人走过的图版，也喂给机器读取的 API — 因为研究记录的读者已不再只有人。任何人都可以从同一批文件画出第三种视图；<a href="resources.html">库房</a>及其许可证正为此而设。这一想法部分得自<a href="https://openreview.net/forum?id=-RKZoHd2-Ca">一篇 2022 年的短文</a>，它主张研究数据与其展示可以由不同的人制作。</p>
   </aside>
 </div>
 </section>
 
 <!-- ═══════════════════════════════════════════════════ IX · the colophon ═══ -->
 <div class="gap gap-last" data-tier="8" id="t9"><div class="plate-cap">
-  <div class="rn">Tier IX</div>
-  <h2>The colophon</h2>
-  <div class="lat">sub finem — at the end, the terms</div>
+  <div class="rn">第九阶</div>
+  <h2>版记</h2>
+  <div class="lat">sub finem — 卷末的交代</div>
 </div></div>
 
 <section class="band">
 <div class="shell">
   <aside class="whynote rv">
-    <h3 class="rv">A note on the type and the tools</h3>
-    <p class="rv">These pages are set in Cormorant Garamond for the display, Source Serif for the text, and IBM Plex Mono for the instrument labels. The figures are hand-written SVG, drawn stroke by stroke in the browser; the theatre behind the tiers is a single WebGL line engraving. The reviews were read by open-weight language models — analytic memos first, schema-constrained structuring second — and the pages themselves were built in a recorded conversation between the researcher and a language-model assistant, the passage the Method page quotes. Engraved MMXXVI.</p>
+    <h3 class="rv">关于字体与工具的说明</h3>
+    <p class="rv">这些页面的标题字体为 Cormorant Garamond，正文为 Source Serif，仪器标签为 IBM Plex Mono。图是手写的 SVG，在浏览器中一笔一笔画出；看台后方的剧场是一幅单张 WebGL 线刻。评审由开放权重语言模型读取 — 先出分析备忘，再做模式约束的结构化 — 页面本身则在研究者与语言模型助手的一段有记录的对话中建成，方法页引用的正是这段过程。刻于 MMXXVI。</p>
   </aside>
 </div>
 </section>
 
 <footer class="colophon">
   <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
-  <div class="col-mark">Atlas of Judgment</div>
-  <div class="col-sub">the companion — what this is, and why ICLR</div>
-  <div class="col-by">Made by Shiro Takagi at UNKTOK</div>
-  <div class="col-stats">1,420,178 units of reviewer logic · 52,460 forums · nine years of ICLR · engraved MMXXVI</div>
-  <div class="col-links"><a href="index.html">The Atlas</a><a href="method.html">Method</a><a href="resources.html">Resources</a><a href="api/">API</a></div>
-  <div class="col-fine">Derived data released CC BY 4.0. The reviews belong to their anonymous authors, made public through OpenReview. Everything here is a machine reading — hold it against the originals, which every specimen links to.</div>
+  <div class="col-mark">评判图谱 · Atlas of Judgment</div>
+  <div class="col-sub">配套页 — 这是什么，以及为什么是 ICLR</div>
+  <div class="col-by">由 UNKTOK 的 Shiro Takagi 制作</div>
+  <div class="col-stats">1,420,178 条审稿人逻辑单元 · 52,460 个 forum · 九年 ICLR · 刻于 MMXXVI</div>
+  <div class="col-links"><a href="index.html">图谱</a><a href="method.html">方法</a><a href="resources.html">资源</a><a href="api/">API</a></div>
+  <div class="col-fine">衍生数据以 CC BY 4.0 发布。评审归其匿名作者所有，经 OpenReview 公开。这里的一切都是机器读取——请对照原文核验，每个标本都链接到原文。</div>
+<div class="col-fine col-zh">本站是 Shiro Takagi 所作 <a href="https://atlas-of-judgment.pages.dev">Atlas of Judgment</a> 的中文译本。原文、图与派生数据 CC BY 4.0，代码 MIT；数据与机读接口与原站同源、未作改动。译文由 <a href="https://github.com/Lauorie/atlas-of-judgment">Lauorie/atlas-of-judgment</a> 维护，译文问题请到该仓库提 issue；数据与断言的更正请报到<a href="https://github.com/t46/atlas-of-judgment/issues">原仓库</a>。</div>
 </footer>
 
 </main>
@@ -1305,7 +1306,7 @@ void main() {
       const pick = pool[(marks.indexOf(best) * 7919) % pool.length];
       if (pick !== shown) {
         shown = pick;
-        wl.textContent = best.v + " · one such unit, verbatim";
+        wl.textContent = best.v + " · 其中一条单元，原文照录";
         ws.textContent = "“" + pick.j + "”";
       }
       wbox.classList.add("on"); document.documentElement.classList.add("wit-on");
@@ -1324,8 +1325,8 @@ void main() {
   const topbar = document.getElementById("topbar");
   const rail = document.getElementById("tiers"), fill = document.getElementById("tf");
   const gaps = [...document.querySelectorAll(".gap")];
-  const LABS = ["I · the project","II · the motive","III · the venue","IV · the atom","V · the making",
-                "VI · the limits","VII · the atlas","VIII · the open door","IX · the colophon"];
+  const LABS = ["I · 项目","II · 动机","III · 会场","IV · 原子","V · 制作",
+                "VI · 局限","VII · 图谱","VIII · 敞开的门","IX · 版记"];
   gaps.forEach((g, i) => {
     const b = document.createElement("button");
     b.style.width = (11 + (i % 3) * 3) + "px";

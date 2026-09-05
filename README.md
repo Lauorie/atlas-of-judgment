@@ -1,3 +1,39 @@
+# Atlas of Judgment · 评判图谱（中文译本）
+
+**在线访问：[lauorie.github.io/atlas-of-judgment](https://lauorie.github.io/atlas-of-judgment/)**
+
+这是 Shiro Takagi 所作 [Atlas of Judgment](https://atlas-of-judgment.pages.dev)（原仓库
+[t46/atlas-of-judgment](https://github.com/t46/atlas-of-judgment)）的中文译本，面向中文 AI 工程师与研究者。
+网站分析了 ICLR 2018–2026 全部公开评审：每条评审被拆成原子的「评价逻辑单元」（审视了什么、观察到什么、
+援引了哪条标准、得出什么结论），归入一套归纳得到的分类体系（12 个审视对象 × 12 个推理标准），再统计、比较、
+检验，最后画成 33 张图版。
+
+译本改动的只有页面文字：正文、图注、界面字串、分类标签与定义。审稿原句引语、论文标题、代码、标识符与
+数字保持原文。`/api/` 机读接口层、`data/` 与 `depositions/` 与原站同源，未作改动。译文问题请在本仓库提
+issue；数据与断言的更正请报到原仓库。原文、图与派生数据 CC BY 4.0，代码 MIT。
+
+## 译本的构建方式
+
+| 路径 | 内容 |
+|---|---|
+| `i18n/zh/glossary.md` | 术语表与翻译规范 |
+| `i18n/zh/tm.json` | 翻译记忆：每条英文段落对应的中文译文 |
+| `i18n/zh/segments/` | 每页可译片段的位置记录 |
+| `scripts/zh/extract.py` | 从页面抽取可译片段（HTML 文本、JS 界面字串、数据岛展示字段） |
+| `scripts/zh/validate.py` | 校验译文：标签、占位符、实体、数字保真 |
+| `scripts/zh/inject.py` | 把译文回填进页面，并做中文适配（`lang`、字体镜像、中文字体回退、署名） |
+| `scripts/build_site.py` | 生成部署目录 `.pages-dist/`（页面、资源、机读接口层） |
+| `scripts/github-pages-workflow.yml` | GitHub Actions 工作流：复制到 `.github/workflows/pages.yml` 后，推送到 `main` 即自动构建并发布到 GitHub Pages（提交它需要带 `workflow` 权限的 token） |
+| `scripts/deploy_gh_pages.sh` | 不经 Actions 的发布方式：构建后把 `.pages-dist/` 推到 `gh-pages` 分支，在仓库 Settings → Pages 选择该分支即可 |
+
+重跑翻译：`NODE_PATH=<含 acorn 的 node_modules> python3 scripts/zh/extract.py` 抽取新增片段，
+译好 `i18n/zh/chunks/chunk-NN.zh.json` 后 `python3 scripts/zh/validate.py --merge`，
+再 `python3 scripts/zh/inject.py --out .` 回填。
+
+---
+
+以下为原仓库的英文说明。
+
 # Atlas of Judgment
 
 **Live: [atlas-of-judgment.pages.dev](https://atlas-of-judgment.pages.dev)**
