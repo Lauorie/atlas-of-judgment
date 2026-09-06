@@ -5523,7 +5523,7 @@ footer.colophon { margin-top: 40px; padding: 0 20px 84px; border: none; display:
 const __ISL = id => JSON.parse(document.getElementById("isl-" + id).textContent);
 const DATA = __ISL("DATA");
 const GALAXY = __ISL("GALAXY_LITE");
-const __ZH = {"held (no visible change)": "维持（无可见变化）", "clarified only": "仅澄清", "unreadable (no fate read)": "无法判读（未读出命运）", "softened or reversed": "软化或反转", "hardened": "加强", "held": "维持", "clarified": "澄清", "unreadable": "无法判读", "a softening": "软化", "an entrenchment": "固守", "a reversal": "反转", "a split verdict": "分歧裁决", "unanimity": "一致", "Accept (Poster)": "Accept (Poster)", "softening": "软化", "entrenchment": "固守", "reversal": "反转", "split verdict": "分歧裁决", "contested": "争议", "silence": "沉默", "procedural": "程序性", "hedged": "有保留"};
+const __ZH = {"held (no visible change)": "维持（无可见变化）", "clarified only": "仅澄清", "unreadable (no fate read)": "无法判读（未读出命运）", "softened or reversed": "软化或反转", "hardened": "加强", "held": "维持", "clarified": "澄清", "unreadable": "无法判读", "a softening": "软化", "an entrenchment": "固守", "a reversal": "反转", "a split verdict": "分歧裁决", "unanimity": "一致", "Accept (Poster)": "Accept (Poster)", "softening": "软化", "entrenchment": "固守", "reversal": "反转", "split verdict": "分歧裁决", "contested": "争议", "silence": "沉默", "procedural": "程序性", "hedged": "有保留", "strengthened": "加强", "weakened": "减弱", "reversed": "反转"};
 const __ZHV = {"negative": "否定", "uncertain": "存疑", "mixed": "混合", "conditional": "有条件", "positive": "肯定"};
 const __ZH_ACT = {"I": "第一幕", "II": "第二幕", "III": "第三幕", "IV": "第四幕", "V": "第五幕", "VI": "第六幕", "VII": "第七幕", "VIII": "第八幕", "CODA": "尾声"};
 
@@ -11050,7 +11050,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
   const mx = REPAIR.groups[0].share;
   const FAMS = ["substantiate", "articulate", "disclose"];
   const tots = Object.fromEntries(FAMS.map(f => [f,
-    REPAIR.groups.filter(g => famOf(g.name) === f).reduce((a, g) => a + g.share, 0)]));
+    REPAIR.groups.filter(g => famOf(g.name_en || g.name) === f).reduce((a, g) => a + g.share, 0)]));
   // the composition spine: the figure's headline, drawn first
   const spine = `<div style="margin-bottom:6px">
       <div id="rep-spine" style="display:flex;height:9px;border-radius:2px;overflow:hidden;background:rgba(36,28,20,0.046)">
@@ -11074,7 +11074,7 @@ DEFS.sort((a, b) => b.label.length - a.label.length);
       <div class="rep-n" style="opacity:.6">—</div>
     </div>`;
   host.innerHTML = spine + FAMS.map((f, fi) => {
-    const gs = REPAIR.groups.filter(g => famOf(g.name) === f);
+    const gs = REPAIR.groups.filter(g => famOf(g.name_en || g.name) === f);
     return `<div data-fam="${f}" style="display:flex;align-items:center;gap:9px;margin:${fi ? 12 : 4}px 0 2px">
         <span style="width:9px;height:9px;flex:none;background:${FAMC[f]};border-radius:1px"></span>
         <span style="font-family:var(--mono);font-size:8.5px;letter-spacing:.14em;color:${FAMC[f]}">${FAMN[f]}</span>

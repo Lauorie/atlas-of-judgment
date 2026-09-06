@@ -36,6 +36,7 @@ ZH_DISPLAY = {
     "Accept (Poster)": "Accept (Poster)",
     "softening": "软化", "entrenchment": "固守", "reversal": "反转", "split verdict": "分歧裁决",
     "contested": "争议", "silence": "沉默", "procedural": "程序性", "hedged": "有保留",
+    "strengthened": "加强", "weakened": "减弱", "reversed": "反转",
 }
 # literals the JS both shows and compares against; nothing in the islands carries them
 LITERALS = {"nothing asked": "无所要求", "all meta units": "全部元评审单元"}
@@ -99,9 +100,12 @@ def apply(page_html: str, tm: Dict[str, Dict[str, Any]], segs: List[Dict[str, An
             logger.info("fixup: repair 'extend' binding now matches %r", prefix)
 
     # combination plate: exception/referent classes are recognised by regexes over the English
-    # name; the island keeps the original beside the translation as name_en
+    # name; the island keeps the original beside the translation as name_en. The repair
+    # manual sorts its sixteen groups into families the same way.
     n = s.count(".test(a.name)")
     s = s.replace(".test(a.name)", ".test(a.name_en || a.name)")
+    n += s.count("famOf(g.name)")
+    s = s.replace("famOf(g.name)", "famOf(g.name_en || g.name)")
     logger.info("fixup: %d name regex tests now read the English original", n)
     # nav: overture/interlude rows are styled by their (now translated) label
     s = s.replace("/^Overture|^Interlude/i.test(it.label)", "/^Overture|^Interlude|^序曲|^间奏/i.test(it.label)", 1)
