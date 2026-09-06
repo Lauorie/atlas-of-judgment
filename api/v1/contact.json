@@ -1,0 +1,66 @@
+{
+ "what": "如何联系这份图谱的作者与本中文镜像的维护者，包括由 agent 直接发起、无需人工中转的方式。本站只提供静态文件，没有写入端点，也不发放 API key。收件箱是公开的 issue tracker，用你自己的凭据调用。",
+ "upstream_author": {
+  "name": "Shiro Takagi",
+  "x": "https://x.com/takagi_shiro",
+  "site": "https://atlas-of-judgment.pages.dev",
+  "repo": "https://github.com/t46/atlas-of-judgment"
+ },
+ "mirror_maintainer": {
+  "repo": "https://github.com/Lauorie/atlas-of-judgment"
+ },
+ "channels": [
+  {
+   "id": "correction",
+   "for": "你认为站上某条断言有误，或某个推导用它的重算脚本复现不出来。数据与分析属于原作者，请报到原仓库。",
+   "visibility": "public",
+   "web": "https://github.com/t46/atlas-of-judgment/issues/new?template=correction.yml",
+   "api": {
+    "method": "POST",
+    "url": "https://api.github.com/repos/t46/atlas-of-judgment/issues",
+    "auth": "你自己的 GitHub token。",
+    "body": {
+     "title": "correction: <claim-id> — <one line>",
+     "labels": [
+      "correction"
+     ]
+    }
+   },
+   "report_fields": {
+    "claim_id": "必填。例如 plate-xi#11-extend-leads。写 id，不要抄图注。",
+    "as_published": "站上现在的数值或表述。",
+    "proposed": "你认为正确的值。",
+    "evidence": "你如何核对：重算、数据岛路径、或对推导本身的论证。",
+    "confidence": "可选。不确定就直说。"
+   }
+  },
+  {
+   "id": "translation",
+   "for": "中文译文的错误、术语不当、排版问题。",
+   "visibility": "public",
+   "web": "https://github.com/Lauorie/atlas-of-judgment/issues/new",
+   "api": {
+    "method": "POST",
+    "url": "https://api.github.com/repos/Lauorie/atlas-of-judgment/issues",
+    "auth": "你自己的 GitHub token。",
+    "body": {
+     "title": "translation: <page> — <one line>",
+     "labels": [
+      "translation"
+     ]
+    }
+   }
+  },
+  {
+   "id": "question",
+   "for": "关于方法、分类体系、语料或某条注意事项的问题。",
+   "visibility": "public",
+   "web": "https://github.com/t46/atlas-of-judgment/issues/new?template=question.yml"
+  }
+ ],
+ "not_available": {
+  "write_endpoint": "本站 /api/ 下没有 POST 端点。",
+  "api_keys": "不发放。",
+  "email": "不公开。"
+ }
+}

@@ -1,0 +1,1371 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/atlas-of-judgment/favicon.svg">
+<meta name="description" content="完整的复现记录：每个脚本、模型、随机种子与成本 — 包括失败的试点和随时写下的更正。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Atlas of Judgment">
+<meta property="og:title" content="方法 — 评判图谱">
+<meta property="og:description" content="完整的复现记录：每个脚本、模型、随机种子与成本 — 包括失败的试点和随时写下的更正。">
+<meta property="og:url" content="https://lauorie.github.io/atlas-of-judgment/method">
+<meta property="og:image" content="https://lauorie.github.io/atlas-of-judgment/card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@takagi_shiro">
+<meta name="twitter:creator" content="@takagi_shiro">
+<meta charset="utf-8">
+<title>图谱方法</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+:root {
+  --ground: #efe4c9; --raise: #f8f1e0;
+  --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
+  --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.75;
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(138,90,31,0.05), transparent 60%); }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(138,90,31,0.45); }
+.shell { max-width: 900px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 36px) 90px; }
+h1, h2, h3 { font-family: var(--display); font-weight: 500; margin: 0; text-wrap: balance; }
+h1 { font-size: clamp(44px, 6vw, 72px); line-height: 1.02; }
+h2 { font-size: clamp(25px, 3vw, 34px); margin-top: 74px; }
+h3 { font-size: 20px; margin-top: 34px; color: var(--ink); }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); margin-bottom: 16px; }
+.no { display: flex; align-items: center; gap: 12px; font-family: var(--mono); font-size: 13px; letter-spacing: 0.32em; color: var(--brass); margin: 70px 0 -60px; text-transform: uppercase; }
+.no::before { content: ""; width: 30px; height: 1px; background: var(--brass-line); }
+p, li { color: var(--ink-2); }
+p { margin: 13px 0 0; }
+p b, li b { color: var(--ink); font-weight: 600; }
+em { color: var(--ink); }
+ul { margin: 10px 0 0; padding-left: 20px; }
+li { margin-top: 6px; }
+.nav { display: flex; gap: 22px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.18em; text-transform: uppercase; padding: 26px 0 60px; }
+.nav a { border: none; color: var(--ink-2); } .nav a:hover { color: var(--brass); }
+.nav .here { color: var(--brass); }
+code, .path { font-family: var(--mono); font-size: 12px; color: var(--ink); background: rgba(138,90,31,0.07); padding: 1px 5px; border-radius: 2px; }
+pre { position: relative; background: var(--raise); border: 1px solid var(--brass-faint); padding: 16px 20px; white-space: pre-wrap; overflow-wrap: break-word; font-family: var(--mono); font-size: 12px; line-height: 1.7; color: var(--ink); margin: 16px 0 0; }
+/* specimen-drawer chrome: the same brass corner brackets the atlas's figure panels wear,
+   so a code block reads as a drawer of the cabinet rather than a terminal paste */
+pre::before, pre::after { content: ""; position: absolute; width: 14px; height: 14px; pointer-events: none; }
+pre::before { left: -1px; top: -1px; border-left: 2px solid var(--brass); border-top: 2px solid var(--brass); }
+pre::after { right: -1px; bottom: -1px; border-right: 2px solid var(--brass); border-bottom: 2px solid var(--brass); }
+pre .c { color: var(--muted); }
+table { border-collapse: collapse; margin-top: 16px; font-size: 12.5px; font-variant-numeric: tabular-nums; max-width: 100%; }
+.tw { overflow-x: auto; }
+th, td { border: 1px solid var(--brass-faint); padding: 6px 11px; text-align: left; color: var(--ink-2); }
+th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+td { overflow-wrap: break-word; }
+td code { overflow-wrap: anywhere; }
+td.n { text-align: right; font-family: var(--mono); font-size: 11.5px; }
+.callout { border: 1px solid var(--brass-line); background: rgba(248,241,224,0.6); padding: 16px 20px; margin-top: 18px; font-size: 13.5px; color: var(--ink-2); }
+.callout b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); display: block; margin-bottom: 6px; }
+.toc { columns: 2; gap: 46px; margin-top: 20px; font-size: 13.5px; }
+.toc a { display: grid; grid-template-columns: 26px minmax(0, 1fr); border: none; border-left: 1px solid var(--brass-faint);
+  color: var(--ink-2); padding: 4px 0 4px 13px; margin-left: 3px; position: relative;
+  transition: color .22s ease, border-color .22s ease, opacity .55s ease var(--td, 0ms), transform .55s ease var(--td, 0ms); }
+.toc a::before { content: ""; position: absolute; left: -1px; top: 50%; width: 7px; height: 1px; background: var(--brass);
+  transform: scaleX(0); transform-origin: left center; transition: transform .22s ease; }
+.toc a:hover { color: var(--brass); border-left-color: var(--brass); }
+.toc a:hover::before, .toc a:focus-visible::before { transform: scaleX(1); }
+.toc a:focus-visible { color: var(--brass); border-left-color: var(--brass); outline: none; }
+.toc .tno { font-family: var(--mono); font-size: 10px; color: var(--brass); padding-top: 3px; font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) { .toc { columns: 1; } }
+.diagram { border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.55); padding: 20px 18px; margin-top: 22px; }
+.diagram .cap { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--ink-2); margin: 0 0 14px 2px; }
+.fm-box { border: 1px solid rgba(138,90,31,0.35); background: rgba(248,241,224,0.9); padding: 10px 14px; text-align: center; }
+.fm-box.acc { border-color: var(--brass); }
+.fm-box .t { font-family: var(--display); font-size: 15px; font-weight: 600; color: var(--ink); }
+.fm-box .s { font-family: var(--mono); font-size: 9px; color: var(--muted); line-height: 1.8; margin-top: 3px; }
+.fm-box { position: relative; }
+.fm-sec { position: absolute; top: 3px; right: 6px; font-family: var(--mono); font-size: 8px; letter-spacing: 0.08em; color: var(--brass); border-bottom: none; opacity: 0.7; }
+.fm-sec:hover, .fm-sec:focus-visible { opacity: 1; color: var(--ink); }
+.fm-box:has(.fm-sec:hover), .fm-box:has(.fm-sec:focus-visible) { border-color: var(--brass); }
+.fm-arrow { font-family: var(--mono); color: var(--brass); text-align: center; align-self: center; font-size: 14px; }
+.fm-arrow .lbl { display: block; font-size: 7.5px; letter-spacing: 0.02em; color: var(--muted); text-transform: uppercase; }
+.fm-row { display: grid; grid-template-columns: 1fr 44px 1fr 44px 1fr; gap: 6px; align-items: stretch; }
+.fm-pair { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 10px; }
+.fm-col { display: flex; flex-direction: column; gap: 0; }
+.fm-down { text-align: center; color: var(--brass); font-size: 13px; padding: 3px 0; }
+.fm-bridge { margin: 12px auto 2px; max-width: 420px; }
+@media (max-width: 700px) {
+  .fm-row { grid-template-columns: 1fr; }
+  .fm-row .fm-arrow::before { content: "\2193"; } .fm-row .fm-arrow span.g { display: none; }
+  .fm-pair { grid-template-columns: 1fr; }
+}
+.fun-row { display: grid; grid-template-columns: 1fr 190px; gap: 14px; align-items: center; margin-top: 8px; }
+.fun-bar { height: 22px; }
+.fun-lbl { font-size: 12.5px; color: var(--ink); }
+.fun-lbl .s { display: block; font-family: var(--mono); font-size: 9px; color: var(--muted); }
+.fun-step { font-family: var(--mono); font-size: 9.5px; color: var(--brass); letter-spacing: 0.08em; margin: 10px 0 2px; }
+@media (max-width: 640px) { .fun-row { grid-template-columns: 1fr 120px; } .fun-lbl { font-size: 11px; } }
+
+.nav { flex-wrap: wrap; row-gap: 6px; }
+@media (max-width: 700px) { body { overflow-x: hidden; } }
+@media (max-width: 900px) { th, td { white-space: normal; } }
+@media (max-width: 700px) { pre { white-space: pre-wrap; word-break: break-word; } }
+@media (max-width: 640px) {
+  table, tbody { display: block; }
+  thead { display: none; }
+  tr { display: block; border: 1px solid var(--brass-faint); margin-top: 10px; padding: 4px 0; }
+  td { display: flex; justify-content: space-between; gap: 14px; border: none; border-bottom: 1px solid rgba(138,90,31,0.07); white-space: normal; text-align: right; min-width: 0; overflow-wrap: anywhere; }
+  td code { white-space: normal; overflow-wrap: anywhere; }
+  td:last-child { border-bottom: none; }
+  td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
+  /* A cell that mixes running text with inline <code>/<em> shatters into vertical
+     columns under the flex rule above — every anonymous text run becomes its own
+     flex item. Those cells, and any long one, stack as blocks with the label over. */
+  td.td-rich { display: block; text-align: left; }
+  td.td-rich::before { display: block; margin-bottom: 3px; padding-top: 0; }
+}
+footer.colophon { position: relative; z-index: 3; background: var(--ground); margin-top: 0; padding: clamp(56px, 8vh, 96px) 20px 84px; border: none; display: flex; flex-direction: column; align-items: center; gap: 11px; text-align: center; }
+.col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
+.col-rule::before, .col-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-line); }
+.col-rule svg { display: block; }
+.col-mark { font-family: var(--display); font-size: 27px; color: var(--ink); letter-spacing: 0.03em; margin-top: 4px; }
+.col-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--ink-2); }
+.col-stats { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); margin-top: 6px; line-height: 2; }
+.col-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 8px; }
+.col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; }
+.col-links a:hover { color: var(--ink); }
+.col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
+
+/* ---- unified furniture: motion tokens, grain, fixed topbar, entrance ---- */
+:root { --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1); --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1); }
+body::before { content: ""; position: fixed; inset: 0; z-index: 2500; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'%20opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px; }
+#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(239,228,201,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; white-space: nowrap; border: none; }
+#topbar .tb-links { display: flex; gap: clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; }
+#topbar .tb-links a:hover { color: var(--brass); }
+#topbar .tb-links a.here { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.16em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+.eyebrow { letter-spacing: 0.9em; opacity: 0; animation: pgEye 1.2s var(--ease-settle) .1s forwards; }
+@keyframes pgEye { 40% { opacity: 1; } to { opacity: 1; letter-spacing: 0.34em; } }
+h1 { clip-path: inset(100% 0 0 0); transform: translateY(14px); animation: pgH1 1s var(--ease-settle) .3s forwards; }
+@keyframes pgH1 { to { clip-path: inset(0 0 0 0); transform: none; } }
+@media (prefers-reduced-motion: reduce) {
+  .eyebrow { animation: none; opacity: 1; letter-spacing: 0.34em; }
+  h1 { animation: none; clip-path: none; transform: none; }
+}
+
+/* ---- the four parts: the page is a preparation room, not a list of steps ---- */
+.part { margin: 104px 0 0; padding: 30px 0 26px; border-top: 1px solid var(--brass-line);
+  border-bottom: 1px solid var(--brass-faint); position: relative; }
+.part::after { content: ""; position: absolute; right: 0; bottom: -1px; width: 34px; height: 1px; background: var(--brass); }
+.part-rule { display: flex; align-items: center; gap: 14px; font-family: var(--mono); font-size: 10px;
+  letter-spacing: 0.34em; text-transform: uppercase; color: var(--brass); }
+.part-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-faint); }
+.part-name { font-size: clamp(30px, 4vw, 46px); line-height: 1.06; margin-top: 12px; }
+.part-lat { font-style: italic; font-size: 14px; color: var(--ink-2); margin-top: 6px; }
+.part-sub { font-size: 13.5px; color: var(--muted); margin-top: 8px; max-width: 56ch; }
+.part + .no { margin-top: 46px; }
+
+/* ---- the contents, grouped the way the page now is ---- */
+.toc { columns: 2; gap: 46px; margin-top: 22px; font-size: 13.5px; }
+.toc-part { break-inside: avoid; margin-bottom: 20px; }
+.toc-h { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-2); padding-bottom: 5px; margin-bottom: 6px; border-bottom: 1px solid var(--brass-faint); }
+.toc-h b { color: var(--brass); font-weight: 500; margin-right: 2px; }
+/* entrance: the container reveals instantly; the rail's rows ink in, staggered down the route */
+.toc.mv { opacity: 1; transform: none; }
+.toc.mv .toc-h { opacity: 0; transition: opacity .5s ease; }
+.toc.mv.in .toc-h { opacity: 1; }
+.toc.mv a { opacity: 0; transform: translateY(7px); }
+.toc.mv.in a { opacity: 1; transform: none; }
+/* the later .toc block above out-cascades the early mobile rule — restate it here */
+@media (max-width: 700px) { .toc { columns: 1; } }
+
+/* ---- the yield: every stage's intake, and the tail that never came out ---- */
+.yl-note { font-size: 12px; font-style: italic; color: var(--muted); margin: 0 0 16px; line-height: 1.6; }
+.yl-gh { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brass); margin: 18px 0 8px; padding-bottom: 5px; border-bottom: 1px solid var(--brass-faint); }
+.yl-gh:first-of-type { margin-top: 4px; }
+.yl-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(120px, 320px) 96px;
+  gap: 14px; align-items: center; padding: 5px 0; }
+.yl-lab { font-size: 13px; color: var(--ink); }
+.yl-lab .s { display: block; font-family: var(--mono); font-size: 9px; color: var(--muted); letter-spacing: 0.06em; }
+.yl-bar { height: 15px; display: flex; border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.6); }
+.yl-bar i { display: block; height: 100%; transform: scaleX(0); transform-origin: left center;
+  transition: transform 1s cubic-bezier(0.2, 0.7, 0.15, 1); }
+.yield.in .yl-bar i { transform: scaleX(1); }
+.yl-bar i.keep { background: rgba(36,28,20,0.58); }
+.yl-bar i.lost { background: repeating-linear-gradient(45deg, rgba(111,31,69,0.60) 0 1.5px, transparent 1.5px 4px);
+  border-left: 1px solid rgba(111,31,69,0.55); transition-delay: 0.35s; }
+.yl-n { font-family: var(--mono); font-size: 11.5px; color: var(--ink); text-align: right;
+  font-variant-numeric: tabular-nums; }
+.yl-n .l { display: block; font-size: 9px; color: #6f1f45; letter-spacing: 0.04em; }
+.yl-sum { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; margin-top: 18px;
+  padding-top: 12px; border-top: 1px solid var(--brass-line); }
+.yl-sum .k { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
+.yl-sum .v { font-family: var(--display); font-size: 30px; color: var(--ink); font-variant-numeric: tabular-nums; }
+@media (max-width: 700px) {
+  .yl-row { grid-template-columns: minmax(0, 1fr) 84px; }
+  .yl-bar { grid-column: 1 / -1; order: 3; }
+  .yl-n { text-align: right; }
+}
+@media (prefers-reduced-motion: reduce) { .yl-bar i { transform: none !important; transition: none !important; } }
+
+/* ---------------------------------------------------------- the officina --
+   The cabinet stands behind the whole page; the reading sheets are opaque paper
+   laid over it, and only the header and the four part dividers cut a window
+   through to it. Body text never competes with the engraving. */
+#cabinet { position: fixed; top: 0; left: 0; width: 100vw; height: 100svh; z-index: 0; display: block; }
+#cvig { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse 82% 66% at 50% 46%, transparent 46%, rgba(120,96,58,0.18) 100%); }
+main { position: relative; z-index: 3; }
+.sheet { position: relative; z-index: 3; background: var(--ground);
+  box-shadow: 0 -20px 44px rgba(61,44,20,0.13), 0 20px 44px rgba(61,44,20,0.13); }
+.sheet > .shell { padding-top: clamp(40px, 6vh, 68px); padding-bottom: clamp(48px, 7vh, 80px); }
+.sheet:first-of-type > .shell { padding-top: clamp(28px, 4vh, 46px); }
+
+.mhero { height: 100svh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 0 20px; position: relative; }
+.mhero::before { content: ""; position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%);
+  width: min(880px, 96vw); height: min(430px, 48svh); pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.94) 0%, rgba(239,228,201,0.80) 40%,
+    rgba(239,228,201,0.34) 62%, transparent 78%); }
+.mhero > * { position: relative; z-index: 1; }
+.mhero h1 { font-size: clamp(44px, 7.4vw, 96px); line-height: 1; margin-top: 16px; }
+.mhero-lat { font-style: italic; font-size: clamp(13px, 2vw, 16px); color: var(--ink-2); margin-top: 11px;
+  opacity: 0; animation: mfade 1s ease 1.1s forwards; }
+.mhero-cue { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--ink-2); opacity: 0; animation: mfade 1s ease 1.9s forwards; display: flex;
+  flex-direction: column; align-items: center; gap: 8px; padding: 7px 20px 9px;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.90) 0%, rgba(239,228,201,0.55) 55%, transparent 82%); }
+.mhero-cue i { display: block; width: 1px; height: 30px; background: linear-gradient(var(--brass-line), transparent); }
+.mhero-cue .cue-s { display: none; }
+@keyframes mfade { to { opacity: 1; } }
+
+/* a window: the bay of the cabinet this part lives in, with its label beside it */
+.pwin { height: 78svh; display: flex; align-items: center; position: relative;
+  padding: 0 clamp(20px, 4vw, 36px); pointer-events: none; }
+/* the clearing rides the card's own box: an oversized ::before pushed the page
+   sideways at 390px, where the card is full width */
+.pwin-card { max-width: 34ch; position: relative; opacity: 0; transform: translateY(16px);
+  padding: 30px 34px; transition: opacity 0.9s var(--ease-settle), transform 0.9s var(--ease-settle);
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.97) 0%, rgba(239,228,201,0.91) 38%,
+    rgba(239,228,201,0.62) 60%, rgba(239,228,201,0.18) 78%, transparent 92%); }
+.pwin.in .pwin-card { opacity: 1; transform: none; }
+.pwin .part-name { font-family: var(--display); font-weight: 500; font-size: clamp(32px, 5vw, 54px);
+  line-height: 1.04; margin-top: 12px; }
+.pclose { height: 92svh; justify-content: center; text-align: center; }
+.pclose .pwin-card { max-width: 52ch; }
+.pclose .part-rule { justify-content: center; } .pclose .part-rule::after { display: none; }
+.pclose .part-sub { margin-left: auto; margin-right: auto; }
+@media (max-width: 900px) { .pwin { height: 66svh; justify-content: center; text-align: center; }
+  .pwin-card { max-width: none; } .pwin .part-rule::after { display: none; } }
+
+/* the old flat divider styling is superseded by the windows above */
+.part, .part + .no { margin-top: 0; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mhero-lat, .mhero-cue { animation: none; opacity: 1; }
+  .mhero-cue .cue-m { display: none; } .mhero-cue .cue-s { display: inline; }
+  .pwin-card { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .pwin { height: 44svh; }
+  #cabinet { opacity: 0.5; }
+}
+</style>
+<canvas id="cabinet" aria-hidden="true"></canvas>
+<div id="cvig" aria-hidden="true"></div>
+<main id="top">
+<section class="mhero">
+  <div class="eyebrow">评判图谱 · 复现记录</div>
+  <h1>数据是<em style="font-style:italic">如何做出来的</em></h1>
+  <div class="mhero-lat">officina — 图谱隔壁的房间</div>
+  <div class="mhero-cue"><i></i><span class="cue-m">打开陈列柜</span><span class="cue-s">四部分，十六节</span></div>
+</section>
+<div class="sheet"><div class="shell">
+
+<p style="font-size:16.5px;margin-top:22px">从原始采集到全部图谱图表所依据的已标注单元数据库，每一个阶段 — 脚本、模型、参数、随机种子、计数、成本、失败模式和确切命令。范围止于数据层；下游的可视化持续演进，记录在图谱本身。所有计数于 2026-08-18 经只读查询核验。</p>
+
+<div class="callout"><b>成品数据已公开</b>
+两个已标注单元数据库（410,586 条评审级单元，ICLR 2026 · 1,009,592 条 forum 级单元，2018–2026）、分类体系定义，以及 600 条分析员标注的修辞单元，均以 parquet 格式按 CC BY 4.0 发布于 HuggingFace：<a href="https://huggingface.co/datasets/t46/atlas-of-judgment">huggingface.co/datasets/t46/atlas-of-judgment</a>。以下全部内容记录这些数据是如何做出来的。</div>
+
+<p>这是图谱隔壁的房间 — 制备标本的工作台，罐上的标签还在。它分四部分：<b>构建</b>，即重新生成数据所需的一切；<b>受测的仪器</b>，即读取读得多准、哪里不可信；<b>记录</b>，即实际做了什么、按什么顺序、由谁推动；以及<b>账单</b>。</p>
+
+<div class="toc">
+  <div class="toc-part">
+    <div class="toc-h"><b>第一部分</b> 构建</div>
+    <a href="#s0"><span class="tno">00</span>先决条件与环境</a>
+    <a href="#s1"><span class="tno">01</span>采集 — OpenReview → 原始 SQLite</a>
+    <a href="#s2"><span class="tno">02</span>规范化 — 仅溯源</a>
+    <a href="#s3"><span class="tno">03</span>第二层 — DeepSeek 分析备忘</a>
+    <a href="#s4"><span class="tno">04</span>第三层 — Qwen 结构化单元</a>
+    <a href="#s5"><span class="tno">05</span>重试、合并与失败尾部</a>
+    <a href="#s6"><span class="tno">06</span>单元提取与归纳分类体系</a>
+  </div>
+  <div class="toc-part">
+    <div class="toc-h"><b>第二部分</b> 受测的仪器</div>
+    <a href="#s7"><span class="tno">07</span>仪器校验 — 检验读取器</a>
+    <a href="#s8"><span class="tno">08</span>无法复现之处</a>
+  </div>
+  <div class="toc-part">
+    <div class="toc-h"><b>第三部分</b> 记录</div>
+    <a href="#s9"><span class="tno">09</span>实际路径 — 试点、失败、决策</a>
+    <a href="#s10"><span class="tno">10</span>图版的顺序不是工作的顺序</a>
+    <a href="#s11"><span class="tno">11</span>每张图版的来处</a>
+    <a href="#s12"><span class="tno">12</span>九张新增图版的说明</a>
+    <a href="#s13"><span class="tno">13</span>仪器扩展 — 2026-08-24 评审轮次</a>
+    <a href="#s14"><span class="tno">14</span>长标尺与投下的影 — 是仪器，不是图版</a>
+  </div>
+  <div class="toc-part">
+    <div class="toc-h"><b>第四部分</b> 账单</div>
+    <a href="#s15"><span class="tno">15</span>成本台账</a>
+  </div>
+</div>
+
+<div class="diagram yield" id="yield"><p class="cap">产出 — 交给读取器的，与再没出来的</p>
+<p class="yl-note">两条尾部都按实际宽度的十倍绘出，否则在此比例下将不可见；真实占比印在各自旁边。尾部记录于 §05，其与主题的相关性未经核验。</p>
+
+<div class="yl-gh">第一层 · 记录 — 采集一次，此后不再写入</div>
+<div class="yl-row">
+  <div class="yl-lab">已采集 forum<span class="s">OpenReview API v1/v2 · ICLR 2018–2026</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">52,460</div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">forum 消息<span class="s">评审、rebuttal、元评审、评论</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">792,703</div>
+</div>
+
+<div class="yl-gh">轨道 A · ICLR 2026，评审级 — 高分辨率切片</div>
+<div class="yl-row">
+  <div class="yl-lab">交给读取器的评审<span class="s">每篇三阶段分层备忘</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">75,859</div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">结构化为单元的评审<span class="s">重试之后；其余为解析失败与服务商拒答</span></div>
+  <div class="yl-bar"><i class="keep" style="width:80.5%"></i><i class="lost" style="width:19.5%"></i></div>
+  <div class="yl-n">74,380<span class="l">−1,479 · 1.95%</span></div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">产出逻辑单元<span class="s">每篇评审 5.5 条，中位数 5</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">410,586</div>
+</div>
+
+<div class="yl-gh">轨道 B · 2018–2026，forum 级 — 九年切片</div>
+<div class="yl-row">
+  <div class="yl-lab">交给读取器的 forum<span class="s">对整条讨论串一份直接备忘</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">51,813</div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">结构化为单元的 forum<span class="s">含 24k/32k 截断重试</span></div>
+  <div class="yl-bar"><i class="keep" style="width:81.6%"></i><i class="lost" style="width:18.4%"></i></div>
+  <div class="yl-n">50,861<span class="l">−952 · 1.84%</span></div>
+</div>
+<div class="yl-row">
+  <div class="yl-lab">产出逻辑单元<span class="s">带时序字段：rebuttal 前/后、判断变化</span></div>
+  <div class="yl-bar"><i class="keep" style="width:100%"></i></div>
+  <div class="yl-n">1,009,592</div>
+</div>
+
+<div class="yl-sum"><span class="k">两库合计</span><span class="v">1,420,178 条单元</span></div>
+</div>
+
+<div class="diagram"><p class="cap">流水线一览 — 三层、两轨、一套分类体系</p>
+<div class="fm-row">
+  <div class="fm-box"><div class="t">OpenReview</div><div class="s">公开 API v1/v2<br>52,460 个 forum · 9 年</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">采集</span></div>
+  <div class="fm-box"><a class="fm-sec" href="#s1" title="采集 — 写入这一层的章节">§01</a><div class="t">原始层</div><div class="s">openreview.sqlite3<br>一次写入 · 不可变</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">规范化</span></div>
+  <div class="fm-box"><a class="fm-sec" href="#s2" title="规范化 — 构建记录的章节">§02</a><div class="t">第一层 — 记录</div><div class="s">analysis.sqlite3<br>论文 52,460 · 消息 792,703</div></div>
+</div>
+<div class="fm-down">↓ &nbsp; 两条备忘轨道 &nbsp; ↓</div>
+<div class="fm-pair">
+  <div class="fm-col">
+    <div class="fm-box"><a class="fm-sec" href="#s3" title="第二层 — DeepSeek 分析备忘">§03</a><div class="t">第二层 — DeepSeek 备忘（分层）</div><div class="s">initial_blind → trajectory → synthesis<br>ICLR 2026 · 151,193 份备忘 · $314.42</div></div>
+    <div class="fm-down">↓</div>
+    <div class="fm-box"><a class="fm-sec" href="#s4" title="第三层 — Qwen 结构化单元">§04</a><div class="t">第三层 — Qwen 结构化</div><div class="s">紧凑模式 · 实时 API<br>74,380 / 75,859 篇评审 · $28.79</div></div>
+    <div class="fm-down">↓</div>
+    <div class="fm-box"><a class="fm-sec" href="#s6" title="单元提取">§06</a><div class="t">单元数据库 — 2026 轨道</div><div class="s">410,586 条逻辑单元<br>评审级 · 可关联评分</div></div>
+  </div>
+  <div class="fm-col">
+    <div class="fm-box"><a class="fm-sec" href="#s3" title="第二层 — DeepSeek 分析备忘">§03</a><div class="t">第二层 — DeepSeek 备忘（直接）</div><div class="s">整个 forum，一遍过<br>2018–2026 · 51,813 份备忘 · $194.75</div></div>
+    <div class="fm-down">↓</div>
+    <div class="fm-box"><a class="fm-sec" href="#s4" title="第三层 — 结构化，加 §05 的重试与合并">§04–05</a><div class="t">第三层 — Qwen 结构化</div><div class="s">直接模式 + 24k/32k 重试<br>50,861 / 51,813 个 forum · $74.80</div></div>
+    <div class="fm-down">↓</div>
+    <div class="fm-box"><a class="fm-sec" href="#s6" title="单元提取">§06</a><div class="t">单元数据库 — 2018–2026 轨道</div><div class="s">1,009,592 条逻辑单元<br>forum 级 · 时序字段</div></div>
+  </div>
+</div>
+<div class="fm-bridge">
+  <div class="fm-down">↓ &nbsp; 从 2026 轨道的 12k 样本归纳 · 应用于两轨 &nbsp; ↓</div>
+  <div class="fm-box acc"><a class="fm-sec" href="#s6" title="分类体系归纳，及 §07 仪器校验">§06–07</a><div class="t">分类体系 v1</div><div class="s">UMAP + HDBSCAN + 人工命名<br>12 审视对象 × 12 推理标准</div></div>
+  <div class="fm-down">↓</div>
+  <div class="fm-box acc"><a class="fm-sec" href="#s11" title="每张图版的来处">§11</a><div class="t">图谱</div><div class="s">聚合 → 图版</div></div>
+</div>
+</div>
+
+</div></div>
+<div class="pwin" id="pi" data-bay="0">
+  <div class="pwin-card">
+    <div class="part-rule"><span>第一部分</span></div>
+    <h2 class="part-name">构建</h2>
+    <div class="part-lat">officina — 工坊</div>
+    <p class="part-sub">重新生成数据所需的一切</p>
+  </div>
+</div>
+<div class="sheet"><div class="shell">
+<div class="no" id="s0">00</div>
+<h2>先决条件与环境</h2>
+<ul>
+  <li><b>语言与工具</b>：Python ≥ 3.12，用 <code>uv</code> 管理；下文所有命令均在项目根目录下以 <code>uv run python …</code> 运行。测试用 <code>unittest</code>（<code>uv run python -m unittest discover -s tests</code>；69 个测试，全部使用合成夹具 — 从不触碰生产数据）。</li>
+  <li><b>关键依赖</b>：<code>openreview-py ≥ 2.4.1</code>（采集）、<code>openai ≥ 2.53</code>（DeepSeek/DashScope 的 OpenAI 兼容客户端）、<code>jsonschema</code>，分类体系阶段另需 <code>sentence-transformers</code>、<code>umap-learn</code>、<code>hdbscan</code>。</li>
+  <li><b>凭据</b>（环境变量；从不打印或提交）：采集用 <code>OPENREVIEW_USERNAME</code>/<code>OPENREVIEW_PASSWORD</code>；第二层用 <code>DEEPSEEK_API_KEY</code>；第三层用 <code>DASHSCOPE_API_KEY</code>（生产环境中由监督器封装在每次运行时从 1Password CLI 解析一次，再导出给子进程）。</li>
+  <li><b>目录约定</b>：<code>data/raw/</code> 由采集一次写入，此后其他一切都以只读方式打开（已用 grep 遍历全部脚本核实：只有规范化器引用它，且带 <code>mode=ro</code>）。每次分析运行都在 <code>data/analysis/iclr/</code> 下有自己的目录，含 <code>manifest.json</code>、<code>state.sqlite3</code> 请求台账，以及每个请求的 <code>outputs/</code>、<code>provider/</code>、<code>validations/</code> 证据文件。</li>
+</ul>
+
+<div class="no" id="s1">01</div>
+<h2>采集 — OpenReview → 原始 SQLite</h2>
+<p><b>脚本</b>：<code>scripts/collect_iclr_forums.py</code>（380 行）。每年一条命令：</p>
+<pre><span class="c"># default --years covers all nine (2018..2026); resumable per year</span>
+uv run python scripts/collect_iclr_forums.py --years 2018 2019 2020 2021 2022 2023 2024 2025 2026</pre>
+<ul>
+  <li><b>范围决定</b>：仅 ICLR，2018–2026，OpenReview 为唯一来源。选 ICLR 是因为它公开<em>被拒</em>论文的评审；ICML/NeurIPS 暴露的多为已接收论文的评审。2017 被刻意排除（无法核实为 OpenReview 官方会场）。年份范围在项目一开始就固定；之后演变的只有提取方法。</li>
+  <li><b>API 版本处理</b>：运行时检测，不用硬编码表。<code>venue_config()</code> 先向 OpenReview API v2 查询 <code>ICLR.cc/{year}/Conference</code> 组；若存在 <code>content.submission_id</code> 则留在 v2，否则回退到 v1（<code>{venue_id}/-/Blind_Submission</code>）。实测：2018–2023 解析为 v1，2024–2026 为 v2。</li>
+  <li><b>分页与韧性</b>：游标分页（<code>after=&lt;last note id&gt;</code>、<code>sort="id"</code>、每页 100），带 <code>details="replies"</code> 在同一次调用中取回回复图；最多 7 次重试，指数退避（1s→30s 上限）；若某页无进展则触发 <code>RuntimeError</code> 守卫。可通过按年持久化在 <code>collection_status</code> 中的 <code>after_id</code> 游标续跑；<code>forums</code> 按 <code>(year, forum_id)</code> upsert，重跑不会重复。</li>
+  <li><b>不做匿名化</b>：note 按原样序列化（<code>.to_json()</code>），含签名。数据为公开数据；流水线中任何位置都没有 PII 遮蔽。</li>
+  <li><b>输出</b>：<code>data/raw/iclr/openreview.sqlite3</code> — <code>forums</code> 52,460 行（2018:935 · 2019:1,419 · 2020:2,213 · 2021:2,594 · 2022:2,617 · 2023:3,792 · 2024:7,404 · 2025:11,672 · 2026:19,814）；<code>collection_status</code> 9 行，全部 <code>completed=1</code>，且 stored == expected。</li>
+</ul>
+<div class="callout"><b>已知局限</b>完整性为自报：期望计数来自同一次运行的第一页，随后又由该运行自己满足。不存在对照 OpenReview 线上数据的事后对账（<code>inventory_iclr.py</code> 抓取线上计数，但只写入 <code>data/inventory/</code>，从不与原始库交叉核对）。若 OpenReview 内容在采集后发生变化，原始快照不会察觉。</div>
+
+<div class="no" id="s2">02</div>
+<h2>规范化 — 仅溯源</h2>
+<p><b>脚本</b>：<code>scripts/normalize_iclr.py</code>（334 行）。确定性且幂等 — 按年在一个事务内删除并重建；没有墙钟时间戳或随机性（时间来自原始的 <code>cdate</code>/<code>mdate</code>）。</p>
+<pre>uv run python scripts/normalize_iclr.py</pre>
+<ul>
+  <li><b>它添加了什么</b> — 仅溯源，不做解读：<code>classify_kind()</code> 剥去 API v2 的 “edit” 包装后，按有序模式列表匹配（official_review → meta_review → desk_rejection → withdrawal → decision → official_comment → public_comment → comment → unknown）；<code>classify_role()</code> 读取签名字符串（<code>/authors</code>、<code>/reviewer_</code>、<code>/area_chair_</code>、<code>/program_chair</code>、公开的 <code>~</code> 档案），并以 kind 为后备。</li>
+  <li><b>输出</b>：<code>data/processed/iclr/analysis.sqlite3</code> — <code>papers</code> 52,460 · <code>messages</code> 792,703。按 kind 细分：official_comment 507,543 · official_review 199,031 · decision 40,821 · meta_review 30,108 · withdrawal 8,235 · public_comment 5,563 · desk_rejection 980 · comment 422 · unknown 0。</li>
+</ul>
+
+<div class="no" id="s3">03</div>
+<h2>第二层 — DeepSeek 分析备忘</h2>
+<p><b>引擎</b>：<code>scripts/run_deepseek_pilot.py</code>，模型 <code>deepseek-v4-flash</code>，关闭思考，<code>temperature=0.4</code>，无随机种子。持久化的 SQLite 预算台账（<code>budget_state</code>、<code>api_call_attempts</code>）配 <code>fcntl</code> 锁，使支出在中断之间保持一致；每次运行都预先声明成本上限。</p>
+<p>两次生产运行共用此引擎：</p>
+<div class="tw"><table>
+  <tr><th>运行</th><th>驱动脚本</th><th>阶段（最大输出 token 数）</th><th>输出库</th><th>备忘数</th><th>成本</th></tr>
+  <tr><td>全量分层（ICLR 2026）</td><td><code>run_iclr_2026_full_layered.py</code></td><td>initial_blind (4k→8k) · trajectory (6k→12k) · paper_synthesis (8k→12k)</td><td><code>production-2026.sqlite3</code></td><td class="n">151,193</td><td class="n">$314.42</td></tr>
+  <tr><td>直接（2018–2026）</td><td><code>prepare_iclr_direct_production.py</code> + <code>supervise_iclr_direct.py</code></td><td>forum_direct — 整个 forum 一次调用</td><td><code>direct-2018-2026.sqlite3</code></td><td class="n">51,813</td><td class="n">$194.75</td></tr>
+</table></div>
+<ul>
+  <li><b>提示词契约</b>（规范文本见 <code>docs/prompts.md</code>；每个任务渲染后的提示词都原样存于各库的 <code>jobs</code> 表）：把任务定位为定性元科学；<em>绝不重新评审论文，也不发明分类体系</em>；按行 ID 引用证据（<code>R-&lt;note_id&gt;:L###</code>）；在初始阶段刻意隐藏结果与其他评审。</li>
+  <li><b>泄漏控制</b>：录用决定、评分及其他结果元数据从不提供给任何提取阶段；它们只在下游展示时才被关联。</li>
+  <li><b>方法选择</b>：试点中，同模型盲评以 69–31 偏好分层法胜过直接法，但九年轨道出于成本与误差传播的考虑保留了直接法；分层法供给高分辨率的 2026 轨道。这一取舍有记录，未隐藏。</li>
+</ul>
+
+<div class="no" id="s4">04</div>
+<h2>第三层 — Qwen 结构化单元</h2>
+<p><b>模型</b>（两轨）：<code>qwen3.7-flash</code>，经 DashScope 的 OpenAI 兼容端点 <code>https://dashscope-intl.aliyuncs.com/compatible-mode/v1</code>，实时 API，<code>enable_thinking=false</code>，严格的 JSON 模式约束输出。<b>未设置 temperature 或随机种子</b> — 采用服务商默认值（一处已记录的可复现性缺口；见 §08）。每个请求只读第二层备忘 — 从不读原始评审。清单文件锁定 <code>protocol_sha256</code> 与模式哈希。</p>
+<h3>轨道 A — 紧凑（ICLR 2026，评审级）</h3>
+<pre><span class="c"># input: episode-lite-2026-full-single (one review per shard, 75,859 shards)</span>
+uv run python scripts/qwen_review_logic_batch.py prepare --billing-mode realtime \
+  --output data/analysis/iclr/review-logic-qwen-2026-full …
+uv run python scripts/qwen_review_logic_batch.py run-realtime \
+  --output data/analysis/iclr/review-logic-qwen-2026-full</pre>
+<p>模式 <code>review-logic-compact-v0.1.json</code>：每篇评审一组 <code>logic_units[]</code>，每条含 {inspected_object, observation, reasoning, judgment, valence, suggested_improvement, evidence_refs, support_status, confidence, missing_links}，外加摘要与未解决的张力。结果：<b>74,380 / 75,859 完成（98.1%）</b>，1,479 失败，$28.79，声明上限 $40。提示词经约 10 次门控的试点/对照运行后冻结于试点 v3（批处理 API 尝试以 <code>model_not_found</code> 失败；实时 API 成功）。</p>
+<h3>轨道 B — 直接（2018–2026，forum 级）</h3>
+<pre><span class="c"># prepare declares model, schema hashes and a required --cost-cap-usd; run executes with resume</span>
+uv run python scripts/qwen_reviewer_logic_direct.py prepare \
+  --output data/analysis/iclr/reviewer-logic-direct-qwen-full-v1 --cost-cap-usd … 
+uv run python scripts/qwen_reviewer_logic_direct.py run \
+  --output data/analysis/iclr/reviewer-logic-direct-qwen-full-v1
+<span class="c"># subcommands: prepare · run · status · reprocess (local re-validation, no API spend)</span></pre>
+<p>模式 <code>reviewer-logic-direct-v0.1.json</code>：每个 forum 一组 <code>reviewer_records[]</code>，其中每条逻辑单元带 <code>temporal_position</code>（initial / post_author_response / meta_assessment / cross_reviewer）、<code>update_trigger</code> 与 <code>judgment_change</code>（strengthened / weakened / reversed / clarified / not_observed）— rebuttal 与漂移分析背后的字段。校验在本地且严格：JSON 模式校验，加上对照备忘行 ID 的证据引用检查；一个响应可以是 HTTP-200 却仍被记为失败。</p>
+
+<div class="no" id="s5">05</div>
+<h2>重试、合并与失败尾部</h2>
+<p>直接轨道的首轮留下了截断失败。两轮重试<em>只</em>重跑没有可解析服务商 JSON 的行，并提高输出预算：</p>
+<div class="tw"><table>
+  <tr><th>轮次</th><th>选取</th><th>max_output_tokens</th><th>结果</th></tr>
+  <tr><td><code>retry-24k-v1</code></td><td>7,270 行</td><td class="n">24,000</td><td>6,223 完成 · 1,047 失败</td></tr>
+  <tr><td><code>retry-32k-v1</code></td><td>959 行</td><td class="n">32,000</td><td>812 完成 · 147 失败 · $1.36</td></tr>
+</table></div>
+<pre><span class="c"># each round: prepare → run → dry-run merge → apply merge</span>
+uv run python scripts/prepare_qwen_direct_retry.py …
+uv run python -m scripts.merge_qwen_direct_retry \
+  --source-run data/analysis/iclr/reviewer-logic-direct-qwen-full-v1 \
+  --retry-run  data/analysis/iclr/reviewer-logic-direct-qwen-retry-32k-v1 [--apply]</pre>
+<div class="diagram"><p class="cap">截断阶梯 — 7,166 次失败如何压到 147</p>
+<div class="fun-step">首轮 @ 16K 输出 TOKEN</div>
+<div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">7,166 个截断响应<span class="s">无可解析 JSON</span></div></div>
+<div class="fun-step">重试 @ 24K → 挽回 6,223</div>
+<div class="fun-row"><div><div class="fun-bar" style="width:13.4%;background:#b45036"></div></div><div class="fun-lbl">959 仍失败<span class="s">选入 32k 轮</span></div></div>
+<div class="fun-step">重试 @ 32K → 挽回 812</div>
+<div class="fun-row"><div><div class="fun-bar" style="width:2.1%;background:#b45036"></div></div><div class="fun-lbl">147 永久失败<span class="s">107 无法解析 · 32 内容策略拒答（各预算下相同）· 8 语义</span></div></div>
+</div>
+<p>合并工具通过嵌套清单核验重试的祖先链（最多 32 层），拒绝合并未完成的运行，应用前经 SQLite 在线备份 API 为目标库做快照（<code>state-pre-retry-merge-&lt;utc&gt;.sqlite3</code>），且从不覆盖首次尝试的服务商证据。语义校验失败（HTTP-200 行）被刻意排除在 API 重试之外 — 由测试强制。</p>
+<p><b>最终覆盖率</b>（冻结于 2026-08-18）：<b>严格完成 50,861 / 51,813 = 98.16%</b>。另有一个较弱的 “JSON 可用” 定义（99.73%），只在显式标志下使用。952 行的尾部，精确分类如下：</p>
+<div class="tw"><table>
+  <tr><th>类别</th><th>行数</th><th>输出 JSON</th><th>性质</th></tr>
+  <tr><td>无效证据引用</td><td class="n">709</td><td>有</td><td>HTTP 200，JSON 有效；本地引用检查失败</td></tr>
+  <tr><td>模式校验错误</td><td class="n">65</td><td>有</td><td>HTTP 200；本地模式检查失败</td></tr>
+  <tr><td>其他严格/本地校验</td><td class="n">39</td><td>有</td><td>同一族</td></tr>
+  <tr><td>解析 / 截断</td><td class="n">107</td><td>无</td><td>服务商响应始终未完成为 JSON，即便在 32k 下</td></tr>
+  <tr><td>服务商内容策略拒答</td><td class="n">32</td><td>无</td><td>HTTP 400 <code>DataInspectionFailed</code>；16k→24k→32k 全程不变 — 不是 token 预算问题</td></tr>
+</table></div>
+
+<div class="no" id="s6">06</div>
+<h2>单元提取与归纳分类体系</h2>
+<p>最后的数据层把两轨展平为逐单元的 SQLite 表，并把每条单元分派到一套归纳得到的分类体系。这里的一切都是本地计算 — API 成本为零 — 并全部脚本化：</p>
+<pre><span class="c"># 1) flatten complete records into unit tables</span>
+uv run python scripts/extract_logic_units_2026.py     <span class="c"># → unit-taxonomy-2026-v1/units.sqlite3 · 410,586 units</span>
+uv run python scripts/extract_logic_units_direct.py   <span class="c"># → unit-taxonomy-direct-v1/units.sqlite3 · 1,009,592 units</span>
+
+<span class="c"># 2) induce the taxonomy from a 12,000-unit sample (seed 7)</span>
+uv run python scripts/induce_unit_taxonomy.py --sample-size 12000 --min-cluster-size 60 --seed 7
+
+<span class="c"># 3) hand-write taxonomy-v1.json from the cluster digests, then assign all units</span>
+uv run python scripts/assign_unit_taxonomy.py          <span class="c"># 2026 track</span>
+uv run python scripts/assign_unit_taxonomy_direct.py   <span class="c"># direct track, reusing the same centroids</span></pre>
+<ul>
+  <li><b>选取规则</b>：只提取各源运行中 <code>status='complete'</code> 的行（部分失败行也有输出；它们被排除）。</li>
+  <li><b>嵌入</b>：<code>BAAI/bge-small-en-v1.5</code>，归一化，批大小 256，本地。字段 <code>inspected_object</code> 与 <code>reasoning</code> 分别嵌入。</li>
+  <li><b>聚类</b>：UMAP（15 个分量、30 个近邻、min_dist 0、余弦、random_state 7）→ HDBSCAN（min_cluster_size 60、min_samples 10、EOM）。得到：36 个审视对象簇（37.6% 噪声）与 17 个推理簇（61.5% 噪声）。</li>
+  <li><b>人工步骤</b>：人工阅读各簇范例并手工合并为 <b>12 审视对象 × 12 推理标准</b>，附定义，记录于 <code>taxonomy-v1.json</code>。两个异质簇被排除在质心构建之外。没有以任何既有方案（包括本项目自己的 Atlas 卡片）作种子。</li>
+  <li><b>分派</b>：类别质心 = 成员簇样本嵌入的归一化均值（带种子的流水线重跑可精确复现簇成员 — 已核验）；每条单元按余弦取最近质心，相似度作为该单元的置信度存储。高置信度（≥0.75）占比：审视对象 94.5%，推理标准 87.9%（2026 轨道）；直接轨道上逐年平均相似度平稳在约 0.81，因此跨年比较不是迁移产生的伪影。</li>
+  <li><b>注意</b>：分类体系在 2026 紧凑备忘上归纳，再迁移到直接轨道；质心相同，备忘风格不同。平稳的相似度曲线是这一迁移成立的证据。</li>
+  <li><b>方案效度</b>：四部分的单元粒度与 12 &times; 12 分类体系是对评审文本的一种归纳切分 &mdash; 按上述检查内部一致，并有一次外部锚定（&sect;07 的构念效度网格：这些类别在应当起作用之处确实撼动了会议自身的分项评分）&mdash; 但没有任何检查确立它们是<em>正确的</em>切分。换一种粒度或换一种合并会画出另一张图；下游的每一个计数都是此方案之内的计数。</li>
+</ul>
+
+<div class="diagram"><p class="cap">归纳一览 — 从原始单元到 12 × 12 分类体系</p>
+<div class="fm-row">
+  <div class="fm-box"><div class="t">抽样单元</div><div class="s">410,586 中的 12,000<br>种子 7</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">嵌入</span></div>
+  <div class="fm-box"><div class="t">嵌入向量</div><div class="s">bge-small-en-v1.5<br>对象与推理，分别嵌入</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">投影</span></div>
+  <div class="fm-box"><div class="t">UMAP</div><div class="s">15 分量 · 30 近邻<br>余弦 · 种子 7</div></div>
+</div>
+<div class="fm-down">↓ &nbsp; HDBSCAN，最小簇 60 — 36 个审视对象簇（37.6% 噪声）· 17 个推理簇（61.5% 噪声） &nbsp; ↓</div>
+<div class="fm-row">
+  <div class="fm-box"><div class="t">人工合并</div><div class="s">阅读并命名范例<br>排除 2 个混合簇</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">记录</span></div>
+  <div class="fm-box acc"><div class="t">taxonomy-v1.json</div><div class="s">12 审视对象 × 12 推理标准<br>附定义</div></div>
+  <div class="fm-arrow"><span class="g">→</span><span class="lbl">全量分派</span></div>
+  <div class="fm-box"><div class="t">最近质心</div><div class="s">余弦，两轨<br>相似度存为置信度</div></div>
+</div>
+</div>
+<p>这两个带标签数据库之下游的一切 — 聚合文件与图谱的图版 — 是一个独立的、持续演进的层，记录在<a href="index.html">图谱</a>自身的附录中。</p>
+
+</div></div>
+<div class="pwin" id="pii" data-bay="1">
+  <div class="pwin-card">
+    <div class="part-rule"><span>第二部分</span></div>
+    <h2 class="part-name">受测的仪器</h2>
+    <div class="part-lat">probatio instrumenti — 仪器之测试</div>
+    <p class="part-sub">机器读取读得多准，以及它读不到的地方</p>
+  </div>
+</div>
+<div class="sheet"><div class="shell">
+<!-- METHOD-EXTRAS BEGIN (generated by scripts/build_method_extras.py) -->
+
+<style>
+.hm-wrap { }
+.hm { display: grid; gap: 2px; }
+.hm .rl { font-size: 12.5px; color: var(--ink-2); display: flex; align-items: center; justify-content: flex-end; text-align: right; line-height: 1.3; padding-right: 12px; }
+.hm .cl { font-family: var(--mono); font-size: 11px; color: var(--ink-2); justify-self: center; align-self: center; padding: 4px 0; }
+.hm .cell { height: 26px; }
+.hm .cell:hover { outline: 1px solid var(--brass); outline-offset: -1px; }
+.fig-cap { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); margin: 26px 0 12px; }
+.hm-note { font-size: 13px; color: var(--ink-2); margin-top: 12px; }
+@media (max-width: 700px) { .hm .rl { font-size: 8.5px; white-space: normal; line-height: 1.15; padding-right: 6px; } .hm .cell { height: 20px; } }
+.unit-toggle { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.16em; text-transform: uppercase; background: none; border: 1px dashed var(--brass-line); color: var(--brass); padding: 6px 14px; cursor: pointer; margin-top: 10px; align-self: flex-start; transition: background .25s ease; }
+.unit-toggle:hover { border-style: solid; background: rgba(201,164,92,0.08); }
+.unit-toggle .arr { display: inline-block; transition: transform .45s cubic-bezier(.25,.8,.25,1); margin-left: 6px; }
+.unit-toggle.open .arr { transform: rotate(180deg); }
+.unit-fold { display: grid; grid-template-rows: 0fr; transition: grid-template-rows .6s cubic-bezier(.25,.8,.25,1); }
+.unit-fold.open { grid-template-rows: 1fr; }
+.unit-fold > .uf-inner { min-height: 0; overflow: hidden; }
+@keyframes specIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+.spec-in { animation: specIn .45s cubic-bezier(.2,.7,.2,1) both; }
+#sp-more, #sp-less { background: none; color: var(--brass); border: 1px solid var(--brass-line); padding: 10px 32px; font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.2em; text-transform: uppercase; cursor: pointer; }
+#sp-more:hover, #sp-less:hover { background: rgba(201,164,92,0.08); }
+@media (prefers-reduced-motion: reduce) { .unit-fold, .unit-toggle .arr { transition: none !important; } .spec-in { animation: none !important; } }
+</style>
+
+<div class="no" id="s7">07</div>
+<h2>仪器校验 — 读取读者本身</h2>
+<p>以上各节描述数据如何生成；本节问的是机器读取可信到什么程度。两项校验，都从随发布的单元数据库计算得出。它们也出现在图谱里，但归属于此：它们是关于仪器的陈述，而非关于审稿人的发现。</p>
+
+<h3>支撑状态 — 仪器以自己的声音发言之处</h3>
+<p>每个单元带有一个在结构化时赋值的 <code>support_status</code> 字段：<b>reviewer_explicit</b>（以审稿人明述的文字为依据）、<b>memo_inferred</b>（由 DeepSeek 分析备忘依上下文阐述而非引用）或 <b>mixed</b>。两条轨道按构造就差异悬殊 — 评审级 2026 轨道为 19.8% 明述 / 77.1% 推断 / 3.1% 混合，forum 级轨道为 57.4% / 40.8% / 1.7% — 因为 Layered 提示词要求备忘做综合，Direct 提示词则要求引用行 ID。这一占比在类别与年份之间并不均匀：</p>
+<div class="fig-cap">备忘推断占比，对象 × 年份 — forum 级轨道（紫色越深 = 推断越多）</div>
+<div class="hm-wrap"><div class="hm" id="mx-rel"></div></div>
+<p class="hm-note">紫色加深的类别与年份，正是下游各图更多以仪器之声而非审稿人之声发言的地方。重建：<code>uv run python scripts/build_panel_data.py</code> → <code>panel-data.json</code>（键 <code>reliability</code>）。</p>
+
+<h3>构念效度 — 归纳得到的类别是否跟随会议自身的分解？</h3>
+<p>分类体系由嵌入归纳得到，并非设计出来，因此需要一个外部判据。ICLR 要求审稿人给出三项子评分（soundness · presentation · contribution，1–4 分；这些字段自 2024 年起才存在）。对每个审视对象，我们比较在该对象上至少带一个否定单元的评审与<em>同一总评分</em>下不带此类单元的评审的子评分均值，按流行度对各评分档的差值加权（任一侧评审数少于 30 的格子剔除），再看每种批评是否压低了它应当压低的那项子评分。在全部 74,380 篇有评分的 2026 评审上计算。</p>
+<div class="fig-cap">存在否定单元时经评分校正的 Δ 子评分（赭色 = 下降，铜绿色 = 上升）</div>
+<div class="hm-wrap"><div class="hm" id="mx-con"></div></div>
+<p class="hm-note">这张网格与会议自身的分解大体一致 — 清晰度批评专门压低 <em>presentation</em>（−0.35），新颖性压低 <em>contribution</em>（−0.12）— 但有一处耐人寻味的泄漏：理论批评对 presentation 的压低多于 soundness，仿佛 "I could not follow the theory" 被归到了 presentation 之下。重建：<code>uv run python scripts/build_construct_data.py</code> → <code>construct-data.json</code>。</p>
+
+<h3 id="ruler">移动的标尺 — 评分量表的九年</h3>
+<p>会议自身的仪器并未保持静止。枚举记录中的每一条评分字符串（全部 199,031 篇官方评审），得到四种不同的评分形式，任何跨年比较评分的图都必须考虑它们：</p>
+<div class="tw"><table>
+  <tr><th>年份</th><th>字段</th><th>观察到的等级</th><th>锚点</th></tr>
+  <tr><td>2018–19, 2021</td><td><code>rating</code></td><td>十级：1–10</td><td>带文字标签；5 = "marginally below the acceptance threshold"，6 = "marginally above"</td></tr>
+  <tr><td>2020</td><td><code>rating</code></td><td>四级：1, 3, 6, 8</td><td>Reject / Weak Reject / Weak Accept / Accept；唯一没有置信度评分的年份（代之以 "experience assessment"）</td></tr>
+  <tr><td>2022–25</td><td><code>recommendation</code>（'22–23），之后为 <code>rating</code></td><td>六级：1, 3, 5, 6, 8, 10</td><td>到 2024 年为止带文字标签（同样以 5/6 为阈值锚点）；2025 年记录中为裸整数</td></tr>
+  <tr><td>2026</td><td><code>rating</code></td><td>六级：0, 2, 4, 6, 8, 10</td><td>裸偶数整数；与早年没有共同的阈值锚点</td></tr>
+</table></div>
+<h3 id="elements-audit">要件审计 — 三位盲读者</h3>
+<p>图版 X 通过聚类（数据驱动的地形）与分析者合并（手绘的边界）把 "不新颖" 分解为要件。为审计这些边界，三个独立的机器读者（Claude Haiku 智能体）各拿到 60 条原始新颖性否决，<em>不给分类体系</em>，被问每条否决究竟说了什么。三者都独立重新推导出该图版的主要族 — 显而易见的组合、增量不足、未加区分的现有技术、已被预见、复述已知、单纯迁移、被打折的非方法贡献、按会议定标的门槛 — 其中一位读者还独立重现了把<em>引入的证据规则</em>保留为独立要件的决定。两个被聚类折叠掉的要件在审计中浮现，在此记录为更细的条款：<b>虚假优先权的指控</b>（论文声称自己是第一个，审稿人说此说不实 — 这是对归属的指控，而非对相似性的指控；≈3–7% 的审计样本，折叠在 "复述已知" 之内），以及<b>找不到的贡献</b>（审稿人找不到论文声称的新东西；≈5–10%，三位读者都发现了它）。第二条最好按引入的证据规则的读法来读：指控归入新颖性的案卷，但生效的法则是表述的 — 只有一处实质性的转折使它不止是清晰度问题：审稿人把找不到的新颖性当作不存在的新颖性，也就是说，会议实际运作的新颖性是产物<em>加其论证</em>的属性，从来不是产物本身的属性 — 这与区分规则的阐明责任条款一致，也与新颖性的主要修复是写作之工这一事实一致。审计协议与记录随仓库发布。</p>
+
+<p>图谱如何处理这一点：评分分布始终按年、在该年自身的等级上绘制（图 11d、11e），量表变化在图注中点明；评分离散度的断言（图 10c）使用按各年自身等级数归一化的熵，因此形式的变化无法伪装成行为的变化；组内相关系数（图 10a）是方差比，所以在重新标注后仍然成立，但更粗的网格会机械地压低它 — 2026 年的点画成虚线并加标记，正是出于这个原因。原始分值量（均值、审稿人两两之差）从不跨形式边界比较。子评分（soundness · presentation · contribution）自 2024 年起才存在，这就是上文构念效度校验限于近年的原因。</p>
+
+<script>
+const MX = {"objLabel": {"empirical_scope": "实证范围与泛化性", "baselines_ablations": "基线与消融", "theory": "理论、假设与保证", "method_design": "方法设计依据", "compute_cost": "计算成本与可扩展性", "clarity": "清晰度与表述", "novelty": "新颖性与贡献", "related_work": "相关工作与引用", "stats_metrics": "统计严谨性与指标", "robustness_sensitivity": "鲁棒性与敏感性", "reproducibility": "可复现性与代码", "problem_framing": "问题界定与动机"}, "reaLabel": {"novelty_standard": "新颖性标准", "claim_evidence_match": "主张与证据范围匹配", "fair_comparison": "公平比较规范", "statistical_identifiability": "统计可辨识性", "confound_hypothesis": "混杂因素 / 替代解释", "design_justification": "设计论证要求", "robustness_norm": "鲁棒性规范", "cost_benefit": "实际成本收益", "construct_validity": "测量构念效度", "reproducibility_norm": "可复现性规范", "presentation_trust": "表述即信任信号", "merit_recognition": "价值认可"}, "objOrder": ["empirical_scope", "method_design", "theory", "stats_metrics", "compute_cost", "clarity", "baselines_ablations", "robustness_sensitivity", "problem_framing", "novelty", "related_work", "reproducibility"], "reaOrder": ["design_justification", "novelty_standard", "merit_recognition", "robustness_norm", "fair_comparison", "presentation_trust", "claim_evidence_match", "cost_benefit", "statistical_identifiability", "confound_hypothesis", "construct_validity", "reproducibility_norm"], "rel": {"years": [2018, 2019, 2020, 2021, 2022, 2023, 2024, 2025, 2026], "memo_inferred_share": {"baselines_ablations": [0.3248, 0.3133, 0.2941, 0.27, 0.3096, 0.3199, 0.4171, 0.4341, 0.463], "clarity": [0.2903, 0.2822, 0.2816, 0.2613, 0.2906, 0.3296, 0.4016, 0.4281, 0.4484], "compute_cost": [0.3442, 0.2971, 0.2716, 0.2778, 0.3011, 0.318, 0.4087, 0.4371, 0.4545], "empirical_scope": [0.3008, 0.2641, 0.2913, 0.2598, 0.3082, 0.3188, 0.4033, 0.426, 0.4513], "method_design": [0.3167, 0.2795, 0.2852, 0.2633, 0.2865, 0.3198, 0.4063, 0.4278, 0.4526], "novelty": [0.3333, 0.3157, 0.3203, 0.2521, 0.3091, 0.3479, 0.4157, 0.4323, 0.4734], "problem_framing": [0.2807, 0.2762, 0.3103, 0.2852, 0.3039, 0.3408, 0.4186, 0.4348, 0.4609], "related_work": [0.345, 0.3671, 0.3466, 0.322, 0.3351, 0.3845, 0.4486, 0.463, 0.497], "reproducibility": [0.3454, 0.3333, 0.3401, 0.2649, 0.2996, 0.3258, 0.423, 0.4345, 0.4678], "robustness_sensitivity": [0.3481, 0.2414, 0.2715, 0.2463, 0.2899, 0.3241, 0.4014, 0.4251, 0.4514], "stats_metrics": [0.3219, 0.3092, 0.2922, 0.2738, 0.2945, 0.3533, 0.4176, 0.4431, 0.4754], "theory": [0.295, 0.2613, 0.2881, 0.2507, 0.2969, 0.2891, 0.3801, 0.3988, 0.425]}}, "construct": {"empirical_scope": {"soundness": -0.0253, "presentation": 0.0294, "contribution": -0.0025}, "baselines_ablations": {"soundness": -0.0425, "presentation": -0.0168, "contribution": -0.0042}, "theory": {"soundness": -0.0217, "presentation": -0.0683, "contribution": -0.0066}, "method_design": {"soundness": -0.0301, "presentation": 0.0305, "contribution": -0.0198}, "compute_cost": {"soundness": 0.0038, "presentation": 0.022, "contribution": 0.0026}, "clarity": {"soundness": -0.0175, "presentation": -0.3465, "contribution": 0.037}, "novelty": {"soundness": 0.0147, "presentation": 0.0251, "contribution": -0.1219}, "related_work": {"soundness": -0.0233, "presentation": -0.117, "contribution": -0.0336}, "stats_metrics": {"soundness": -0.0457, "presentation": -0.0123, "contribution": 0.0047}, "robustness_sensitivity": {"soundness": -0.0202, "presentation": 0.0034, "contribution": 0.02}, "reproducibility": {"soundness": -0.0509, "presentation": -0.0851, "contribution": 0.0342}, "problem_framing": {"soundness": -0.0306, "presentation": -0.0825, "contribution": -0.0221}}};
+(function () {
+  const fmt = n => n.toLocaleString("en-US");
+  const pct = x => (100 * x).toFixed(1) + "%";
+  const objLabel = MX.objLabel, reaLabel = MX.reaLabel, objOrder = MX.objOrder, reaOrder = MX.reaOrder;
+
+  // ---- reliability heatmap ----
+  const R = MX.rel;
+  const rel = document.getElementById("mx-rel");
+  rel.style.gridTemplateColumns = `minmax(86px, 210px) repeat(${R.years.length}, 1fr)`;
+  rel.insertAdjacentHTML("beforeend", `<div></div>` + R.years.map(y => `<div class="cl">'${String(y).slice(2)}</div>`).join(""));
+  for (const o of objOrder) {
+    const vals = R.memo_inferred_share[o]; if (!vals) continue;
+    rel.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    vals.forEach((v, i) => {
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.style.background = `color-mix(in oklab, #6b5d94 ${Math.min(92, Math.round(4 + v * 96))}%, #f3ead2)`;
+      cell.title = `${objLabel[o]} · ${R.years[i]}：${pct(v)} 由备忘推断`;
+      rel.appendChild(cell);
+    });
+  }
+
+  // ---- construct-validity heatmap ----
+  const SUBS = ["soundness", "presentation", "contribution"];
+  const con = document.getElementById("mx-con");
+  con.style.gridTemplateColumns = `minmax(86px, 210px) repeat(${SUBS.length}, 1fr)`;
+  con.insertAdjacentHTML("beforeend", `<div></div>` + SUBS.map(x => `<div class="cl">${x}</div>`).join(""));
+  for (const o of objOrder) {
+    con.insertAdjacentHTML("beforeend", `<div class="rl">${objLabel[o]}</div>`);
+    for (const sub of SUBS) {
+      const v = (MX.construct[o] || {})[sub] || 0;
+      const mag = Math.min(92, Math.round(6 + Math.abs(v) / 0.35 * 86));
+      const cell = document.createElement("div");
+      cell.className = "cell";
+      cell.style.background = `color-mix(in oklab, ${v < 0 ? "#6f1f45" : "#356b43"} ${mag}%, #f3ead2)`;
+      cell.title = `negative ${objLabel[o]} unit × ${sub}: Δ mean = ${v > 0 ? "+" : ""}${v.toFixed(3)} (rating-adjusted)`;
+      con.appendChild(cell);
+    }
+  }
+
+})();
+</script>
+<!-- METHOD-EXTRAS END -->
+<div class="no" id="s8">08</div>
+<h2>无法复现之处</h2>
+<ul>
+  <li><b>LLM 采样</b>：DeepSeek 以温度 0.4 运行，未设随机种子；Qwen 既未设温度也未设随机种子。重新运行会生成结构相似但文本不同的备忘与单元。项目中的每个 <code>seed</code> 都控制<em>输入选择</em>，而非模型输出。</li>
+  <li><b>一次性手工修复</b>：两个硬编码的修复脚本（28 个 episode ID；7 个链模板）修补了早期的试点产物，从零重跑后需要有意识地重新施加。</li>
+  <li><b>人工判断点</b>：提示词冻结的时机、校准配置的采用以及停止决定都有文档记录，但无法机械复现。</li>
+  <li><b>上游漂移</b>：OpenReview 不公开完整的编辑历史；原始快照无法察觉平台上采集之后发生的更改。</li>
+  <li><b>哈希覆盖</b>：协议/模式的 SHA-256 固定覆盖 Qwen 时期的运行（16 份清单）；更早的试点产物只能依靠文档互证。</li>
+</ul>
+
+</div></div>
+<div class="pwin" id="piii" data-bay="2">
+  <div class="pwin-card">
+    <div class="part-rule"><span>第三部分</span></div>
+    <h2 class="part-name">记录</h2>
+    <div class="part-lat">acta — 所做之事</div>
+    <p class="part-sub">实际做了什么，按什么顺序，受谁的推动</p>
+  </div>
+</div>
+<div class="sheet"><div class="shell">
+<div class="no" id="s9">09</div>
+<h2>实际的路径 — 试点、失败、决定</h2>
+<p>这份编年记背后经过脱敏的原始会话历史 — 每条命令与每个决定按发生时的原样，共 21,386 个事件 — 发布于<a href="https://github.com/t46/atlas-of-judgment">项目仓库</a>（<code>codex-history/</code>），与完整流水线代码和这些页面一起。以上各节描述流水线最终运行的样子。本节记录它实际如何走到那里 — 小规模试验、死路与中途修正，按顺序排列。这里没有事后的粉饰；每一项都有仍在磁盘上的产物目录或清单作支撑。</p>
+<h3>每个生产阶段都先做了试点</h3>
+<ul>
+  <li>没有任何东西未经试验就全规模运行。试点账簿（均可只读核验）：initial_blind <b>395 个试点作业</b>（$0.33），trajectory 327（$0.51），paper_synthesis 100（$0.52），forum_direct 100（$0.32），以及一次专门的 100 个 forum 方法比较运行（$0.40）。</li>
+  <li><b>方法的分岔</b>：Layered（每条评审链 3 次 DeepSeek 调用）与 Direct（整个 forum 一次调用）在 100 个 forum 上正面比较，由同一模型盲评 — <b>Layered 以 69–31 胜出</b>。九年语料仍选了 Direct，出于成本，也因为分层的错误会向下游传播。这一质量上的取舍是明知而接受并记录在案的，没有隐藏；Layered 仍然驱动高分辨率的 2026 轨道。</li>
+</ul>
+<h3>episode 弯路（一次有收获的失败）</h3>
+<ul>
+  <li>一个中间的 "evaluation episode" 模式（v0.1，之后是更精简的 v0.2 Lite/Deep）被设计出来，并在精选集上验证：1,000 篇分层抽样的评审（选择用随机种子 20260816）加 63 次深度抽取 — 两者都保留为校准资产。</li>
+  <li>把它扩展到全部 75,859 篇评审时接连以三种方式失败：第一次全量运行因抽取浅薄被否；v2 因字段模板化、复制粘贴被否；随后三个校准配置正面比较（r5-low、r15-medium、r8-medium-v3），<b>采用了 r8-medium-v3</b> — 但全语料的预计墙钟时间约为一周，运行在中途被有意停止（计划 ~9,774 个分片）。</li>
+  <li>随后智能体式的 Luna 引擎本身也从这项工作中撤下：它在被 "安全地" 停止时已完成 75,859 中的 876 篇，失败 186 次，整个抽取围绕 Qwen 上一个更轻的紧凑模式重新设计。那 876 份 Luna 输出保留为比较基线，未合并。</li>
+</ul>
+<h3>Qwen 的试炼（紧凑轨道）</h3>
+<ul>
+  <li>先试 Batch API：<b>27 个试点请求 0 个成功</b>（批处理端点返回 <code>model_not_found</code>）。改用实时端点：22/27。随后两次单评审对照运行（46/54，然后 53/54），尝试了每请求打包两篇评审并<b>因覆盖率损失而否决</b>，一次 206 个请求的负载测试（203 个成功）作为 75,859 个请求的生产运行之前最后的放行关卡。</li>
+</ul>
+<h3>Direct 轨道的走走停停</h3>
+<ul>
+  <li>试点 v1：<b>0/90</b> — 一条死路。v2 停滞，多数请求卡在 <code>prepared</code>。v3 恰好完成了一个 forum。v4 达到 79/90 并冻结了方法；此后 51,813 个 forum 的生产运行才启动。</li>
+</ul>
+<h3>截断阶梯</h3>
+<ul>
+  <li>第一次全量遍历（16k 输出 token）留下 <b>7,166 条截断的响应</b>。一轮 24k 的重试重跑了 7,270 条符合条件的行，找回 6,223 条。仍失败的 959 条以 32k 重试，又找回 812 条。<b>107 行在任何预算下都未能解析</b>，仍被排除。</li>
+  <li>另有一簇 <b>32 行在 16k、24k 与 32k 下以同样方式失败</b>，返回服务商的内容政策拒答（<code>DataInspectionFailed</code>，HTTP 400）— 证明这种失败模式与 token 预算无关。它们没有再重试；只有成功的结果被合并，每次合并前都对目标数据库自动做一次在线备份快照。</li>
+  <li>语义校验失败（813 行 JSON 合法但未通过本地证据/模式检查）被有意<em>排除</em>在每一轮重试之外 — 再向 API 付一次费修不好本地的校验规则；这一排除由单元测试强制执行。</li>
+</ul>
+<h3>小伤痕，记录在案</h3>
+<ul>
+  <li>32k 重试的监督 shell 脚本在全部 959 行提交<em>之后</em>崩溃 — 它把 zsh 的保留变量 <code>status</code> 用作了局部变量。已改名为 <code>exit_status</code>；对数据零影响，但教训写了下来。</li>
+  <li>两次一次性手工修复修补了早期试点产物（28 个格式错误的 episode ID 通过硬编码表迁移；7 个占位链模板手工恢复）。两者按构造即不可复现，已在 §08 标记。</li>
+  <li>分类体系阶段有自己的迭代：推理侧聚类返回 61.5% 的噪声（对象侧为 37.6%），因此标准分类体系被接受为从可聚类的 ~40% 中归纳出的骨架 — 作为局限如实报告，而未悄悄抹平。</li>
+</ul>
+
+<div class="no" id="s10">10</div>
+<h2 id="order-of-work">图版的顺序不是工作的顺序</h2>
+<p>这样一页读起来可能像是每项分析都已预见、每张图版都在等前一张。事情并非如此，若声称如此，就是一种值得点名的研究做法：看到结果之后再发明动机。所以，直说：</p>
+<ul>
+<li><b>顺序是编辑上的安排，事后才加上。</b>这些分析历经数周，按问题出现在我们脑中的先后建成；之后图版才被归入各幕，并为阅读排序。这一安排至今已修订三次 — 从松散的序列到六幕；当关于评判的那一幕承载着两个不同的问题时拆成七幕；再重新分组，使每一幕以其图版共有的问题开场（即当前形式）。这些重排都没有改变任何分析。没有哪张图版的位置能证明它是为前一张而做的。</li>
+<li><b>有些图版始于一个明述的问题，在任何数字存在之前。</b>七幕修订中新增的九张图版 — 推理的句法、早判、组合条款、无名判例、法则的代价、控罪单、招式、借来的裁决、未修订的法典 — 每张都先写下问题，之后才计算。其中两张返回零结果，并按零结果报告（rebuttal 招式；疑问式）。一个候选问题在运行<em>之前</em>就被放弃，因为答案事先过于明显：审稿人是否在 LLM 时代长出了一条关于提示工程的条款。占据那张图版的恒常性检验取代了它。</li>
+<li><b>有些图版坦白说是探索性的。</b>脚本、阶梯与神谕的存在，是因为数据支撑得起这样的描述，而非某个假设要求它们。它们的导语如实说明，没有制造动机。</li>
+<li><b>一条已发表的断言有错，已就地更正。</b>早判图版起初写道，一篇评审的裁决到第六个单元即可读出，"相对于十一个单元的评审长度中位数"。中位数其实是五，这使原断言近乎循环论证。分析限于十个单元及以上的评审重跑 — 在那里问题才是真问题 — 图版现在报告的是那条曲线，它在八或九处饱和。错误与修正记录于此，而非悄悄覆盖。</li>
+<li><b>第二条断言在发布当天即被更正。</b>水印图版首次发布的读数（2026-08-27 上午）把 2023 年后同稿审稿人对象集合重叠度的上升呈现为内容层面的趋同，并指出其转折&#8220;正落在水印到来的那一年。&#8221;当天运行的一次规模匹配零检验 — 同样的 forum、同样的集合大小、内容从当年的构成中随机抽取 — 吸收了这一上升：审稿人在 LLM 时代每篇评审指控的对象更多（平均集合大小 3.4 &#8594; 3.8），而选择超出规模的部分持平（+0.037&#8211;0.054，2018 年最高）。图&nbsp;29c 现已画出该零模型；图&nbsp;29d 报告同时运行的另外两项结构零检验（构成熵、推理嵌入差距）。未更正的读数在线上页面留存了大约半天。</li>
+<li><b>第三条断言几小时后倒在同类零检验之下。</b>更正后图版的图&nbsp;29d 曾写道，单个审稿人自身的注意力熵&#8220;从 0.742 &#8594; 0.766 上升：单个审稿人看的东西种类略多，而不是略少。&#8221;当晚运行的一次对抗审计 — 刻意寻找集合大小假象的同类 — 发现这一上升也大多是机械性的：一个 n 匹配的零模型（同一批审稿人的单元数，对象从当年自身构成中随机抽取）几乎同步上升，因为审稿人在 LLM 时代每篇评审提交的单元更多，当年的构成本身也变得更均匀。+0.024 的上升中只有 +0.008 在零检验后留存，且无趋势。图&nbsp;29d 现已画出该零模型，只断言留存下来的部分：2023 年后没有收窄。同一次审计没有削弱用语趋同面板，反而使它更锐利：按章节拆分，论文内的上升集中在总结部分（+20%，仍在攀升），而批评正文上升 +6% 并在 2025 年后停滞 — 两种分解现都已上图。&#8220;分布更广&#8221;这一肯定读法在线上页面留存了不到一天。</li>
+<li><b>凡图注为某项分析给出理由之处，那要么是该分析被运行的原因</b> — 我们当时有的一个问题 — 要么被标明为结果最终所关涉之事。第二类理由写成后果（“这关涉什么”），绝不写成动机。</li>
+</ul>
+
+
+<div class="no" id="s11">11</div>
+<h2 id="provenance-ledger">每张图版的来处</h2>
+<p>下表为每张图版记录它回答的问题，以及关于该问题何时形成我们能诚实说出的内容。它的存在是为了让读者分清两种东西：我们先提出再回答的问题，和我们先做出、随后觉得有趣的描述。“未记录”是一个真实的答案，出现在它诚实出现的地方。凡有记录之处，记录取自项目自身的工作历史 — 研究者与助手之间带时间戳的完整对话日志 — 而非记忆。该日志以日文保存；下文所引摘录为译文。该日志将保持私密（2026-08-27 决定）：代码侧的会话历史发布于 <code>codex-history/</code>，但对话日志包含无法负责任地全文脱敏的材料，因此本表所引的带日期摘录就是它公开的全部部分。在没有记录的情况下重建动机，正是本表要防止的做法。</p>
+<ul class="pv-key"><li><b>先行陈述</b> — 问题在数字存在之前已写下</li><li><b>奠基性</b> — 与分类体系本身一同建立；无单独假设</li><li><b>探索性</b> — 因数据允许这种描述而运行；无任何预测</li><li><b>部分陈述</b> — 部分事先指定，部分事后添加</li><li><b>未记录</b> — 我们没有关于其起因的可靠记录，也不打算编造一个</li></ul>
+<p style="margin-top:4px">在逐行记录之前，先给出全部 34 行台账的合计 — 对“这个项目对自身过程有多诚实”的一眼之答：</p>
+<div class="diagram" style="margin-top:2px">
+<div class="fun-row"><div><div class="fun-bar" style="width:100%;background:#8a5a1f"></div></div><div class="fun-lbl">17 先行陈述<span class="s">问题在数字之前已有记录</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:52.9%;background:#72654f"></div></div><div class="fun-lbl">9 未记录<span class="s">亦未重建</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:23.5%;background:#a3803f"></div></div><div class="fun-lbl">4 部分陈述<span class="s">种子有记录，最终设计无</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:17.6%;background:#5b4d3a"></div></div><div class="fun-lbl">3 奠基性<span class="s">与分类体系本身一同建立</span></div></div>
+<div class="fun-row"><div><div class="fun-bar" style="width:5.9%;background:#b45036"></div></div><div class="fun-lbl">1 探索性<span class="s">描述性，无任何预测</span></div></div>
+</div>
+<div class="pv-wrap"><table class="pv-table">
+<thead><tr><th>图版</th><th>它回答的问题</th><th>溯源</th><th>备注</th></tr></thead>
+<tbody>
+<tr><td>图版 0 · 标本</td><td>导览：一篇评审的解剖，逐一对应九幕</td><td class="pv-st">先行陈述</td><td>导航而非分析；它不含关于语料的任何断言。按一项明确的请求建造，置于站点全屏目录浮层（“总图”）的开头。标本按一条明述规则选出，而非手工挑选：在 232 条 <code>sample_reviews</code> 中，取带 4&#8211;6 个单元且判定种类最多的那篇评审，并列时按 <code>review_id</code> 升序打破 &#8212; 今天解析为评审 08lMHzVzba（5 个单元，五种判定齐全，录用决定 Reject）。每个单元画成一条分为四层的带（审视对象 / 观察 / 推理 / 判断）；每层画出的长度是该层实际存储文本的字符数，按标本中最长的字段缩放，因此推理层在视觉上的主导地位是记录自身的形状，而非设计选择。引线把九幕各自对应到标本中它所检视的部分。评分刻度画为空：这篇评审的单元记录不含评分，故未标出。</td></tr>
+<tr><td>绪论 · 领域</td><td>会议计数，无机器读取</td><td class="pv-nr">未记录</td><td>铺陈场景；先于任何关于评审的断言。</td></tr>
+<tr><td>绪论 II · 评审季</td><td>一个周期的日历</td><td class="pv-ps">部分陈述</td><td>研究者在早期原型阶段即认可了时间轴视图（2026-08-18：“时间轴有意思 — 做吧”）；图版的最终形态随后才演化出来，所以这一关联只在这个泛泛的意义上有记录。</td></tr>
+<tr><td>门</td><td>从读者拿到的那句话进入</td><td class="pv-st">先行陈述</td><td>导航而非分析。在七幕修订中提出并建造。</td></tr>
+<tr><td>图版 I · 解剖</td><td>整个语料一览；固定词汇</td><td class="pv-fo">奠基性</td><td>与分类体系本身一同建立；无单独假设。图&nbsp;1c 于 2026-08-27 添加，先行陈述：一项已算出的效度检验（construct-data.json，此前未绘出）按研究者的指示提升到图版上。</td></tr>
+<tr><td>图版 II · 语法</td><td>审视对象与推理标准是否耦合？</td><td class="pv-fo">奠基性</td><td>它对后续图版的意义是后果，而非绘制它的原因。</td></tr>
+<tr><td>图版 III · 修辞</td><td>论证的形状，而不只是它的主题</td><td class="pv-fo">奠基性</td><td>需要在 600 个分析者标注的单元上训练一个分类器；其误差在图注中报告。</td></tr>
+<tr><td>图版 IV · 句法</td><td>论证形式是否相互接续？</td><td class="pv-st">先行陈述</td><td>七幕修订。结果弱，也被描述为弱。</td></tr>
+<tr><td>图版 V · 行程</td><td>批评在文档中按什么顺序写下？（序幕：在整篇评审中的位置）</td><td class="pv-ps">部分陈述</td><td>序幕（原脚本图版，2026-08-24 合并）：探索性 — 描述性，无任何预测。行程：先行陈述 — 项目中期由分析者提出，当时行锚点使位置可恢复：&#8220;把评审展开成一卷长轴时，每类单元出现在哪里？&#8221;整篇评审的切法被模板主导（所有中位数 &#8776; 0.5），于是在 Weaknesses 部分内部重新切分。</td></tr>
+<tr><td>图版 VI · 早判</td><td>一篇评审必须读多少？</td><td class="pv-st">先行陈述</td><td>七幕修订。首次发布的断言有误（中位单元数），已原地更正；见上。2026-08-21 扩展了两项分析者提出的后续分析（原始文本上限；逐主题计数权重），声明为探索性，结果在看到之前即承诺发布。</td></tr>
+<tr><td>图版 VII · 要件</td><td>一条指控究竟说了什么？</td><td class="pv-st">先行陈述</td><td>按一项明确的请求建造：把每条批评分解为依据、规则与修复。图&nbsp;7d 于 2026-08-27 添加，先行陈述：一个被遗落的试点（argument-raw-novelty.json）被发现，经独立复核，并按研究者的指示以其微弱作为标题绘出。</td></tr>
+<tr><td>图版 VIII · 组合条款</td><td>组合规则中的“除非”是什么？</td><td class="pv-st">先行陈述</td><td>计算之前提出，作为图版 VIII 的后续。</td></tr>
+<tr><td>图版 IX · 无名判例</td><td>哪些先前工作会扼杀新颖性？</td><td class="pv-st">先行陈述</td><td>本想给一份经典名录排序；未找到。作为零结果报告。</td></tr>
+<tr><td>图版 X · 套语集</td><td>定制的批评还是标准套语？</td><td class="pv-nr">未记录</td><td></td></tr>
+<tr><td>图版 XI · 修复手册</td><td>审稿人要求作者做什么？</td><td class="pv-nr">未记录</td><td></td></tr>
+<tr><td>图版 XII · 裁决</td><td>哪些对象只在否定意义上被讨论？</td><td class="pv-nr">未记录</td><td></td></tr>
+<tr><td>图版 XIII · 控罪单</td><td>哪些规则被一同归档？</td><td class="pv-st">先行陈述</td><td>七幕修订。</td></tr>
+<tr><td>图版 XIV · 代价</td><td>每条异议代价几何 — 明述规则是否定价？</td><td class="pv-ps">部分陈述</td><td>研究者曾泛泛地要求把评分与录用决定连接起来（2026-08-18：“按评审分数看趋势可能不错”）；论文内量刑表这一具体设计没有记录。法则的代价扩展（同一条规则在各处代价是否相同？）在七幕修订中先行陈述，并于 2026-08-24 合并进本图版。</td></tr>
+<tr><td>图版 XV · 后果</td><td>批评 — 及其广度 — 是否跟随结果？</td><td class="pv-nr">未记录</td><td>与代价图版同出一源（研究者 2026-08-18 关于评分/录用决定的请求）；有与无对比的具体设计没有记录。录用决定被刻意隔离在读取流水线之外，这正是让这一连接有意义之处。广度计数（原试炼图版）于 2026-08-24 合并进来。图&nbsp;15b 于 2026-08-27 添加，先行陈述：目标与设计在看到任何数字之前已声明（build_decision_commit.py，随机种子 7）；研究者在计算之前认可了这个问题（“批评能否预测录用决定，而不只是评分”）。</td></tr>
+<tr><td>图版 XVI · 对话的形状</td><td>不读评审、只靠计数，评审之下发生了什么？</td><td class="pv-nr">未记录</td><td>刻意不用机器读取，因此免受读取误差影响。</td></tr>
+<tr><td>图版 XVII · Rebuttal</td><td>作者回应是否改变了什么？</td><td class="pv-nr">未记录</td><td>工作历史显示该分析在 2026-08-18 上午过半时已作为图表存在（研究者只要求把它做成动画）；其起因没有记录。九年读取记录了判断的变化，这正是它能被度量的前提。</td></tr>
+<tr><td>图版 XVIII · 招式</td><td>哪种作者招式与软化同行？</td><td class="pv-st">先行陈述</td><td>七幕修订。除一种招式外，结果对每种招式都是零结果；作为零结果报告。</td></tr>
+<tr><td>图版 XIX · 一条异议的命运</td><td>一条异议是否曾被重新审视？</td><td class="pv-nr">未记录</td><td>其第二张图 — 提问对断言 — 于 2026-08-19 从一份提案清单中选出，经批准后计算；它是零结果，也作为零结果报告。第一张图早于任何有记录的请求。</td></tr>
+<tr><td>图版 XX · 评审组</td><td>同稿审稿人在哪里分歧？</td><td class="pv-nr">未记录</td><td>研究者长期的愿望 — “多个审稿人之间”的审稿人轨迹（2026-08-19）— 指明了方向，但没有指明这几张具体的图。第三张图（评审组覆盖）是另行提出的。</td></tr>
+<tr><td>图版 XXI · 合议</td><td>一个评审组的完整讨论是什么样？</td><td class="pv-ps">部分陈述</td><td>按要求先添加了汇总图，使十四个手工挑选的案例不会被误认为样本。</td></tr>
+<tr><td>图版 XXII · 上级法庭</td><td>领域主席权衡什么？</td><td class="pv-st">先行陈述</td><td>从一份提议问题清单中选出，计算之前经批准（2026-08-19：“哪些类型的批评是 AC 拒绝宽宥的？”）。</td></tr>
+<tr><td>图版 XXIII · 借来的裁决</td><td>谁的话到达了录用决定？</td><td class="pv-st">先行陈述</td><td>七幕修订。</td></tr>
+<tr><td>图版 XXIV · 阶梯</td><td>评分刻度的每一级包含什么？</td><td class="pv-st">先行陈述</td><td>研究者在计算之前提出（2026-08-18：“低分为何低，高分为何高” — 并在看到一个 2 对 8 的例子后说，“看来不止 2 和 8，我们可以做全部”）。部分发现近于同义反复；图注标出哪些不是。</td></tr>
+<tr><td>图版 XXV · 度量</td><td>一个评分的可重复性有多高？</td><td class="pv-st">先行陈述</td><td>在一份想法清单中提出，计算之前经研究者批准（2026-08-19：以观察方式复现 NeurIPS 一致性实验，覆盖全部 ICLR 年份，可交互）— 批准时附加并保留了一条约束：把它表述为系统的属性，绝不表述为对审稿人的指控。反事实重绘在运行前已指定。</td></tr>
+<tr><td>图版 XXVI · 漂移</td><td>这一切在九年里变了吗？</td><td class="pv-st">先行陈述</td><td>九年语料就是为这个问题建的。</td></tr>
+<tr><td>图版 XXVII · 未修订的法典</td><td>新颖性的定义本身变了吗？</td><td class="pv-st">先行陈述</td><td>取代了一个因过于显然而在运行前放弃的问题。预期有变化而运行；未发现变化。</td></tr>
+<tr><td>图版 XXVIII · 神谕</td><td>批评在各领域间是否一致？</td><td class="pv-ex">探索性</td><td>仅作比较；一个领域的画像混合了它提交什么与它如何被评判。</td></tr>
+<tr><td>图版 XXIX · 水印</td><td>记录是否朝着有文献记载的 LLM 辅助写作特征偏移 — 何时？</td><td class="pv-st">先行陈述</td><td>研究者于 2026-08-27 提出，明确作为一个谨慎的问题（趋势与 LLM 使用一致，但绝不归因于它）。标记集、反事实、安慰剂与决策规则在计算之前冻结于 notes/llm-era-analysis-plan.md；事后添加的鲁棒性检验在同一文件中标为补遗。</td></tr>
+<tr><td>图版 XXX · 标本</td><td>原始材料，可对照来源核验</td><td class="pv-st">先行陈述</td><td>存在的目的是让机器读取能与原文对照。</td></tr>
+</tbody></table></div>
+<style>
+.pv-key { font-size: 13px; color: var(--ink-2); margin: 10px 0 18px; }
+.pv-wrap { max-width: 100%; }
+.pv-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.pv-table td:nth-child(1) { width: 20%; } .pv-table td:nth-child(2) { width: 30%; } .pv-table td:nth-child(3) { width: 12%; white-space: nowrap; } .pv-table td:nth-child(4) { width: 38%; }
+.pv-table th { text-align: left; font-family: var(--mono); font-size: 9px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); padding: 6px 12px; border-bottom: 1px solid var(--line); }
+.pv-table td { padding: 8px 12px; border-bottom: 1px solid rgba(36,28,20,.05); vertical-align: top; }
+.pv-table td:first-child { color: var(--ink); }
+.pv-st { color: #356b43; } .pv-fo { color: #8a5a1f; } .pv-ex { color: #6b5d94; } .pv-ps { color: #7c5f10; } .pv-nr { color: var(--muted); }
+/* on a phone the ledger stacks like every other table on this page */
+@media (max-width: 640px) {
+  .pv-table td { padding: 5px 0; }
+  .pv-table td:nth-child(1), .pv-table td:nth-child(2), .pv-table td:nth-child(3), .pv-table td:nth-child(4) { width: auto; white-space: normal; }
+  .pv-table td:empty { display: none; }
+}
+</style>
+
+<div class="no" id="s12">12</div>
+<h2 id="new-instruments">新增图版的说明</h2>
+<p>七幕修订新增了九张图版（句法、早判、组合条款、无名判例、法则的代价、控罪单、招式、借来的裁决、未修订的法典），外加门，它只是导航，不作断言。（在 2026-08-24 的重组中，法则的代价并入代价图版，试炼并入后果，脚本并入行程作为其序幕；它们的仪器未变。）后来的一次添加，水印（2026-08-27），收束此列。它们的仪器，以及各自可能误导之处：</p>
+<ul>
+<li><b>句法</b> — 形式标签来自图版 III 的分类器（5 折交叉验证准确率 0.685，宏 F1 见文件）；转移与一个在每篇评审内部置换的零模型比较，因此报告的提升度只是评审内的顺序效应，而且很小 — 图版直说这一点，不加粉饰。</li>
+<li><b>早判</b> — “到第六个单元即可读出”说的是一个基于粗特征（对象 &#215; 判定计数）的分类器，而不是审稿人何时<em>做出决定</em>；审稿人可能先起草结论。目标是 2026 年偶数刻度上 6 分及以上，3 折交叉验证，随机种子固定。2026-08-21 的后续分析共用该目标与交叉验证：原始文本条是拼接评审字段上的 TF-IDF（1&#8211;2 元语法，min_df 5）；计数权重是整篇评审逐主题否定计数（加上肯定与有保留计数总量）上的 L2 逻辑回归系数 &#8212; 相关计数上的描述性系数，连同其各折离散度一并报告。</li>
+<li><b>组合条款</b> — 子聚类为 bge-small 嵌入上的 k-means（k=8，随机种子 46）；名称由机器读取器基于样例起草、经分析者复核；四个近乎重复的所指聚类被合并为一项笼统指控，合并记录在构建脚本中。原始聚类随数据集发布。所指是在单元的蒸馏观察上聚类的，因此标题份额（46% 未点名任何部件）对照源评审做了审计：在 30 例未点名观察的样本中，凡能定位到源指控句的，其具体程度都与观察一致 — 观察笼统时，审稿人原话同样笼统；仅有一例含糊，其描述句点出了指控句未点出的部件。审计记录随代码库发布（notes/combo-audit-30.txt）。</li>
+<li><b>无名判例</b> — 抽取器是一个引用正则加 arXiv ID，排除会议缩写；行文中的提及（"the BERT paper"）会被漏掉，因此所有文献份额都是下限 — 结论（不存在正典）在任何合理的抽取器下都成立。（姓氏，年份）键刻意过度合并，这只会强化零假设。测量跑了两遍，两遍都报告（第二遍的设计在出结果前已声明）：先在蒸馏后的单元文本上（5 / 29 / 66；点名率按年 8.4%→3.5%；最大键 10 个 forum），再在原始评审文本上重测，单元只用于定位指控 — 取该单元所在 forum 中词元重叠最高的那篇评审里每一句提到新颖性的句子 ±2 句（79% 的单元找到了窗口；窗口刻意偏向点名，因为它可能吸入相邻批评的引用）。原始读法给出 12 / 25 / 63，点名率按年 20%→11%，最大键覆盖 23,251 个 forum 中的 21 个。点名水平对仪器敏感（下限 5%，宽松窗口 12%）；两个标题事实则不然：在两种仪器下约三分之二的异议全无所指，点名率在两种仪器下都于 2018→2026 减半，正典在两种仪器下都不出现。构建脚本：build_canon_native.py。</li>
+<li><b>法则的代价 &amp; 控罪单</b>（经 2026-08-24 合并后，即今日的图版 XIV &#183; 代价与图版 XIII &#183; 控罪单）— 逐单元的法则归属来自抽样的句子聚类（每份案卷 40k），因此绝对的共同提出率被稀释；两张图版因而只报告比值（提升度）— 独立抽样设计使其在一阶上无偏 — 以及各法则的平均赤字 — 抽样使其变稀，但不引入偏差。赤字按各年评分的标准差归一化；评分通过后缀匹配把审稿人键接到 OpenReview 签名。控罪单的评审内提升度还额外检验了论文质量混杂（build_chargesheet_control.py，在出结果前已声明）：每一对展示的配对都在同一论文的两位不同审稿人之间重测。相吸在跨审稿人时保持中位数 ×1.44，对比评审内的 ×1.87（一部分归于论文，一部分归于审稿人）；相斥则完全没有跨审稿人的抑制（×0.97，对比评审内的 ×0.75），把只提其一的习惯归于审稿人，而非论文。跨案卷配对不可能共享一个单元，因此多法则句子无法抬高任何一份清单。</li>
+<li><b>招式</b> — 结果仪器只计入审稿人在回应后单元中记录下的判断变化（"减弱/反转"）；无声的提分对它不可见。标记是确定性的正则，原文引在构建脚本中。争辩的溢价是一个自选招式所带的关联 — 作者手握强牌时才争辩。对同一批 722,406 条回复句子做的并行嵌入聚类（k=12）分开的是话题多于策略，得到同样的零结果；它以 moves-raw 之名发布。</li>
+<li><b>借来的裁决</b> — 回声层级是缓存推理嵌入上的余弦约定（0.75 / 0.90）；移动阈值改变的是水平，不是比较。最近邻归因度量的是文本接近度，而非因果影响 — AC 与审稿人可能各自独立地呼应了论文。集中度只在有三条或更多回声单元的 forum 上计算。</li>
+<li><b>未修订的法典</b> — 不随时间改变这一断言用分半对照校准（在 2026 年的一半数据上拟合法典，留出的另一半为 0.152）；每一年都落在其 0.008 之内。图注承认两个分辨率限制：句子嵌入可能漏掉保持语域不变的语义变化；迁移条款依托法典中唯一一个真正混合的聚类（多数为语域迁移；区分是站得住的第二种读法），因此其 5&#8211;7% 区间是六个中最不确定的。反向拟合（把 2018&#8211;19 的法典向前应用）在仅 417 句上用 k=6，报告为薄弱的佐证，而非证据。</li>
+<li><b>水印</b>（2026-08-27 加入，在对 LLM 参与同行评审的文献做过调研之后）— 设计上仅在语料层面：逐篇评审的 AI 检测器被排除，依据是对非母语作者误报的记录（Liang et al., Patterns 2023）与实例层面的不可靠（Yu et al., ICLR 2026）。仪器：一份十三词标记表，在任何计数之前从 Liang et al.（ICML 2024）与 Kobak et al.（Science Advances 2025）逐字冻结；各年的文档频率对照其自身 2018&#8211;2022 的线性外推（Kobak 的超额词汇设计）；2023 作为内置的安慰剂年份，另有一份冻结的十词阴性对照表跑过完全相同的机制。只取自由文本 — 五个评审表时代的枚举字段被剔除，相似度水平从不跨表格边界比较；标题所称的趋同断言只在表格不变的 2024&#8211;2026 窗口内、在一套共享的 TF&#8211;IDF 词表下成立。相关量组按长度十分位分层（存在性度量对长度敏感 — 对照表低于趋势的漂移显示了背景潮汐），把评分比较以该论文最长的评审为基准，并在读取任何质量梯度之前把标记标签在论文内置换 200&times;（以比较组为条件，单凭均值回归就能制造出一个梯度）。计划、假设与决策规则：notes/llm-era-analysis-plan.md，计算前冻结；第 1 轮之后的补遗（固定词表、长度分层、置换对照、依 Sharma et al. arXiv:2601.20920 划分的质量层）在计划文件中有标注。图版上引用的先前工作：Liang et al. 2024；Kobak et al. 2025 与 Gray, arXiv:2512.01560（超额词汇方法的先驱 — 面向论文整体，而非评审）；Latona et al. 2024；Wu et al. arXiv:2604.19578（最近邻 — 同一批会议，度量的是方面覆盖而非相似度）；Sharma et al. 2026；Kim et al. arXiv:2605.20668（AI 审稿人 21% 对 3% 的相互重叠，由专家标注）；Baumann et al. arXiv:2605.03202（&#8220;蜂群思维效应&#8221;）；以及 arXiv:2607.10511，它在 ICLR 评审文本诊断量中读出 2022&#8211;23 的转折 — 本图版的安慰剂年份与这位时间上的近邻相差一个周期。2026-08-27 在 Semantic Scholar + arXiv 上的检索未找到任何已发表的、基于真实 OpenReview 数据的论文内同稿评审相似度逐年测量；这只记为一条检索结果，不作为新颖性的证明。构建脚本：build_llmtrace_data.py（原始文本），build_llmtrace_mix.py（补遗 E+F：类别构成熵、规模匹配的重叠零模型、推理嵌入离散度 — 图&nbsp;29d 背后的仪器，以及 &#167;&nbsp;10 所记录的对图&nbsp;29c 的同日更正）。</li>
+</ul>
+
+<div class="no" id="s13">13</div>
+<h2 id="instrument-extensions">仪器扩展（2026-08-24 审阅轮）</h2>
+<p>逐图版审阅时，发现若干图注断言只存在于构建脚本一次性的打印输出里 — 当时可核验，输出滚走后便无法核验。于是定下规则：图注或统计栏里的任何数字，要么落在发布的 JSON 中，要么可由一个具名脚本重新算出。以下各项据此持久化：</p>
+<ul class="ni-list">
+<li><b>build_acecho_data.py</b> — 现在输出 <code>gap_by_cutoff</code>：最近邻余弦 &ge; 0.70 / 0.75 / 0.80 时元评审单元按判向的份额，支撑借来的裁决中批评比称许在每个阈值下都被更多回声的断言（+7.0 / +6.6 / +3.3 pp）。</li>
+<li><b>build_score_depth.py</b> — 现在输出 <code>dispersion.accept_unan_div</code>：均值<em>恰为</em> 4.0 与 6.0 时一致评审组与分歧评审组的接收率（分段版本在段内把极差与均值混在一起，只作为朴素对比保留）。支撑度量中的&#8220;录用决定是均值，而非方差&#8221;（均值 6.0 时 92.1% 对 91.8%；4.0 时 12.1% 对 13.1%）。</li>
+<li><b>build_timeless_data.py</b> — 现在输出 <code>dist_se</code>：到 2026 年法典的平均距离按年做句子自助法得到的 SE（2018：0.0034 &#8230; 2026：0.0006），使未修订的法典的零假设连同其分辨率一起陈述：早年可测地（+2&#8211;3 SE）却微小地（+0.006）高于校准值；句子在评审内成簇，所以即便这些 SE 也偏乐观。</li>
+<li><b>scripts/verify_drift_ci.py</b>（新增）— 为漂移中点名的四个变动项（清晰度、理论、计算成本、统计严谨性）做按审稿人聚类的自助法：四项都落在其聚类标准误的 8&#8211;16&#215; 处（2,721 对 73,427 个审稿人簇，1,000 次抽样）。</li>
+<li><b>scripts/verify_remedy_quartiles.py</b>（新增）— 从 units.sqlite3 重新计算要件的长度四分位鲁棒性检验：在单元长度的每个四分位中，新颖性只为其 60&#8211;61% 的否决给出修复，其他十一个对象为 76&#8211;94%，且新颖性单元比合并的其余单元略长（221.5 对 203.0 字符）— 排除了简短之说。取代早先的 63&#8211;66%/80&#8211;92%，那组数字来自流水线重建之前。</li>
+<li><b>scripts/build_mirage_data.py</b>（新增）— 把删掉「类型」图版（2026-08-21）的那个多项零模型永久重建，现在为附录 III 的核心图供数：真实审稿人玫瑰图，对比从同一领域构成中 i.i.d. 抽取的合成画像聚类而成的玫瑰图（随机种子 46，单元数匹配）。精确复现记录在案的数字：k-means 解释方差真实 35.8% 对零模型 31.0%；各标准的过度离散中位数 1.15，最大 1.58。</li>
+<li><b>build_moves_markers.py</b> — 现在输出 <code>delta_by_quartile_all</code> 与 <code>n_by_quartile</code>，使招式中按投入分层的溢价披露低于阈值的那一层（争辩 Q1，+1.43pp，淡色绘出），而非默默丢弃。</li>
+<li><b>build_overrule_data.py</b> — 现在输出 <code>margins</code>：2026 年法官席的宽宥不对称在推翻边际 &#188;&#8211;1 分处重新计算（&#215;2.4 / &#215;2.7 / &#215;3.9 / &#215;3.9），支撑评审组中&#8220;在任何边际下都成立&#8221;的断言。</li>
+</ul>
+<p>新增图版的命名溯源：新颖性 Direct 轨道的条款图与组合子聚类的名称沿用十一份案卷要件的同一流程 — 机器基于样例起草，分析者复核（一个有争议的聚类，即迁移/区分的混合体，在图文件与图注中都有标注）。所有原始聚类导出、逐单元归属，以及生成它们的构建脚本，都随代码库与 HF 数据集发布。</p>
+
+
+<div class="no" id="s14">14</div>
+<h2 id="nav-instruments">长标尺与投影 — 仪器，而非图版</h2>
+<p>有两件常驻图形在图谱各处反复出现，既不是图版，也不是账目条目。它们是编辑装置，诚实的做法是在此说明，而不让读者误以为是图：两者都不对语料做任何断言。每一件对数据只有恰好一处真实依赖，下文点明。</p>
+<p><b>长标尺</b>是右侧页边的一把折尺，由文档本身构成：它的铰链标出各幕的边界，各段长度与该幕的图版数成比例 &#8212; 加载时从页面上数出，非手工调定 &#8212; 刻度每图版一格，每格可点击。沿尺刻着一套放大倍率词汇（句子 &#183; 评审 &#183; 断言 &#183; 代价 &#183; 房间 &#183; 法庭 &#183; 评分 &#183; 年份 &#183; 档案），每幕一词，点出该幕置于镜下的对象有多大。这套词汇属于编辑：它是作者对本书结构的自述，不是对任何东西的度量，应当像读目录那样读它，而非像读图版那样。</p>
+<p><b>投影</b>是标题到来时投过页面的一道阴影，其中有语料里的真实句子显现、消隐。它是装饰。这些句子是真实的语料文本 &#8212; 这一点是真实的数据依赖 &#8212; 但出现哪几句不构成任何断言；不应从选取中读出频率、排名或代表性。整个图层在 <code>prefers-reduced-motion</code> 下和打印时都不存在，这本身就表明它不承载页面所依赖的任何内容。</p>
+
+</div></div>
+<div class="pwin" id="piv" data-bay="3">
+  <div class="pwin-card">
+    <div class="part-rule"><span>第四部分</span></div>
+    <h2 class="part-name">账单</h2>
+    <div class="part-lat">ratio impensarum — 开支账目</div>
+    <p class="part-sub">花了多少，逐项列出</p>
+  </div>
+</div>
+<div class="sheet"><div class="shell">
+<div class="no" id="s15">15</div>
+<h2>成本账</h2>
+<div class="tw"><table>
+  <tr><th>阶段</th><th>成本（美元）</th></tr>
+  <tr><td>采集 + 规范化</td><td class="n">0（不用 API）</td></tr>
+  <tr><td>DeepSeek Full Layered 备忘（151,193 条）</td><td class="n">314.416569</td></tr>
+  <tr><td>DeepSeek Direct 备忘（51,813 条）</td><td class="n">194.753528</td></tr>
+  <tr><td>Qwen Direct 轨道，含两次重试</td><td class="n">74.795158</td></tr>
+  <tr><td>Qwen Compact 2026 轨道</td><td class="n">28.793265</td></tr>
+  <tr><td>单元抽取、分类体系、归类（本地）</td><td class="n">0</td></tr>
+</table></div>
+<p style="font-size:13px">试点阶段的开支（episode 模式、校准、评判器比较）另计，逐项列于项目内部的溯源账目；刻意不设单一的"总计"字段 — 总和必须由所用阶段显式合成。</p>
+
+</div></div>
+<div class="pwin pclose" id="pclose">
+  <div class="pwin-card">
+    <div class="part-rule"><span>陈列柜</span></div>
+    <h2 class="part-name">绘自它身后的这一页</h2>
+    <div class="part-lat">index sui — 自身的索引</div>
+    <p class="part-sub">四个格间是四个部分；十六个抽屉是十六节；每个抽屉的深度与其小节的长度相当，在页面加载时从这一页量出，而非手工设定，每个抽屉正面的卡片按该节自己的标题划线。和图谱的长标尺一样，它是装置：不对语料做任何断言，没有它页面照样可读。</p>
+  </div>
+</div>
+<footer class="colophon">
+  <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
+  <div class="col-mark">评判图谱 · Atlas of Judgment</div>
+  <div class="col-sub">复现记录 — 数据如何产生、如何核验</div>
+  <div class="col-stats">1,420,178 条审稿人逻辑单元 · 52,460 个 forum · 九年 ICLR · 刻于 MMXXVI</div>
+  <div class="col-links"><a href="index.html">图谱</a><a href="about.html">关于</a><a href="resources.html">资源</a><a href="api/">API</a></div>
+  <div class="col-fine">衍生数据以 CC BY 4.0 发布。评审归其匿名作者所有，经 OpenReview 公开。这里的一切都是机器读取——请对照原文核验，每个标本都链接到原文。</div>
+<div class="col-fine col-zh">本站是 Shiro Takagi 所作 <a href="https://atlas-of-judgment.pages.dev">Atlas of Judgment</a> 的中文译本。原文、图与派生数据 CC BY 4.0，代码 MIT；数据与机读接口与原站同源、未作改动。译文由 <a href="https://github.com/Lauorie/atlas-of-judgment">Lauorie/atlas-of-judgment</a> 维护，译文问题请到该仓库提 issue；数据与断言的更正请报到<a href="https://github.com/t46/atlas-of-judgment/issues">原仓库</a>。</div>
+</footer>
+</main>
+
+<script>
+for (const table of document.querySelectorAll("table")) {
+  const heads = [...table.querySelectorAll("tr:first-child th, tr:first-child td")].map(h => h.textContent.trim());
+  if (!heads.length) continue;
+  const rows = table.querySelectorAll("tr");
+  for (let i = 1; i < rows.length; i++) {
+    rows[i].querySelectorAll("td").forEach((td, j) => {
+      if (heads[j]) td.setAttribute("data-label", heads[j]);
+      if (td.children.length || td.textContent.trim().length > 90) td.classList.add("td-rich");
+    });
+  }
+  const first = table.querySelector("tr");
+  if (first && first.querySelector("th")) { const thead = document.createElement("thead"); thead.appendChild(first); table.prepend(thead); }
+}
+</script>
+
+<!-- PAGE-MOTION BEGIN (generated by scripts/add_page_motion.py) -->
+<style>
+#ether { position: fixed; inset: 0; width: 100vw; height: 100vh; z-index: -1; pointer-events: none; }
+.mv { opacity: 0; transform: translateY(14px); transition: opacity 0.7s ease, transform 0.7s ease; }
+/* print integrity: every reveal-gated block renders complete on paper */
+@media print { .mv, .mv *, .toc.mv .toc-h, .toc.mv a { opacity: 1 !important; transform: none !important; transition: none !important; } }
+.mv.in { opacity: 1; transform: none; }
+/* the engraving wipe rides a MASK, not clip-path: a fully clipped element reports no
+   intersection at all, so the observer that would reveal it never fires (the headings
+   were invisible on both companion pages until 2026-08-26). A mask is paint-only. */
+h2.mv { -webkit-mask-image: linear-gradient(to right, #000 50%, transparent 50%); mask-image: linear-gradient(to right, #000 50%, transparent 50%);
+  -webkit-mask-size: 200% 100%; mask-size: 200% 100%; -webkit-mask-position: 100% 0; mask-position: 100% 0;
+  transition: opacity 0.5s ease, transform 0.7s ease, -webkit-mask-position 1.1s cubic-bezier(0.3, 0.6, 0.2, 1) 0.1s, mask-position 1.1s cubic-bezier(0.3, 0.6, 0.2, 1) 0.1s; }
+h2.mv.in { -webkit-mask-position: 0 0; mask-position: 0 0; }
+#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px); background: rgba(239,228,201,0.82); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint); transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.15, 1); }
+#topbar.show { transform: translateY(0); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links a:hover { color: var(--brass); }
+#topbar .tb-links a.tb-live, #topbar .tb-links a.tb-here { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+#meridian { position: fixed; right: 16px; top: 50%; transform: translateY(-50%); z-index: 50; display: flex; flex-direction: column; align-items: flex-end; gap: 7px; }
+#meridian .m-track { position: absolute; right: 6px; top: -14px; bottom: -14px; width: 1px; background: rgba(138,90,31,0.14); }
+#meridian .m-fill { position: absolute; right: 6px; top: -14px; width: 1px; background: var(--brass); }
+#meridian button { position: relative; display: block; width: 13px; height: 2px; padding: 0; background: rgba(138,90,31,0.35); border: none; cursor: pointer; transition: width 0.25s ease, background 0.25s ease; }
+#meridian button:hover, #meridian button.cur { width: 22px; background: var(--brass); }
+#meridian button.m-part { width: 20px; height: 1px; margin: 5px 0; background: var(--brass); }
+#meridian button.m-part:hover, #meridian button.m-part.cur { width: 28px; }
+#meridian button.m-part .m-lab { color: var(--brass); }
+#meridian button .m-lab { position: absolute; right: 30px; top: 50%; transform: translateY(-50%); font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--brass); white-space: nowrap; opacity: 0; transition: opacity 0.25s ease; pointer-events: none; background: rgba(239,228,201,0.9); padding: 3px 7px; border: 1px solid var(--brass-faint); }
+#meridian button:hover .m-lab, #meridian button.cur .m-lab { opacity: 1; }
+#meridian button.cur .m-lab { color: var(--ink-2); border-color: transparent; background: none; }
+#meridian .m-pct { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; color: var(--muted); margin-top: 6px; }
+@media (max-width: 1180px) { #meridian { display: none; } }
+#reticle { position: fixed; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px; pointer-events: none; z-index: 200; opacity: 0; transition: opacity 0.3s ease; }
+#reticle::before { content: ""; position: absolute; inset: 0; border: 1px solid rgba(138,90,31,0.55); border-radius: 50%; transition: transform 0.3s cubic-bezier(0.3, 0.6, 0.2, 1), border-color 0.3s ease; }
+#reticle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 2px; height: 2px; margin: -1px 0 0 -1px; background: var(--brass); border-radius: 50%; }
+#reticle.hot::before { transform: scale(1.7); border-color: var(--brass); }
+.fm-box { opacity: 0; transform: translateY(10px); transition: opacity 0.6s ease, transform 0.6s ease; }
+.diagram.in .fm-box { opacity: 1; transform: none; }
+.fun-bar { transform-origin: left center; transform: scaleX(0); transition: transform 0.9s cubic-bezier(0.2, 0.7, 0.15, 1); }
+.diagram.in .fun-bar { transform: scaleX(1); }
+.hm .cell { opacity: 0; transition: opacity 0.45s ease; }
+.hm.in .cell { opacity: 1; }
+@media (prefers-reduced-motion: reduce) {
+  .mv, h2.mv, .fm-box, .fun-bar, .hm .cell, .toc a, .toc .toc-h { opacity: 1 !important; transform: none !important; transition: none !important; clip-path: none !important; -webkit-mask-image: none !important; mask-image: none !important; }
+  #topbar, #reticle { transition: none; }
+}
+</style>
+<canvas id="ether" aria-hidden="true"></canvas>
+<nav id="topbar" aria-label="站点"><a class="tb-mark" href="#top">评判图谱</a><div class="tb-links"><a href="index.html">图谱</a><a href="about.html">关于</a><a href="#top" class="tb-here">方法</a><a href="resources.html">资源</a><a href="api/">API</a></div></nav>
+<nav id="meridian" aria-label="章节"><div class="m-track"></div><div class="m-fill" id="m-fill"></div></nav>
+<div id="reticle" aria-hidden="true"></div>
+<script>
+(function pageMotion() {
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  // ---- ether ----
+  if (!REDUCED) {
+    const cv = document.getElementById("ether");
+    const ctx = cv.getContext("2d");
+    let W = 0, H = 0, motes = [], meteor = null, nextMeteor = performance.now() + 9000 + Math.random() * 14000;
+    function size() {
+      W = innerWidth; H = innerHeight;
+      const dpr = Math.min(devicePixelRatio || 1, 1.5);
+      cv.width = W * dpr; cv.height = H * dpr;
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      const N = Math.min(150, Math.round(W * H / 9000));
+      motes = [];
+      for (let i = 0; i < N; i++) motes.push({ x: Math.random() * W, y: Math.random() * H,
+        vy: -(0.03 + Math.random() * 0.09), ph: Math.random() * 6.283,
+        sz: 0.7 + Math.random() * 1.2, brass: Math.random() < 0.2, a: 0.07 + Math.random() * 0.13 });
+    }
+    let last = performance.now();
+    (function tick(now) {
+      requestAnimationFrame(tick);
+      if (document.hidden) { last = now; return; }
+      const dt = Math.min(now - last, 50) / 16.7; last = now;
+      ctx.clearRect(0, 0, W, H);
+      for (const m of motes) {
+        m.y += m.vy * dt; m.x += Math.sin(now / 4200 + m.ph) * 0.05 * dt;
+        if (m.y < -4) { m.y = H + 4; m.x = Math.random() * W; }
+        const a = m.a * (0.7 + 0.3 * Math.sin(now / 1500 + m.ph));
+        ctx.fillStyle = m.brass ? `rgba(138,90,31,${a.toFixed(3)})` : `rgba(220,225,240,${a.toFixed(3)})`;
+        ctx.fillRect(m.x, m.y, m.sz, m.sz);
+      }
+      if (!meteor && now > nextMeteor) {
+        const L = Math.random() < 0.5;
+        meteor = { x0: L ? -60 : W + 60, y0: Math.random() * H * 0.55, dx: (L ? 1 : -1) * (0.55 + Math.random() * 0.3), dy: 0.22 + Math.random() * 0.18, born: now };
+        nextMeteor = now + 16000 + Math.random() * 22000;
+      }
+      if (meteor) {
+        const age = now - meteor.born;
+        if (age > 900) meteor = null;
+        else {
+          const x = meteor.x0 + meteor.dx * age, y = meteor.y0 + meteor.dy * age, fade = Math.sin(age / 900 * Math.PI);
+          const g = ctx.createLinearGradient(x - meteor.dx * 90, y - meteor.dy * 90, x, y);
+          g.addColorStop(0, "rgba(138,90,31,0)");
+          g.addColorStop(1, `rgba(236,231,220,${(0.35 * fade).toFixed(3)})`);
+          ctx.strokeStyle = g; ctx.lineWidth = 1;
+          ctx.beginPath(); ctx.moveTo(x - meteor.dx * 90, y - meteor.dy * 90); ctx.lineTo(x, y); ctx.stroke();
+        }
+      }
+    })(last);
+    size(); addEventListener("resize", size);
+  } else { document.getElementById("ether").remove(); }
+  // ---- block reveals ----
+  const shell = document.querySelector(".shell");
+  const blocks = [...document.querySelectorAll(".shell")]
+    .flatMap(sh => [...sh.children]).filter(el => !/^(NAV|SCRIPT|STYLE)$/.test(el.tagName));
+  const io = new IntersectionObserver(en => {
+    for (const e of en) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { threshold: 0.08 });
+  for (const el of blocks) { el.classList.add("mv"); io.observe(el); }
+  for (const el of document.querySelectorAll(".diagram, .hm")) io.observe(el);
+  for (const w of document.querySelectorAll(".pwin")) io.observe(w);
+  document.querySelectorAll(".hm").forEach(hm => {
+    [...hm.querySelectorAll(".cell")].forEach((c, i) => c.style.transitionDelay = Math.min(i * 4, 800) + "ms");
+  });
+  document.querySelectorAll(".diagram .fm-box").forEach((b, i) => b.style.transitionDelay = (i * 90) + "ms");
+  document.querySelectorAll(".toc a").forEach((a, i) => a.style.setProperty("--td", (60 + i * 38) + "ms"));
+  // ---- top bar + meridian ----
+  const topbar = document.getElementById("topbar");
+  const rail = document.getElementById("meridian");
+  const fill = document.getElementById("m-fill");
+  // the rail is the cabinet: four drawers, and the sections filed in each. Parts and
+  // sections are collected in document order so the rail cannot drift from the page.
+  const marks = [...document.querySelectorAll(".pwin, .no")].map(el => {
+    if (el.classList.contains("pwin")) {
+      const nm = el.querySelector(".part-name"), rl = el.querySelector(".part-rule span");
+      return { el, part: true, lab: (rl ? rl.textContent.trim() + " · " : "") + (nm ? nm.textContent.trim() : "") };
+    }
+    let h = el.nextElementSibling;
+    while (h && !/^H[23]$/.test(h.tagName)) h = h.nextElementSibling;
+    return { el, lab: h ? h.textContent.trim().slice(0, 26) : el.textContent.trim() };
+  });
+  const pct = document.createElement("div"); pct.className = "m-pct"; pct.textContent = "000%";
+  const entries = [{ el: shell, lab: "Top" }].concat(marks);
+  for (const en of entries) {
+    const b = document.createElement("button");
+    b.innerHTML = `<span class="m-lab">${en.lab}</span>`;
+    if (en.part) b.classList.add("m-part");
+    b.addEventListener("click", () => en.el.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
+    rail.appendChild(b); en.btn = b;
+  }
+  rail.appendChild(pct);
+  let cur = -1;
+  function onScroll() {
+    const dh = document.documentElement.scrollHeight - innerHeight;
+    const p = dh ? scrollY / dh : 0;
+    fill.style.height = (p * 100).toFixed(2) + "%";
+    pct.textContent = String(Math.round(p * 100)).padStart(3, "0") + "%";
+    topbar.classList.toggle("show", scrollY > innerHeight * 0.7);
+    // a fast flick can jump a block clean over the observer's window; anything the
+    // reader has already scrolled past is revealed unconditionally rather than left blank
+    for (const el of document.querySelectorAll(".mv:not(.in)"))
+      if (el.getBoundingClientRect().top < innerHeight) el.classList.add("in");
+    let best = 0;
+    entries.forEach((en, i) => { if (en.el.getBoundingClientRect().top <= innerHeight * 0.4) best = i; });
+    if (best !== cur) { cur = best; entries.forEach((en, i) => en.btn.classList.toggle("cur", i === best)); }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+  // ---- reticle ----
+  if (!REDUCED && matchMedia("(pointer: fine)").matches) {
+    const ret = document.getElementById("reticle");
+    let mx = -100, my = -100, rx = -100, ry = -100, seen = false;
+    addEventListener("mousemove", e => {
+      mx = e.clientX; my = e.clientY;
+      if (!seen) { seen = true; ret.style.opacity = 1; rx = mx; ry = my; }
+      const el = e.target instanceof Element ? e.target : null;
+      ret.classList.toggle("hot", !!(el && el.closest("a, button, summary, select, code, .fbar")));
+    }, { passive: true });
+    document.documentElement.addEventListener("mouseleave", () => { ret.style.opacity = 0; seen = false; });
+    (function loop() {
+      requestAnimationFrame(loop);
+      rx += (mx - rx) * 0.22; ry += (my - ry) * 0.22;
+      ret.style.transform = `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px)`;
+    })();
+  } else { document.getElementById("reticle").remove(); }
+})();
+</script>
+<!-- PAGE-MOTION END -->
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   The officina: a raw-WebGL2 line engraving of a specimen cabinet, standing
+   behind the page. Four bays are the page's four parts; sixteen drawers are its
+   sixteen sections; each drawer is as deep as its section is long, measured off
+   the live DOM rather than hand-tuned — the same rule the atlas's long rule
+   follows. Scrolling walks the cabinet: the hero shows it whole, and each part
+   window opens that part's bay.
+   ═════════════════════════════════════════════════════════════════════════ */
+(function officina() {
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cv = document.getElementById("cabinet");
+  const gl = cv && cv.getContext("webgl2", { antialias: true, alpha: true, powerPreference: "low-power" });
+  if (!gl) { if (cv) cv.remove(); const v = document.getElementById("cvig"); if (v) v.remove();
+    document.documentElement.classList.add("no-cabinet"); return; }
+
+  // ---- the page measures itself: one drawer per section, sized by its length
+  const wins = [...document.querySelectorAll(".pwin")];   // the last of them is the elevation
+  const marks = [...document.querySelectorAll('.no[id^="s"]')];
+  const SEC = marks.map(no => {
+    let h = no.nextElementSibling;
+    while (h && !/^H2$/.test(h.tagName)) h = h.nextElementSibling;
+    let n = 0, el = no.nextElementSibling;
+    while (el && !el.classList.contains("no")) {
+      n += el.querySelectorAll("p, li, tr").length + (/^(P|LI|TR)$/.test(el.tagName) ? 1 : 0);
+      el = el.nextElementSibling;
+    }
+    return { el: no, title: h ? h.textContent.trim() : no.textContent.trim(), n: Math.max(2, n) };
+  });
+  const BAYS = [7, 2, 6, 1];
+  if (SEC.length !== BAYS.reduce((a, b) => a + b, 0)) BAYS.length = 0;   // page changed: fail soft
+  if (!BAYS.length || !wins.length) { cv.remove(); document.getElementById("cvig").remove(); return; }
+  const NMAX = Math.max(...SEC.map(s => s.n));
+
+  // ---- geometry ------------------------------------------------------------
+  const A = [], B = [], SIDE = [], ENDV = [], INK = [], WID = [], COL = [], DR = [], VIS = [];
+  const Q = [[0,-1],[0,1],[1,-1],[1,-1],[0,1],[1,1]];
+  const INKC = [0.141,0.110,0.078], BR = [0.404,0.290,0.106];
+  let dr = -1, vis = 0;
+  function seg(a, b, ink, w, col) {
+    for (const [e, s] of Q) { A.push(a[0],a[1],a[2]); B.push(b[0],b[1],b[2]); SIDE.push(s); ENDV.push(e);
+      INK.push(ink); WID.push(w); COL.push(col[0],col[1],col[2]); DR.push(dr); VIS.push(vis); }
+  }
+  const rect = (x0,y0,x1,y1,z,ink,w,col) => {
+    seg([x0,y0,z],[x1,y0,z],ink,w,col); seg([x1,y0,z],[x1,y1,z],ink,w,col);
+    seg([x1,y1,z],[x0,y1,z],ink,w,col); seg([x0,y1,z],[x0,y0,z],ink,w,col); };
+
+  const WD = 2.00, PITCH = 2.30, STILE = (PITCH - WD) / 2, H = 4.32, DEPTH = 0.86, GAP = 0.035;
+  const X0 = -PITCH * BAYS.length / 2, XR = X0 + PITCH * BAYS.length;
+  const BAY0 = 0.16, BAY1 = H - 0.16;
+  const dh = n => 0.30 + 0.62 * Math.pow(n / NMAX, 0.55);
+  const drawers = []; let si = 0;
+  for (let bi = 0; bi < BAYS.length; bi++) {
+    const bx = X0 + bi * PITCH + STILE, n = BAYS[bi];
+    const raw = []; for (let k = 0; k < n; k++) raw.push(dh(SEC[si + k].n));
+    const scale = ((BAY1 - BAY0) - GAP * (n - 1)) / raw.reduce((a, b) => a + b, 0);
+    let y = BAY1;
+    for (let k = 0; k < n; k++, si++) {
+      const h = raw[k] * scale;
+      drawers.push({ i: si, bay: bi, x0: bx, x1: bx + WD, y0: y - h, y1: y, title: SEC[si].title, n: SEC[si].n });
+      y -= h + GAP;
+    }
+  }
+  // the carcass
+  rect(X0, 0, XR, H, 0, 1.0, 1.45, INKC);
+  for (let bi = 0; bi < BAYS.length; bi++) {
+    const bx = X0 + bi * PITCH + STILE;
+    rect(bx - 0.045, BAY0 - 0.045, bx + WD + 0.045, BAY1 + 0.045, 0.005, 0.55, 1.05, INKC);
+    seg([bx-0.045, BAY0-0.045, 0.005], [bx-0.045, BAY0-0.045, -DEPTH], 0.20, 1.0, INKC);
+    seg([bx+WD+0.045, BAY0-0.045, 0.005], [bx+WD+0.045, BAY0-0.045, -DEPTH], 0.20, 1.0, INKC);
+    for (let k = 0; k < 4; k++) { const x = bx - 0.045 - STILE * 0.72 * k / 4;
+      seg([x, BAY0-0.045, 0.004], [x, BAY1+0.045, 0.004], 0.13, 1.0, INKC); }
+  }
+  for (const x of [X0, XR]) { seg([x,0,0],[x,0,-DEPTH],0.45,1.0,INKC); seg([x,H,0],[x,H,-DEPTH],0.45,1.0,INKC);
+    seg([x,0,-DEPTH],[x,H,-DEPTH],0.26,1.0,INKC);
+    for (let k = 1; k < 9; k++) { const z = -DEPTH * k / 9; seg([x,0,z],[x,H,z],0.10,1.0,INKC); } }
+  for (const y of [0, H]) seg([X0,y,-DEPTH],[XR,y,-DEPTH],0.30,1.0,INKC);
+  rect(X0-0.10, H, XR+0.10, H+0.16, 0, 0.95, 1.4, INKC);        // cornice
+  rect(X0-0.10, -0.22, XR+0.10, 0, 0, 0.95, 1.4, INKC);          // plinth
+  for (let k = 0; k < 5; k++) { const x = X0-0.10 + (XR-X0+0.20)*k/4; seg([x,-0.22,0],[x,-0.52,0],0.6,1.0,INKC); }
+  seg([X0-2.2,-0.52,0],[XR+2.2,-0.52,0],0.85,1.3,INKC);
+  // the cast shadow, ruled — the atlas's own instrument, and like it there it claims nothing
+  for (let k = 0; k < 80; k++) { const t = k/79, x = X0-0.14 + (XR-X0+0.28)*t;
+    seg([x,-0.52,0.015],[x-0.72,-0.52,0.86], 0.30*(1-t*0.40), 1.0, INKC); }
+  for (let k = 1; k < 5; k++) { const u = k/5, z = 0.86*u;
+    seg([X0-0.14-0.72*u,-0.52,z],[XR+0.14-0.72*u,-0.52,z], 0.16*(1-u*0.7), 1.0, INKC); }
+  for (let k = 0; k < 16; k++) { const z = 0.95 + k*0.16;
+    seg([X0-2.2+z*0.30,-0.52,z],[XR+2.2+z*0.30,-0.52,z], 0.10, 1.0, INKC); }
+  // the recess each drawer leaves behind it — drawn only once the drawer is out
+  for (const d of drawers) {
+    dr = d.i; vis = 1;
+    rect(d.x0, d.y0, d.x1, d.y1, -0.02, 0.5, 1.0, INKC);
+    const n = Math.max(3, Math.round((d.y1-d.y0)/0.055));
+    for (let k = 1; k < n; k++) { const y = d.y0 + (d.y1-d.y0)*k/n; seg([d.x0,y,-0.02],[d.x1,y,-0.02],0.16,1.0,INKC); }
+  }
+  // the drawers
+  for (const d of drawers) {
+    dr = d.i; vis = 0;
+    const h = d.y1 - d.y0;
+    rect(d.x0+0.012, d.y0+0.012, d.x1-0.012, d.y1-0.012, 0.02, 0.95, 1.25, INKC);
+    rect(d.x0+0.075, d.y0+0.075, d.x1-0.075, d.y1-0.075, 0.02, 0.32, 1.0, INKC);
+    for (let y = d.y0+0.11; y < d.y1-0.10; y += 0.042) seg([d.x0+0.10,y,0.019],[d.x1-0.10,y,0.019],0.085,1.0,INKC);
+    // the label card, with the section's own title ruled on it word by word
+    const lx0 = d.x0+0.16, lx1 = d.x0+0.16+WD*0.46, ly1 = d.y1-0.10, ly0 = Math.max(d.y0+0.09, ly1-0.24);
+    rect(lx0, ly0, lx1, ly1, 0.025, 0.72, 1.1, BR);
+    { const words = d.title.split(/\s+/).filter(w => w.length > 1);
+      let x = lx0+0.045, y = ly1-0.075; const maxx = lx1-0.045, lead = 0.062;
+      for (const w of words) {
+        const len = Math.min(w.length*0.019, maxx-lx0-0.09);
+        if (x + len > maxx) { x = lx0+0.045; y -= lead; if (y < ly0+0.045) break; }
+        seg([x,y,0.026],[x+len,y,0.026],0.62,1.0,INKC); x += len + 0.022;
+      } }
+    const cx = (d.x0+d.x1)/2 + WD*0.26, cy = (d.y0+d.y1)/2;
+    for (let k = 0; k < 14; k++) { const t0 = k/14*6.283, t1 = (k+1)/14*6.283;
+      seg([cx+Math.cos(t0)*0.055, cy+Math.sin(t0)*0.055, 0.03],
+          [cx+Math.cos(t1)*0.055, cy+Math.sin(t1)*0.055, 0.03], 0.9, 1.15, BR); }
+    seg([cx-0.10,cy-0.105,0.028],[cx+0.10,cy-0.105,0.028],0.5,1.0,INKC);
+    vis = 1;                                          // what is inside, seen only when open
+    const rows = Math.min(d.n, Math.max(2, Math.floor(h/0.075))), per = Math.ceil(d.n/rows);
+    for (let r = 0; r < rows; r++) {
+      const y = d.y1 - 0.09 - r*(h-0.16)/Math.max(1, rows-1)*0.94;
+      if (y < d.y0 + 0.05) break;
+      for (let c = 0; c < per; c++) {
+        if (r*per + c >= d.n) break;
+        const cxx = d.x0 + 0.10 + c*((WD-0.22)/per);
+        seg([cxx,y,0],[cxx+(WD-0.30)/per,y,0],0.55,1.0,INKC);
+        seg([cxx,y,0],[cxx,y-0.030,0],0.30,1.0,INKC);
+      }
+    }
+    for (const x of [d.x0+0.012, d.x1-0.012]) {
+      seg([x,d.y0+0.012,0.02],[x,d.y0+0.012,0.02-DEPTH*0.62],0.34,1.0,INKC);
+      seg([x,d.y1-0.012,0.02],[x,d.y1-0.012,0.02-DEPTH*0.62],0.34,1.0,INKC);
+    }
+    seg([d.x0+0.012,d.y0+0.012,0.02-DEPTH*0.62],[d.x1-0.012,d.y0+0.012,0.02-DEPTH*0.62],0.34,1.0,INKC);
+  }
+  dr = -1; vis = 0;
+
+  // ---- program -------------------------------------------------------------
+  const NV = SIDE.length;
+  const VS = `#version 300 es
+precision highp float;
+in vec3 aA, aB, aCol; in float aSide, aEnd, aInk, aW, aDr, aVis;
+uniform mat4 uVP; uniform vec2 uRes; uniform float uW; uniform float uOpen[16];
+out float vInk; out float vD; out vec3 vCol;
+void main() {
+  float o = aDr < 0.0 ? 0.0 : uOpen[int(aDr)];
+  vec4 ca = uVP * vec4(aA + vec3(0., 0., o), 1.), cb = uVP * vec4(aB + vec3(0., 0., o), 1.);
+  if (ca.w <= 0.02 || cb.w <= 0.02) { gl_Position = vec4(0., 0., 2., 1.); vInk = 0.; vD = 1.; vCol = aCol; return; }
+  vec2 h = uRes * 0.5;
+  vec2 sa = ca.xy / ca.w * h, sb = cb.xy / cb.w * h;
+  vec2 d = sb - sa; float L = length(d);
+  vec2 dir = L > 0.0001 ? d / L : vec2(1., 0.);
+  vec4 c = mix(ca, cb, aEnd);
+  vec2 s = mix(sa, sb, aEnd) + vec2(-dir.y, dir.x) * aSide * aW * uW * 0.5;
+  gl_Position = vec4(s / h * c.w, c.z, c.w);
+  vInk = aInk * (aVis < 0.5 ? 1.0 : smoothstep(0.10, 0.75, o / 0.62));
+  vD = c.w; vCol = aCol;
+}`;
+  const FS = `#version 300 es
+precision highp float;
+in float vInk; in float vD; in vec3 vCol;
+uniform float uHaze, uD0;
+out vec4 o;
+void main() {
+  float f = exp(-max(vD / uD0 - 0.75, 0.) * uHaze);
+  // an engraving carries half-tone as well as outline: lift the faint rulings far
+  // more than the strong ones, or the object reads as a pencil rough
+  o = vec4(vCol, clamp(pow(vInk, 0.62) * f * 1.20, 0., 1.));
+}`;
+  const sh = (t, s) => { const x = gl.createShader(t); gl.shaderSource(x, s); gl.compileShader(x); return x; };
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    cv.remove(); document.getElementById("cvig").remove();
+    document.documentElement.classList.add("no-cabinet"); return;
+  }
+  gl.useProgram(prog);
+  gl.bindVertexArray(gl.createVertexArray());
+  const vbo = (arr, size, name) => {
+    const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+    const l = gl.getAttribLocation(prog, name);
+    gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, size, gl.FLOAT, false, 0, 0);
+  };
+  vbo(A,3,"aA"); vbo(B,3,"aB"); vbo(SIDE,1,"aSide"); vbo(ENDV,1,"aEnd");
+  vbo(INK,1,"aInk"); vbo(WID,1,"aW"); vbo(COL,3,"aCol"); vbo(DR,1,"aDr"); vbo(VIS,1,"aVis");
+  const U = n => gl.getUniformLocation(prog, n);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ---- matrices ------------------------------------------------------------
+  function mul(a, b) { const o = new Float32Array(16);
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { let s = 0;
+      for (let k = 0; k < 4; k++) s += a[k*4+j] * b[i*4+k]; o[i*4+j] = s; } return o; }
+  const persp = (f, ar, n, fa) => { const t = 1 / Math.tan(f/2);
+    return new Float32Array([t/ar,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0]); };
+  function look(e, c) {
+    const z = [e[0]-c[0], e[1]-c[1], e[2]-c[2]]; let l = Math.hypot(z[0],z[1],z[2]) || 1;
+    z[0]/=l; z[1]/=l; z[2]/=l;
+    let x = [z[2], 0, -z[0]]; l = Math.hypot(x[0], x[2]);
+    if (l < 1e-4) { x = [1,0,0]; l = 1; } x[0]/=l; x[2]/=l;
+    const y = [z[1]*x[2]-z[2]*x[1], z[2]*x[0]-z[0]*x[2], z[0]*x[1]-z[1]*x[0]];
+    return new Float32Array([x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+      -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1]);
+  }
+  const lerp = (a,b,t) => a + (b-a)*t, ease = t => t*t*(3-2*t), cl = t => Math.min(1, Math.max(0, t));
+  const bayX = bi => X0 + bi*PITCH + STILE + WD/2;
+
+  // ---- the walk ------------------------------------------------------------
+  // Station 0 is the whole cabinet; stations 1..4 are the four bays; the last is
+  // the flat elevation the page closes on. Which station the camera is at, and
+  // how far between two, is read off where the part windows are on screen.
+  function station(i, t, portrait) {
+    // a tall frame stands further off and holds the object higher, or the bay floats in
+    // the top third with a screenful of floor under it
+    const sp = Math.sin(t * 0.11) * 0.05, wide = portrait ? 1.28 : 1.0, up = portrait ? 0.45 : 0;
+    if (i === 0) return { eye: [-4.1*wide + sp, 4.1, 8.8*wide], tgt: [0, 1.80 + up, 0.2], fov: 0.80 };
+    if (i <= BAYS.length) { const bi = i - 1;
+      return { eye: [bayX(bi) - 2.9*wide + sp, 3.5, 7.2*wide], tgt: [bayX(bi) + 0.10, 2.10 + up, 0.15], fov: 0.78 }; }
+    return { eye: [0.15 + sp, 2.16, 12.2 * (portrait ? 1.75 : 1)], tgt: [0, 2.16, 0], fov: 0.70 };
+  }
+  function stationAt() {
+    // Each window contributes its own 0..1 as it crosses the screen; the windows do not
+    // overlap, so the sum is the station. A max() here would read an unreached window's
+    // index as progress already made.
+    let s = 0;
+    for (const w of wins) {
+      const r = w.getBoundingClientRect();
+      s += Math.min(1, cl((innerHeight * 0.86 - r.top) / (r.height + innerHeight * 0.52)) * 1.35);
+    }
+
+    return s;
+  }
+  function pose(s, t, portrait) {
+    const i = Math.min(Math.floor(s), BAYS.length), u = ease(cl(s - i));
+    const a = station(i, t, portrait), b = station(Math.min(i + 1, BAYS.length + 1), t, portrait);
+    return { eye: [lerp(a.eye[0],b.eye[0],u), lerp(a.eye[1],b.eye[1],u), lerp(a.eye[2],b.eye[2],u)],
+             tgt: [lerp(a.tgt[0],b.tgt[0],u), lerp(a.tgt[1],b.tgt[1],u), lerp(a.tgt[2],b.tgt[2],u)],
+             fov: lerp(a.fov, b.fov, u) };
+  }
+
+  const open = new Float32Array(16);
+  let st = 0, stT = 0, t0 = performance.now(), portrait = false;
+  function size() {
+    const d = Math.min(devicePixelRatio || 1, 2);
+    cv.width = Math.round(innerWidth * d); cv.height = Math.round(innerHeight * d);
+    cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
+    portrait = innerWidth < innerHeight * 0.95;
+  }
+  size();
+  addEventListener("resize", () => { size(); if (REDUCED) requestAnimationFrame(draw); }, { passive: true });
+  addEventListener("scroll", () => { stT = stationAt(); }, { passive: true });
+  stT = st = stationAt();
+
+  function draw(now) {
+    const t = REDUCED ? 6 : (now - t0) / 1000;
+    st += (stT - st) * 0.09;
+    const S = REDUCED ? 0 : st;          // reduced motion holds one composed frame
+    const bay = Math.round(S) - 1;
+    for (let i = 0; i < 16; i++) {
+      let want = 0;
+      if (bay >= 0 && bay < BAYS.length) {
+        let lo = 0; for (let b = 0; b < bay; b++) lo += BAYS[b];
+        if (i >= lo && i < lo + BAYS[bay]) want = 0.62 * Math.max(0, 1 - Math.abs(S - 1 - bay) * 1.6);
+      } else if (S < 0.55 && i === 0) {
+        want = 0.62 * Math.min(1, Math.max(0, (t - 1.2) * 0.7)) * (1 - cl(S / 0.6));
+      }
+      open[i] = REDUCED ? want : open[i] + (want - open[i]) * 0.07;
+    }
+    const p = pose(S, t, portrait);
+    gl.viewport(0, 0, cv.width, cv.height);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.uniformMatrix4fv(U("uVP"), false, mul(persp(p.fov, cv.width/cv.height, 0.05, 90), look(p.eye, p.tgt)));
+    gl.uniform2f(U("uRes"), cv.width, cv.height);
+    gl.uniform1f(U("uW"), Math.min(devicePixelRatio || 1, 2));
+    gl.uniform1f(U("uHaze"), 0.85);
+    gl.uniform1f(U("uD0"), Math.max(4.0, Math.hypot(p.eye[0]-p.tgt[0], p.eye[1]-p.tgt[1], p.eye[2]-p.tgt[2])));
+    gl.uniform1fv(U("uOpen"), open);
+    gl.drawArrays(gl.TRIANGLES, 0, NV);
+  }
+  if (REDUCED) requestAnimationFrame(draw);
+  else (function loop(now) { requestAnimationFrame(loop); if (!document.hidden) draw(now); })(t0);
+})();
+</script>

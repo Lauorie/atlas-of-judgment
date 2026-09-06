@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/atlas-of-judgment/favicon.svg">
+<meta name="description" content="与图版同源的静态 JSON 接口：每张图版的存证、数据岛、更正记录、llms.txt。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="评判图谱 · Atlas of Judgment">
+<meta property="og:title" content="机读接口 — 评判图谱">
+<meta property="og:description" content="与图版同源的静态 JSON 接口：每张图版的存证、数据岛、更正记录、llms.txt。">
+<meta property="og:url" content="https://lauorie.github.io/atlas-of-judgment/api/">
+<meta property="og:image" content="https://lauorie.github.io/atlas-of-judgment/card.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<meta charset="utf-8">
+<title>评判图谱 · 机读接口</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+:root {
+  --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
+  --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
+  --brass: #8a5a1f; --brass-dim: #6b5636; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif); font-size: 15px; line-height: 1.7;
+  background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(138,90,31,0.05), transparent 60%); }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(138,90,31,0.45); }
+a:hover { border-bottom-style: solid; }
+.shell { max-width: 980px; margin: 0 auto; padding: 0 clamp(20px, 3vw, 44px) 90px; }
+.eyebrow { font-family: var(--mono); font-size: 11px; letter-spacing: 0.4em; text-transform: uppercase; color: var(--brass); margin-top: 64px; }
+h1 { font-family: var(--display); font-weight: 500; font-size: clamp(40px, 6vw, 64px); line-height: 1.02; margin: 14px 0 10px; }
+.sub { color: var(--ink-2); max-width: 72ch; }
+.stats { font-family: var(--mono); font-size: 10px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); margin-top: 14px; }
+.stats b { color: var(--brass); font-weight: 500; }
+.leaf { margin: 84px 0 30px; display: flex; flex-direction: column; align-items: center; gap: 7px; text-align: center; }
+.leaf .rule { width: min(320px, 60%); height: 1px; background: var(--brass-line); }
+.leaf .no { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.5em; color: var(--brass); }
+.leaf .t { font-family: var(--display); font-size: 23px; color: var(--ink); }
+.card { border: 1px solid var(--brass-line); border-left: 2px solid var(--brass); background: rgba(248,241,224,0.75); padding: 18px 22px 20px; margin: 14px 0; }
+.card .k { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--brass); margin-bottom: 8px; }
+.card .ep { font-family: var(--mono); font-size: 13px; color: var(--ink); }
+.card p { font-size: 13.5px; color: var(--ink-2); margin: 8px 0 0; }
+pre { background: var(--paper); border: 1px solid var(--brass-faint); padding: 14px 16px; overflow-x: auto; font-family: var(--mono); font-size: 11px; line-height: 1.65; color: var(--ink-2); margin: 12px 0 0; }
+pre b { color: var(--brass); font-weight: 500; }
+table { border-collapse: collapse; width: 100%; font-size: 13px; font-variant-numeric: tabular-nums; }
+th { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 6px 10px; border-bottom: 1px solid var(--brass-line); }
+td { padding: 7px 10px; border-bottom: 1px solid rgba(138,90,31,0.10); color: var(--ink-2); vertical-align: top; }
+tr:hover td { background: rgba(248,241,224,0.6); }
+td .pn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; color: var(--brass); white-space: nowrap; }
+.chip { display: inline-block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.06em; color: var(--ink-2); border: 1px solid var(--brass-faint); background: rgba(248,241,224,0.6); padding: 1px 7px; margin: 1px 2px 1px 0; }
+.pending { color: var(--muted); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.12em; }
+details { border: 1px solid var(--brass-faint); margin: 6px 0; background: rgba(248,241,224,0.55); }
+details[open] { background: var(--paper); }
+summary { cursor: pointer; padding: 9px 14px; font-family: var(--mono); font-size: 11.5px; color: var(--ink); }
+summary:hover { background: var(--paper); }
+summary .sz { color: var(--muted); font-size: 10px; margin-left: 10px; }
+details .body { padding: 4px 16px 12px; font-size: 12.5px; color: var(--ink-2); }
+details .body code { font-family: var(--mono); font-size: 10.5px; color: var(--brass); }
+.note { border: 1px solid var(--brass-line); background: rgba(248,241,224,0.45); padding: 16px 20px; font-size: 13.5px; color: var(--ink-2); margin: 14px 0; }
+.note b { font-family: var(--mono); font-size: 10px; letter-spacing: 0.2em; text-transform: uppercase; color: var(--brass); font-weight: 500; }
+.colophon { margin-top: 90px; padding-top: 22px; border-top: 1px solid var(--brass-faint); font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); line-height: 2.1; }
+.wrap-x { overflow-x: auto; }
+/* topbar — same family as the companion pages, in this page's tokens */
+#topbar { position: relative; z-index: 70; display: flex; align-items: center; justify-content: space-between; gap: 14px; padding: 14px clamp(14px, 3vw, 40px); background: rgba(239,228,201,0.92); border-bottom: 1px solid var(--brass-faint); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase; color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase; color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links a:hover, #topbar .tb-links a.tb-here { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; } #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+</style>
+<nav id="topbar" aria-label="站点">
+  <a class="tb-mark" href="../">评判图谱</a>
+  <div class="tb-links">
+    <a href="../">图谱</a>
+    <a href="../about.html">关于</a>
+    <a href="../method.html">方法</a>
+    <a href="../resources.html">资源</a>
+    <a href="#top" class="tb-here">API</a>
+  </div>
+</nav>
+<div class="shell" id="top">
+  <div class="eyebrow">评判图谱 · Atlas of Judgment</div>
+  <h1>机读<em>接口</em></h1>
+  <p class="sub">一个静态、零成本的 API，建在图版所依据的同一份已审计数据之上。每个端点都是 CDN 上的一个纯 JSON 文件 — 一个来源，两种格式：供人阅读的页面，以及供机器引用、重算与审计的断言。</p>
+  <div class="stats"><b>1,420,178</b> 个审稿人逻辑单元 · <b>410,586</b> 个为 2026 年全深度读取 · 九年 ICLR · <a href="/atlas-of-judgment/">人可读的图谱 ↗</a></div>
+
+  <div class="leaf"><span class="rule"></span><div class="no">快速开始</div><div class="t">三件仪器</div><span class="rule"></span></div>
+
+  <div class="card">
+    <div class="k">01 · 索引</div>
+    <div class="ep">GET <a href="/atlas-of-judgment/api/v1/index.json">/atlas-of-judgment/api/v1/index.json</a></div>
+    <p>目录：每张图版、每个数据岛、每个端点，以及哪些岛供给哪些图版。</p>
+  </div>
+  <div class="card">
+    <div class="k">02 · 存证</div>
+    <div class="ep">GET <a href="/atlas-of-judgment/api/v1/plates/plate-i.json">/atlas-of-judgment/api/v1/plates/plate-i.json</a></div>
+    <p>一张图版的证词：其头条断言，每条附带带类型的值、来源岛、推导、重算脚本与所适用的告诫。</p>
+    <pre>{
+  "id": "1a-negative-share",
+  "statement": "71.8% of all units end negative, and no object escapes …",
+  "value": { "quantity": 0.718, "unit": "share_of_units", "n": 410586 },
+  <b>"source_island"</b>: "viz-data.json",
+  <b>"derivation"</b>: "sum(n where verdict=='negative') / sum(n) …",
+  <b>"recompute"</b>: "scripts/build_unit_viz_data.py",
+  "verified": "D10 number audit, 2026-08-24",
+  "caveat_refs": ["unit-recall-bias"]
+}</pre>
+  </div>
+  <div class="card">
+    <div class="k">03 · 数据岛</div>
+    <div class="ep">GET <a href="/atlas-of-judgment/api/v1/data/viz-data.json">/atlas-of-judgment/api/v1/data/viz-data.json</a></div>
+    <p>54 个底层数据岛，以独立文件提供 — 与人读页面中嵌入的 JSON 逐字节相同的孪生体。每个岛在索引中的条目都带有所服务文件的 <code>sha256</code>，重算因此能证明自己起于同一份字节。</p>
+  </div>
+  <div class="card">
+    <div class="k">04 · 更正记录</div>
+    <div class="ep">GET <a href="/atlas-of-judgment/api/v1/corrections.json">/atlas-of-judgment/api/v1/corrections.json</a></div>
+    <p>更正台账：每一条发布后被发现有误的断言，已在图版上原地更正并记入方法 §10 — 此处以结构化条目呈现（发布时的断言、核查所示、更正后的读数、错误存续的时长，以及指向存证与岛键的链接）。</p>
+  </div>
+  <div class="note"><b>另见</b> &nbsp; <a href="/atlas-of-judgment/openapi.yaml">/atlas-of-judgment/openapi.yaml</a> — 机器可读的模式 &nbsp;·&nbsp; <a href="/atlas-of-judgment/llms.txt">/atlas-of-judgment/llms.txt</a> — AI 读者的入口</div>
+
+  <div class="leaf"><span class="rule"></span><div class="no">目录</div><div class="t">图版</div><span class="rule"></span></div>
+  <div class="wrap-x"><table>
+    <tr><th>图版</th><th>标题</th><th>幕</th><th>存证</th><th>来源岛</th></tr>
+    <tr><td><span class="pn">I</span></td><td>解剖</td><td style="font-family:var(--mono);font-size:10px">第一幕 · 仪器</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-i.json">JSON</a></td><td><span class="chip">viz-data.json</span><span class="chip">panel-data.json</span><span class="chip">construct-data.json</span></td></tr>
+    <tr><td><span class="pn">II</span></td><td>语法</td><td style="font-family:var(--mono);font-size:10px">第一幕 · 仪器</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-ii.json">JSON</a></td><td><span class="chip">viz-data.json</span><span class="chip">ninegrammar-data.json</span></td></tr>
+    <tr><td><span class="pn">III</span></td><td>修辞</td><td style="font-family:var(--mono);font-size:10px">第一幕 · 仪器</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-iii.json">JSON</a></td><td><span class="chip">rhetoric-v2.json</span></td></tr>
+    <tr><td><span class="pn">IV</span></td><td>句法</td><td style="font-family:var(--mono);font-size:10px">第二幕 · 一人之手</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-iv.json">JSON</a></td><td><span class="chip">chain-data.json</span></td></tr>
+    <tr><td><span class="pn">V</span></td><td>行程</td><td style="font-family:var(--mono);font-size:10px">第二幕 · 一人之手</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-v.json">JSON</a></td><td><span class="chip">structure-data.json</span><span class="chip">itinerary-data.json</span></td></tr>
+    <tr><td><span class="pn">VI</span></td><td>早判</td><td style="font-family:var(--mono);font-size:10px">第二幕 · 一人之手</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-vi.json">JSON</a></td><td><span class="chip">commit-data.json</span><span class="chip">score-data.json</span></td></tr>
+    <tr><td><span class="pn">VII</span></td><td>要件</td><td style="font-family:var(--mono);font-size:10px">第三幕 · 法则</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-vii.json">JSON</a></td><td><span class="chip">elements-all.json</span><span class="chip">argument-raw-novelty.json</span></td></tr>
+    <tr><td><span class="pn">VIII</span></td><td>组合条款</td><td style="font-family:var(--mono);font-size:10px">第三幕 · 法则</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-viii.json">JSON</a></td><td><span class="chip">combination-data.json</span></td></tr>
+    <tr><td><span class="pn">IX</span></td><td>无名判例</td><td style="font-family:var(--mono);font-size:10px">第三幕 · 法则</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-ix.json">JSON</a></td><td><span class="chip">canon-data.json</span></td></tr>
+    <tr><td><span class="pn">X</span></td><td>套语集</td><td style="font-family:var(--mono);font-size:10px">第三幕 · 法则</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-x.json">JSON</a></td><td><span class="chip">boilerplate-data.json</span><span class="chip">jurisprudence-data.json</span></td></tr>
+    <tr><td><span class="pn">XI</span></td><td>修复手册</td><td style="font-family:var(--mono);font-size:10px">第三幕 · 法则</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xi.json">JSON</a></td><td><span class="chip">repair-manual.json</span><span class="chip">repair-k-robustness.json</span></td></tr>
+    <tr><td><span class="pn">XII</span></td><td>裁决</td><td style="font-family:var(--mono);font-size:10px">第三幕 · 法则</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xii.json">JSON</a></td><td><span class="chip">viz-data.json</span></td></tr>
+    <tr><td><span class="pn">XIII</span></td><td>控罪单</td><td style="font-family:var(--mono);font-size:10px">第三幕 · 法则</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xiii.json">JSON</a></td><td><span class="chip">chargesheet-data.json</span></td></tr>
+    <tr><td><span class="pn">XIV</span></td><td>代价</td><td style="font-family:var(--mono);font-size:10px">第四幕 · 量刑表</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xiv.json">JSON</a></td><td><span class="chip">lawtariff-data.json</span><span class="chip">jurisprudence-data.json</span></td></tr>
+    <tr><td><span class="pn">XV</span></td><td>后果</td><td style="font-family:var(--mono);font-size:10px">第四幕 · 量刑表</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xv.json">JSON</a></td><td><span class="chip">tribunal-ci.json</span><span class="chip">panel-data.json</span><span class="chip">decision-data.json</span></td></tr>
+    <tr><td><span class="pn">XVI</span></td><td>对话的形状</td><td style="font-family:var(--mono);font-size:10px">第五幕 · 交锋</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xvi.json">JSON</a></td><td><span class="chip">threads-data.json</span></td></tr>
+    <tr><td><span class="pn">XVII</span></td><td>Rebuttal</td><td style="font-family:var(--mono);font-size:10px">第五幕 · 交锋</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xvii.json">JSON</a></td><td><span class="chip">yield-data.json</span><span class="chip">panel-data.json</span></td></tr>
+    <tr><td><span class="pn">XVIII</span></td><td>招式</td><td style="font-family:var(--mono);font-size:10px">第五幕 · 交锋</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xviii.json">JSON</a></td><td><span class="chip">moves-data.json</span></td></tr>
+    <tr><td><span class="pn">XIX</span></td><td>一条异议的命运</td><td style="font-family:var(--mono);font-size:10px">第五幕 · 交锋</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xix.json">JSON</a></td><td><span class="chip">lifecycle-data.json</span><span class="chip">interrogative-data.json</span></td></tr>
+    <tr><td><span class="pn">XX</span></td><td>评审组</td><td style="font-family:var(--mono);font-size:10px">第五幕 · 交锋</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xx.json">JSON</a></td><td><span class="chip">overrule-data.json</span><span class="chip">panel-data.json</span><span class="chip">searchparty-data.json</span></td></tr>
+    <tr><td><span class="pn">XXI</span></td><td>合议</td><td style="font-family:var(--mono);font-size:10px">第五幕 · 交锋</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxi.json">JSON</a></td><td><span class="chip">deliberation-data.json</span><span class="chip">repertoire-data.json</span><span class="chip">overrule-data.json</span></td></tr>
+    <tr><td><span class="pn">XXII</span></td><td>上级法庭</td><td style="font-family:var(--mono);font-size:10px">第六幕 · 上级法庭</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxii.json">JSON</a></td><td><span class="chip">court-data.json</span></td></tr>
+    <tr><td><span class="pn">XXIII</span></td><td>借来的裁决</td><td style="font-family:var(--mono);font-size:10px">第六幕 · 上级法庭</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxiii.json">JSON</a></td><td><span class="chip">acecho-data.json</span></td></tr>
+    <tr><td><span class="pn">XXIV</span></td><td>阶梯</td><td style="font-family:var(--mono);font-size:10px">第七幕 · 尺度</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxiv.json">JSON</a></td><td><span class="chip">score-depth.json</span><span class="chip">score-data.json</span></td></tr>
+    <tr><td><span class="pn">XXV</span></td><td>度量</td><td style="font-family:var(--mono);font-size:10px">第七幕 · 尺度</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxv.json">JSON</a></td><td><span class="chip">lottery-data.json</span><span class="chip">counterfactual-data.json</span></td></tr>
+    <tr><td><span class="pn">XXVI</span></td><td>漂移</td><td style="font-family:var(--mono);font-size:10px">第八幕 · 时代与疆域</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxvi.json">JSON</a></td><td><span class="chip">drift-data.json</span><span class="chip">currents-data.json</span><span class="chip">minds-data.json</span><span class="chip">rhetoric-v2.json</span></td></tr>
+    <tr><td><span class="pn">XXVII</span></td><td>未修订的法典</td><td style="font-family:var(--mono);font-size:10px">第八幕 · 时代与疆域</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxvii.json">JSON</a></td><td><span class="chip">drift-data.json</span><span class="chip">timeless-data.json</span></td></tr>
+    <tr><td><span class="pn">XXVIII</span></td><td>神谕</td><td style="font-family:var(--mono);font-size:10px">第八幕 · 时代与疆域</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxviii.json">JSON</a></td><td><span class="chip">oracle-data.json</span><span class="chip">archipelago-data.json</span></td></tr>
+    <tr><td><span class="pn">XXIX</span></td><td>水印</td><td style="font-family:var(--mono);font-size:10px">第八幕 · 时代与疆域</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxix.json">JSON</a></td><td><span class="chip">llmtrace-data.json</span></td></tr>
+    <tr><td><span class="pn">XXX</span></td><td>标本</td><td style="font-family:var(--mono);font-size:10px">尾声 · 档案</td><td><a href="/atlas-of-judgment/api/v1/plates/plate-xxx.json">JSON</a></td><td><span class="chip">viz-data.json</span></td></tr>
+    <tr><td><span class="pn">附录 I</span></td><td>词汇表</td><td style="font-family:var(--mono);font-size:10px">附录</td><td><a href="/atlas-of-judgment/api/v1/plates/appendix-i.json">JSON</a></td><td>—</td></tr>
+    <tr><td><span class="pn">附录 II</span></td><td>溯源与方法</td><td style="font-family:var(--mono);font-size:10px">附录</td><td><a href="/atlas-of-judgment/api/v1/plates/appendix-ii.json">JSON</a></td><td><span class="chip">viz-data.json</span><span class="chip">structure-data.json</span><span class="chip">galaxy.json</span><span class="chip">panel-data.json</span></td></tr>
+    <tr><td><span class="pn">附录 III</span></td><td>零假设陈列柜</td><td style="font-family:var(--mono);font-size:10px">附录</td><td><a href="/atlas-of-judgment/api/v1/plates/appendix-iii.json">JSON</a></td><td><span class="chip">mirage-data.json</span><span class="chip">field-stats.json</span></td></tr>
+  </table></div>
+  
+  <div class="leaf"><span class="rule"></span><div class="no">馆藏</div><div class="t">数据岛</div><span class="rule"></span></div>
+  <details><summary>acecho-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xxiii<br>顶层键：<code>n_forums, n_meta_units, tiers, tiers_by_meta_valence, top_echo_share_mean, top_echo_share_hist, echoed_position, n_position_forums</code><br><a href="/atlas-of-judgment/api/v1/data/acecho-data.json">下载</a></div></details>
+  <details><summary>archipelago-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xxviii<br>顶层键：<code>objects, baseline, islands</code><br><a href="/atlas-of-judgment/api/v1/data/archipelago-data.json">下载</a></div></details>
+  <details><summary>argument-raw-novelty.json<span class="sz">0.03 MB</span></summary><div class="body">读取它的图版：plate-vii<br>顶层键：<code>n, grounds, warrants, demands, no_demand, gw, wd, rules</code><br><a href="/atlas-of-judgment/api/v1/data/argument-raw-novelty.json">下载</a></div></details>
+  <details><summary>boilerplate-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-x<br>顶层键：<code>n, thresholds, overall, median_sim, hist, by_object, by_rating, pairs</code><br><a href="/atlas-of-judgment/api/v1/data/boilerplate-data.json">下载</a></div></details>
+  <details><summary>canon-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-ix<br>顶层键：<code>n_units, n_with_window, named_share, vague_only_share, named_share_by_year, n_distinct_named, max_forums_per_key, top10_forums_total</code><br><a href="/atlas-of-judgment/api/v1/data/canon-data.json">下载</a></div></details>
+  <details><summary>chain-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-iv<br>顶层键：<code>forms, n_reviews, n_units, obs, exp, lift, start_share, end_share</code><br><a href="/atlas-of-judgment/api/v1/data/chain-data.json">下载</a></div></details>
+  <details><summary>chargesheet-control.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-xiii<br>顶层键：<code>(数组，45 条记录)</code><br><a href="/atlas-of-judgment/api/v1/data/chargesheet-control.json">下载</a></div></details>
+  <details><summary>chargesheet-data.json<span class="sz">0.04 MB</span></summary><div class="body">读取它的图版：plate-xiii<br>顶层键：<code>n_reviews_universe, n_reviews_with_law, laws, matrix_laws, matrix_cells, top_cross, bottom_cross, top_same</code><br><a href="/atlas-of-judgment/api/v1/data/chargesheet-data.json">下载</a></div></details>
+  <details><summary>clusters-inspected_object.json<span class="sz">0.03 MB</span></summary><div class="body">读取它的图版：— · <span style="color:var(--muted)">孤立 — 目前没有图版渲染它</span><br>顶层键：<code>field, model, sample_size, min_cluster_size, n_clusters, noise_points, noise_share, clusters</code><br><a href="/atlas-of-judgment/api/v1/data/clusters-inspected_object.json">下载</a></div></details>
+  <details><summary>clusters-reasoning.json<span class="sz">0.05 MB</span></summary><div class="body">读取它的图版：— · <span style="color:var(--muted)">孤立 — 目前没有图版渲染它</span><br>顶层键：<code>field, model, sample_size, min_cluster_size, n_clusters, noise_points, noise_share, clusters</code><br><a href="/atlas-of-judgment/api/v1/data/clusters-reasoning.json">下载</a></div></details>
+  <details><summary>combination-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-viii<br>顶层键：<code>n_sentences, n_units, conditional_share, exceptions, referents</code><br><a href="/atlas-of-judgment/api/v1/data/combination-data.json">下载</a></div></details>
+  <details><summary>commit-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-vi<br>顶层键：<code>text_auc, text_auc_folds, tally, unit_count_deciles, long_threshold, n_long, auc_long, auc_long_valence_only</code><br><a href="/atlas-of-judgment/api/v1/data/commit-data.json">下载</a></div></details>
+  <details><summary>construct-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-i<br>顶层键：<code>n_reviews, matrix</code><br><a href="/atlas-of-judgment/api/v1/data/construct-data.json">下载</a></div></details>
+  <details><summary>counterfactual-data.json<span class="sz">0.07 MB</span></summary><div class="body">读取它的图版：plate-xxv<br>顶层键：<code>2026, 2025</code><br><a href="/atlas-of-judgment/api/v1/data/counterfactual-data.json">下载</a></div></details>
+  <details><summary>court-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xxii<br>顶层键：<code>grammars, band, forgive, redemption</code><br><a href="/atlas-of-judgment/api/v1/data/court-data.json">下载</a></div></details>
+  <details><summary>currents-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xxvi<br>顶层键：<code>years, scores, words, units</code><br><a href="/atlas-of-judgment/api/v1/data/currents-data.json">下载</a></div></details>
+  <details><summary>decision-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xv<br>顶层键：<code>target, decision_rule, years_with_decisions, workshop_invite_quirk_n, n_papers, base_rate, seed, n_folds</code><br><a href="/atlas-of-judgment/api/v1/data/decision-data.json">下载</a></div></details>
+  <details><summary>deliberation-data.json<span class="sz">0.07 MB</span></summary><div class="body">读取它的图版：plate-xxi<br>顶层键：<code>forums, population, move_units</code><br><a href="/atlas-of-judgment/api/v1/data/deliberation-data.json">下载</a></div></details>
+  <details><summary>drift-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：appendix-ii, plate-xxvi, plate-xxvii<br>顶层键：<code>years, object_share, reasoning_share, valence_share, meta</code><br><a href="/atlas-of-judgment/api/v1/data/drift-data.json">下载</a></div></details>
+  <details><summary>drift-language.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：appendix-ii<br>顶层键：<code>novelty, empirical_scope, clarity</code><br><a href="/atlas-of-judgment/api/v1/data/drift-language.json">下载</a></div></details>
+  <details><summary>elements-all.json<span class="sz">0.07 MB</span></summary><div class="body">读取它的图版：plate-vii<br>顶层键：<code>empirical_scope, method_design, theory, stats_metrics, compute_cost, clarity, baselines_ablations, robustness_sensitivity</code><br><a href="/atlas-of-judgment/api/v1/data/elements-all.json">下载</a></div></details>
+  <details><summary>field-stats.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：appendix-iii<br>顶层键：<code>years, stats</code><br><a href="/atlas-of-judgment/api/v1/data/field-stats.json">下载</a></div></details>
+  <details><summary>galaxy.json<span class="sz">3.25 MB</span></summary><div class="body">读取它的图版：appendix-ii<br>顶层键：<code>seed, sample_size, obj_keys, rea_keys, val_order, columns, points, regions</code><br><a href="/atlas-of-judgment/api/v1/data/galaxy.json">下载</a></div></details>
+  <details><summary>interrogative-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xix<br>顶层键：<code>overall, objects</code><br><a href="/atlas-of-judgment/api/v1/data/interrogative-data.json">下载</a></div></details>
+  <details><summary>itinerary-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-v<br>顶层键：<code>objects, fields, bill, valwk, transitions, ctrl_lift, mention, meta</code><br><a href="/atlas-of-judgment/api/v1/data/itinerary-data.json">下载</a></div></details>
+  <details><summary>jurisprudence-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-x, plate-xiv<br>顶层键：<code>objects, tariff, tariff_meta, sentence, law</code><br><a href="/atlas-of-judgment/api/v1/data/jurisprudence-data.json">下载</a></div></details>
+  <details><summary>lawtariff-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-xiv<br>顶层键：<code>dockets, unit, min_n, volume_slopes, evidence_check</code><br><a href="/atlas-of-judgment/api/v1/data/lawtariff-data.json">下载</a></div></details>
+  <details><summary>lifecycle-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xix<br>顶层键：<code>objects</code><br><a href="/atlas-of-judgment/api/v1/data/lifecycle-data.json">下载</a></div></details>
+  <details><summary>llmtrace-data.json<span class="sz">0.04 MB</span></summary><div class="body">读取它的图版：plate-xxix<br>顶层键：<code>meta, vocab, convergence, content_convergence, correlates, mix</code><br><a href="/atlas-of-judgment/api/v1/data/llmtrace-data.json">下载</a></div></details>
+  <details><summary>lottery-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xxv<br>顶层键：<code>years, cond2026, gaps2026</code><br><a href="/atlas-of-judgment/api/v1/data/lottery-data.json">下载</a></div></details>
+  <details><summary>minds-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-xxvi<br>顶层键：<code>minds, rhetoric, vitals</code><br><a href="/atlas-of-judgment/api/v1/data/minds-data.json">下载</a></div></details>
+  <details><summary>mirage-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：appendix-iii<br>顶层键：<code>n_profiles, min_units, null_seed, baseline, ev_real, ev_null, overdisp_median, overdisp_max</code><br><a href="/atlas-of-judgment/api/v1/data/mirage-data.json">下载</a></div></details>
+  <details><summary>moves-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xviii<br>顶层键：<code>n_pairs, soft_base, word_quartiles, moves, effort, evidence_by_object</code><br><a href="/atlas-of-judgment/api/v1/data/moves-data.json">下载</a></div></details>
+  <details><summary>ninegrammar-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-ii<br>顶层键：<code>objects, reasonings, early, late, delta, floor95, n_early, n_late</code><br><a href="/atlas-of-judgment/api/v1/data/ninegrammar-data.json">下载</a></div></details>
+  <details><summary>oracle-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-xxviii<br>顶层键：<code>baseline, areas</code><br><a href="/atlas-of-judgment/api/v1/data/oracle-data.json">下载</a></div></details>
+  <details><summary>overrule-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xx, plate-xxi<br>顶层键：<code>n_papers, accept_rate, threshold, n_overruled_rejected, n_overruled_accepted, margins, curve, ex_rejected_high</code><br><a href="/atlas-of-judgment/api/v1/data/overrule-data.json">下载</a></div></details>
+  <details><summary>panel-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：appendix-ii, appendix-iii, plate-i, plate-xv, plate-xvii, plate-xx, plate-xxii<br>顶层键：<code>rebuttal, gauntlet, tribunal, meta, dissent, reliability</code><br><a href="/atlas-of-judgment/api/v1/data/panel-data.json">下载</a></div></details>
+  <details><summary>repair-k-robustness.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xi<br>顶层键：<code>11, 17, 22, 28, 44</code><br><a href="/atlas-of-judgment/api/v1/data/repair-k-robustness.json">下载</a></div></details>
+  <details><summary>repair-manual.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xi<br>顶层键：<code>n_units_with_improvement, n_sampled, groups</code><br><a href="/atlas-of-judgment/api/v1/data/repair-manual.json">下载</a></div></details>
+  <details><summary>repertoire-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xxi<br>顶层键：<code>n_panels, signatures, overlap, dissonance, by_year</code><br><a href="/atlas-of-judgment/api/v1/data/repertoire-data.json">下载</a></div></details>
+  <details><summary>rhetoric-sample.json<span class="sz">0.21 MB</span></summary><div class="body">读取它的图版：— · <span style="color:var(--muted)">孤立 — 目前没有图版渲染它</span><br>顶层键：<code>(数组，1200 条记录)</code><br><a href="/atlas-of-judgment/api/v1/data/rhetoric-sample.json">下载</a></div></details>
+  <details><summary>rhetoric-v2.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-iii, plate-xxvi<br>顶层键：<code>forms, validation, overall, by_standard, by_valence, by_year</code><br><a href="/atlas-of-judgment/api/v1/data/rhetoric-v2.json">下载</a></div></details>
+  <details><summary>score-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-vi, plate-xxiv<br>顶层键：<code>year, matched_reviews, by_rating</code><br><a href="/atlas-of-judgment/api/v1/data/score-data.json">下载</a></div></details>
+  <details><summary>score-depth.json<span class="sz">0.02 MB</span></summary><div class="body">读取它的图版：plate-xxiv<br>顶层键：<code>dispersion, coverage, cond_neg, cond_pos, heterogeneity, splits</code><br><a href="/atlas-of-judgment/api/v1/data/score-depth.json">下载</a></div></details>
+  <details><summary>searchparty-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xx<br>顶层键：<code>n_panels, objects, by_object, mean_covered, mean_allcov, mean_unseen, cov_hist</code><br><a href="/atlas-of-judgment/api/v1/data/searchparty-data.json">下载</a></div></details>
+  <details><summary>season-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：— · <span style="color:var(--muted)">孤立 — 目前没有图版渲染它</span><br>顶层键：<code>days, series, totals</code><br><a href="/atlas-of-judgment/api/v1/data/season-data.json">下载</a></div></details>
+  <details><summary>structure-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：appendix-ii, plate-v<br>顶层键：<code>n_reviews, n_reviews_ge3, opening, position, transitions, arcs, lengths</code><br><a href="/atlas-of-judgment/api/v1/data/structure-data.json">下载</a></div></details>
+  <details><summary>taxonomy-v1.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：— · <span style="color:var(--muted)">孤立 — 目前没有图版渲染它</span><br>顶层键：<code>version, created_from, notes, inspected_object, reasoning</code><br><a href="/atlas-of-judgment/api/v1/data/taxonomy-v1.json">下载</a></div></details>
+  <details><summary>threads-data.json<span class="sz">0.01 MB</span></summary><div class="body">读取它的图版：plate-xvi<br>顶层键：<code>shapes, returns, accept_by_shape, specimens</code><br><a href="/atlas-of-judgment/api/v1/data/threads-data.json">下载</a></div></details>
+  <details><summary>tide-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：— · <span style="color:var(--muted)">孤立 — 目前没有图版渲染它</span><br>顶层键：<code>2026, 2025</code><br><a href="/atlas-of-judgment/api/v1/data/tide-data.json">下载</a></div></details>
+  <details><summary>timeless-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xxvii<br>顶层键：<code>n_sents, n_units, dist_to_2026, dist_se, dist_to_2018, control, laws, mix_by_year</code><br><a href="/atlas-of-judgment/api/v1/data/timeless-data.json">下载</a></div></details>
+  <details><summary>tribunal-ci.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xv<br>顶层键：<code>baselines_ablations, clarity, compute_cost, empirical_scope, method_design, novelty, problem_framing, related_work</code><br><a href="/atlas-of-judgment/api/v1/data/tribunal-ci.json">下载</a></div></details>
+  <details><summary>viz-data.json<span class="sz">1.40 MB</span></summary><div class="body">读取它的图版：appendix-ii, plate-i, plate-ii, plate-xii, plate-xiv, plate-xxx<br>顶层键：<code>kpi, taxonomy, triples, obj_extras, confidence, sample_reviews</code><br><a href="/atlas-of-judgment/api/v1/data/viz-data.json">下载</a></div></details>
+  <details><summary>yield-data.json<span class="sz">0.00 MB</span></summary><div class="body">读取它的图版：plate-xvii<br>顶层键：<code>n_split_forums, groups</code><br><a href="/atlas-of-judgment/api/v1/data/yield-data.json">下载</a></div></details>
+
+  <div class="leaf"><span class="rule"></span><div class="no">约定</div><div class="t">如何读一条断言</div><span class="rule"></span></div>
+  <div class="note">
+    <b>来源、推导与已核验三者之别</b><br>
+    本站几乎每一个头条数字都是对一个数组（多为 <code style="font-family:var(--mono);font-size:11px">triples[]</code>）计算出的聚合量，而非单个 JSON 叶节点。因此一条断言把<i>来源</i>（哪个文件、哪个数组）、<i>推导</i>（算法，直白写明）与<i>已核验</i>（重算过它的、带日期的人工审计）分开陈述。一个装得比这更精确的指针，只会更不诚实。
+  </div>
+  <div class="note">
+    <b>告诫附着于断言，而非页面</b><br>
+    每条断言都列出 <code style="font-family:var(--mono);font-size:11px">caveat_refs</code> — 空列表本身就是一条断言：无一适用。全语料范围内须知的一条：ICLR 在 2018–2026 年间四次更改评分量表与评审表单，因此任何跨年比较<i>评分</i>的断言都带有移动标尺告诫（见<a href="/atlas-of-judgment/method#ruler">方法</a> §07「移动的标尺」）。关于单元计数与占比的断言 — 本站大部分内容 — 由分类体系度量，那才是恒定的仪器。
+  </div>
+  <div class="note">
+    <b>引用方式</b><br>
+    请引用图版 id + 断言 id，例如 <code style="font-family:var(--mono);font-size:11px">plate-i#1a-negative-share</code> — 视觉改版后依然稳定，即便数字周围的文字被重写。衍生数据采用 CC BY 4.0 许可；底层评审经由 OpenReview 归其匿名作者所有。
+  </div>
+
+  <div class="colophon">
+    评判图谱 · 机读接口 v1 · 生成于 2026-09-06<br>
+    <a href="/atlas-of-judgment/">图谱</a> · <a href="/atlas-of-judgment/about">关于</a> · <a href="/atlas-of-judgment/method">方法</a> · <a href="/atlas-of-judgment/resources">资源</a> · <a href="https://github.com/t46/atlas-of-judgment">GitHub</a> · <a href="https://huggingface.co/datasets/t46/atlas-of-judgment">数据集</a> · CC BY 4.0
+  </div>
+</div>

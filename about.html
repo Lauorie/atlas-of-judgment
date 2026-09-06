@@ -1,0 +1,1384 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/atlas-of-judgment/favicon.svg">
+<meta name="description" content="这个项目是什么，为何看推理而非评分，为何选 ICLR：问题、流水线与发现摘要。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Atlas of Judgment">
+<meta property="og:title" content="关于 — 评判图谱">
+<meta property="og:description" content="这个项目是什么，为何看推理而非评分，为何选 ICLR：问题、流水线与发现摘要。">
+<meta property="og:url" content="https://lauorie.github.io/atlas-of-judgment/about">
+<meta property="og:image" content="https://lauorie.github.io/atlas-of-judgment/card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@takagi_shiro">
+<meta name="twitter:creator" content="@takagi_shiro">
+<meta charset="utf-8">
+<title>关于图谱</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+:root {
+  --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
+  --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
+  --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
+  --v-negative: #6f1f45; --v-positive: #356b43; --v-conditional: #7c5f10;
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --ease-settle: cubic-bezier(0.62, 0.02, 0.34, 1);
+  --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif);
+  font-size: 15.5px; line-height: 1.75; overflow-x: hidden; }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(138,90,31,0.45); }
+a:hover { border-bottom-style: solid; }
+em { color: var(--ink); }
+code { font-family: var(--mono); font-size: 12px; }
+
+/* ---------------------------------------------------------------- the room */
+#theatre { position: fixed; top: 0; left: 0; width: 100vw; height: 100svh; z-index: 0; display: block; }
+#vig { position: fixed; inset: 0; z-index: 1; pointer-events: none;
+  background: radial-gradient(ellipse 80% 64% at 50% 46%, transparent 44%, rgba(120,96,58,0.18) 100%); }
+#grain { position: fixed; inset: 0; z-index: 2400; pointer-events: none; opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20width='160'%20height='160'%3E%3Cfilter%20id='g'%3E%3CfeTurbulence%20type='fractalNoise'%20baseFrequency='0.9'%20numOctaves='2'%20stitchTiles='stitch'/%3E%3C/filter%3E%3Crect%20width='160'%20height='160'%20filter='url(%23g)'%20opacity='0.5'/%3E%3C/svg%3E");
+  background-size: 160px 160px; }
+
+/* ------------------------------------------------------------ the scaffold */
+main { position: relative; z-index: 3; }
+.shell { max-width: 840px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 36px); }
+
+/* the hero: the reader is on the table, and the room is looking down */
+.hero { height: 100svh; display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 0 20px; position: relative; }
+/* the light that falls on the table: a clearing in the crowd for the title to sit in */
+.hero::before { content: ""; position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%);
+  width: min(820px, 96vw); height: min(430px, 48svh); pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.94) 0%, rgba(239,228,201,0.80) 40%,
+    rgba(239,228,201,0.36) 62%, transparent 78%); }
+.hero > * { position: relative; z-index: 1; }
+html.no-room .hero::before { display: none; }
+html.no-room .band { background: var(--ground); }
+.hero .eb { font-family: var(--mono); font-size: clamp(8.5px, 1.5vw, 10.5px); letter-spacing: 0.42em;
+  text-transform: uppercase; color: var(--brass); opacity: 0; animation: eyeIn 1.4s var(--ease-settle) 0.2s forwards; }
+@keyframes eyeIn { from { letter-spacing: 0.9em; opacity: 0; } 45% { opacity: 1; } to { letter-spacing: 0.42em; opacity: 1; } }
+.hero h1 { font-family: var(--display); font-weight: 500; font-size: clamp(48px, 8.2vw, 104px);
+  line-height: 0.98; margin: 18px 0 0; text-wrap: balance;
+  clip-path: inset(100% 0 0 0); transform: translateY(16px); animation: h1In 1.1s var(--ease-settle) 0.45s forwards; }
+@keyframes h1In { to { clip-path: inset(-14% 0 -10% 0); transform: none; } }
+.hero .lat { font-style: italic; font-size: clamp(13px, 2vw, 16px); color: var(--ink-2); margin-top: 12px;
+  opacity: 0; animation: fadeUp 1s ease 1.1s forwards; }
+.hero .cue { position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--ink-2); opacity: 0; animation: cueIn 1s ease 1.9s forwards; display: flex; flex-direction: column;
+  align-items: center; gap: 8px; padding: 7px 20px 9px;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.90) 0%, rgba(239,228,201,0.55) 55%, transparent 82%); }
+.hero .cue .cue-s { display: none; }
+.hero .cue i { display: block; width: 1px; height: 30px; background: linear-gradient(var(--brass-line), transparent); }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
+@keyframes cueIn { from { opacity: 0; } to { opacity: 1; } }
+
+/* a gap is a breath: the room at full strength, with the tier named */
+.gap { height: 62svh; display: flex; align-items: center; justify-content: center; position: relative;
+  pointer-events: none; }
+.gap .plate-cap { text-align: center; opacity: 0; transform: translateY(14px);
+  transition: opacity 0.9s var(--ease-settle), transform 0.9s var(--ease-settle); }
+.gap.in .plate-cap { opacity: 1; transform: none; }
+.gap .rn { font-family: var(--mono); font-size: 10px; letter-spacing: 0.34em; text-transform: uppercase;
+  color: var(--brass); display: flex; align-items: center; justify-content: center; gap: 12px; }
+.gap .rn::before, .gap .rn::after { content: ""; width: clamp(24px, 6vw, 52px); height: 1px; background: var(--brass-line); }
+.gap h2 { font-family: var(--display); font-weight: 500; font-size: clamp(28px, 4.6vw, 46px);
+  line-height: 1.1; margin: 14px 0 0; text-wrap: balance; }
+.gap .lat { font-style: italic; font-size: 13.5px; color: var(--ink-2); margin-top: 8px; }
+
+/* a band is the page proper: vellum laid over the room, near enough opaque to read on */
+.band { position: relative; background: rgba(243, 234, 210, 0.955);
+  border-top: 1px solid var(--brass-faint); border-bottom: 1px solid var(--brass-faint);
+  box-shadow: 0 -22px 48px rgba(61,44,20,0.10), 0 22px 48px rgba(61,44,20,0.10); }
+.band > .shell { padding-top: clamp(46px, 7vh, 76px); padding-bottom: clamp(52px, 8vh, 86px); }
+p { margin: 15px 0 0; color: var(--ink-2); }
+p b, p strong { color: var(--ink); font-weight: 600; }
+.lede { font-size: 17.5px; line-height: 1.68; color: var(--ink); }
+.lede em { font-style: italic; }
+h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.28em; text-transform: uppercase;
+  color: var(--brass); font-weight: 500; margin: 44px 0 0; }
+.drop::first-letter { font-family: var(--display); font-size: 3.4em; line-height: 0.86; float: left;
+  padding: 0.06em 0.1em 0 0; color: var(--ink); }
+
+.spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.16em; color: var(--muted);
+  text-transform: uppercase; line-height: 2.1; margin-top: 28px; padding-top: 16px; border-top: 1px solid var(--brass-faint); }
+.spec b { color: var(--brass); font-weight: 500; }
+.whynote { max-width: 560px; margin: 0 auto; padding: 26px 0 4px; border-top: 1px solid var(--brass-line, rgba(138,90,31,0.28)); border-bottom: 1px solid var(--brass-line, rgba(138,90,31,0.28)); }
+.whynote h3 { margin-top: 0; }
+.whynote p { font-size: 13.5px; line-height: 1.75; color: var(--ink-2, var(--ink)); }
+.whynote p:last-child { margin-bottom: 26px; }
+.whynote + .whynote { margin-top: 34px; }
+
+.frame { position: relative; border: 1px solid var(--brass-line); padding: 8px; margin-top: 26px;
+  background: rgba(248,241,224,0.62); }
+.frame-inner { border: 1px solid var(--brass-faint); padding: 24px 26px; }
+.frame::before, .frame-inner::after { content: ""; position: absolute; width: 9px; height: 9px;
+  border-color: var(--brass); border-style: solid; }
+.frame::before { top: -1px; left: -1px; border-width: 1px 0 0 1px; }
+.frame-inner::after { bottom: -1px; right: -1px; border-width: 0 1px 1px 0; }
+.unit-demo { display: grid; grid-template-columns: repeat(4, 1fr); margin-top: 6px; }
+.step { padding: 4px 16px 0; border-left: 1px solid var(--brass-faint); font-size: 12.5px; line-height: 1.6; color: var(--ink); }
+.step:first-child { border-left: none; padding-left: 0; }
+.step .sl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 5px; }
+@media (max-width: 760px) { .unit-demo { grid-template-columns: 1fr; gap: 12px; }
+  .step { border-left: none; border-top: 1px solid var(--brass-faint); padding: 10px 0 0; }
+  .step:first-child { border-top: none; } }
+.fig-cap { font-size: 12px; font-style: italic; color: var(--muted); margin-top: 10px; line-height: 1.65; }
+
+/* ------------------------------------------- the conspectus: one-plate view */
+/* the whole pipeline engraved in a strip: record → unit → taxonomy → plates */
+.cd-inner { padding: 22px 20px 20px; }
+.cd-eyebrow { font-family: var(--mono); font-size: 9px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); text-align: center; }
+.cd-lat { font-style: italic; font-size: 12px; color: var(--ink-2); text-align: center; margin-top: 4px; }
+.cd-flow { display: flex; align-items: stretch; justify-content: center; gap: 2px; margin-top: 20px; }
+.cd-st { flex: 1 1 0; min-width: 0; display: flex; flex-direction: column; align-items: center;
+  text-align: center; padding: 0 4px; }
+.cd-g { width: 84px; height: 84px; display: block; }
+.cd-k { font-family: var(--display); font-size: 19px; color: var(--ink); margin-top: 9px; line-height: 1.1; }
+.cd-d { font-size: 11.5px; color: var(--ink-2); line-height: 1.55; margin-top: 5px; max-width: 22ch; }
+.cd-n { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; color: var(--brass);
+  margin-top: 8px; text-transform: uppercase; line-height: 1.9; }
+.cd-arr { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 4px;
+  padding-top: 36px; width: 54px; }
+.cd-arr span { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.14em; text-transform: uppercase;
+  color: var(--muted); white-space: nowrap; }
+.cd-arr .cd-ah { width: 38px; height: 10px; display: block; }
+.cd-arr .cd-av { display: none; width: 10px; height: 24px; }
+/* glyph strokes: engraver's hairlines from the page's own inks */
+.cd-ln  { fill: none; stroke: rgba(36,28,20,0.62); stroke-width: 1; stroke-linecap: round; stroke-linejoin: round; }
+.cd-lnf { fill: none; stroke: rgba(36,28,20,0.30); stroke-width: 1; stroke-linecap: round; }
+.cd-br  { fill: none; stroke: var(--brass); stroke-width: 1.2; stroke-linecap: round; }
+.cd-cell   { fill: rgba(138,90,31,0.68); }
+.cd-cell-f { fill: rgba(138,90,31,0.22); }
+.cd-page   { fill: rgba(248,241,224,0.9); }
+.cd-t { font: 500 7px var(--mono); fill: var(--muted); text-anchor: middle; letter-spacing: 0.05em; }
+/* the strip draws itself in, station by station, once the frame is witnessed */
+.cd-frame .cd-draw { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1s var(--ease-settle); }
+.cd-frame.in .cd-draw { stroke-dashoffset: 0; }
+.cd-frame .cd-fade { opacity: 0; transition: opacity 0.8s ease; }
+.cd-frame.in .cd-fade { opacity: 1; }
+.cd-flow > :nth-child(1) .cd-draw { transition-delay: 0.15s }
+.cd-flow > :nth-child(3) .cd-draw { transition-delay: 0.55s }
+.cd-flow > :nth-child(5) .cd-draw { transition-delay: 0.95s }
+.cd-flow > :nth-child(7) .cd-draw { transition-delay: 1.35s }
+.cd-flow > :nth-child(1) .cd-fade { transition-delay: 0.7s }
+.cd-flow > :nth-child(3) .cd-fade { transition-delay: 1.1s }
+.cd-flow > :nth-child(5) .cd-fade { transition-delay: 1.5s }
+.cd-flow > :nth-child(7) .cd-fade { transition-delay: 1.9s }
+.cd-arr { opacity: 0; transition: opacity 0.6s ease; }
+.cd-frame.in .cd-arr { opacity: 1; }
+.cd-flow > :nth-child(2) { transition-delay: 0.5s } .cd-flow > :nth-child(4) { transition-delay: 0.9s }
+.cd-flow > :nth-child(6) { transition-delay: 1.3s }
+@media (max-width: 760px) {
+  .cd-flow { flex-direction: column; align-items: center; gap: 14px; margin-top: 16px; }
+  .cd-st { padding: 0; }
+  .cd-arr { padding-top: 0; width: auto; }
+  .cd-arr .cd-ah { display: none; }
+  .cd-arr .cd-av { display: block; }
+}
+@media (prefers-reduced-motion: reduce), print {
+  .cd-frame .cd-draw { stroke-dasharray: none !important; stroke-dashoffset: 0 !important; transition: none !important; }
+  .cd-frame .cd-fade, .cd-arr { opacity: 1 !important; transition: none !important; }
+}
+
+/* --------------------------------------- the forum specimen (Tier III) */
+.ff-tree { position: relative; margin-top: 20px; }
+.ff-tree::before { content: ""; position: absolute; left: 21px; top: 12px; bottom: 16px; width: 1px;
+  background: var(--brass-faint); transform: scaleY(0); transform-origin: top;
+  transition: transform 1.5s var(--ease-settle) 0.1s; }
+.cd-frame.in .ff-tree::before { transform: scaleY(1); }
+.ff-row { display: grid; grid-template-columns: 44px 1fr; gap: 15px; align-items: start; padding: 10px 0; position: relative; }
+.ff-g { width: 42px; height: 42px; display: block; }
+.ff-k { font-family: var(--display); font-size: 17px; color: var(--ink); line-height: 1.15; }
+.ff-x { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass); margin-left: 8px; }
+.ff-d { font-size: 12.5px; color: var(--ink-2); line-height: 1.6; margin-top: 4px; max-width: 62ch; }
+.ff-d b { color: var(--ink); font-weight: 600; }
+.ff-fork { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
+.ff-o { font-family: var(--mono); font-size: 9px; letter-spacing: 0.13em; text-transform: uppercase;
+  color: var(--ink-2); border: 1px solid var(--brass-faint); padding: 7px 12px; }
+.ff-n { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.08em; text-transform: uppercase;
+  color: var(--brass); margin-top: 14px; line-height: 1.9; }
+.ff-tree > :nth-child(1) .cd-draw { transition-delay: 0.15s } .ff-tree > :nth-child(1) .cd-fade { transition-delay: 0.35s }
+.ff-tree > :nth-child(2) .cd-draw { transition-delay: 0.45s } .ff-tree > :nth-child(2) .cd-fade { transition-delay: 0.65s }
+.ff-tree > :nth-child(3) .cd-draw { transition-delay: 0.75s } .ff-tree > :nth-child(3) .cd-fade { transition-delay: 0.95s }
+.ff-tree > :nth-child(4) .cd-draw { transition-delay: 1.05s } .ff-tree > :nth-child(4) .cd-fade { transition-delay: 1.25s }
+.ff-tree > :nth-child(5) .cd-draw { transition-delay: 1.35s } .ff-tree > :nth-child(5) .cd-fade { transition-delay: 1.55s }
+.ff-frame .ff-n { transition-delay: 1.8s }
+@media (prefers-reduced-motion: reduce), print {
+  .ff-tree::before { transform: none !important; transition: none !important; }
+}
+
+/* ------------------------------------------- tier VII: the act rail */
+.ar-rail { position: relative; margin-top: 18px; }
+.ar-wedge { position: absolute; left: 98px; top: 6px; height: calc(100% - 12px); width: 38px; pointer-events: none; }
+a.ar-row { display: grid; grid-template-columns: 92px 50px 1fr; align-items: center;
+  padding: 10px 0; border-bottom: none; position: relative; transition: background 0.2s ease; }
+a.ar-row:hover, a.ar-row:focus-visible { background: rgba(138,90,31,0.06); }
+.ar-mag { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--muted); text-align: right; line-height: 1.5; padding-right: 4px; }
+.ar-node { width: 9px; height: 9px; border: 1px solid var(--brass); border-radius: 50%;
+  background: var(--paper); justify-self: center; position: relative; z-index: 1; }
+.ar-body { display: block; padding-left: 12px; min-width: 0; }
+.ar-l1 { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.ar-no { font-family: var(--mono); font-size: 9px; letter-spacing: 0.18em; color: var(--brass); font-weight: 500; }
+.ar-title { font-family: var(--display); font-size: 17px; color: var(--ink); line-height: 1.15; transition: color 0.2s ease; }
+a.ar-row:hover .ar-title { color: var(--brass); }
+.ar-pl { font-family: var(--mono); font-size: 8px; letter-spacing: 0.14em; color: var(--muted); margin-left: auto; }
+.ar-q { display: block; font-style: italic; font-size: 12.5px; color: var(--ink-2); line-height: 1.5; margin-top: 2px; }
+.ar-rail > a:nth-of-type(1).cd-fade { transition-delay: 0.25s } .ar-rail > a:nth-of-type(2).cd-fade { transition-delay: 0.35s }
+.ar-rail > a:nth-of-type(3).cd-fade { transition-delay: 0.45s } .ar-rail > a:nth-of-type(4).cd-fade { transition-delay: 0.55s }
+.ar-rail > a:nth-of-type(5).cd-fade { transition-delay: 0.65s } .ar-rail > a:nth-of-type(6).cd-fade { transition-delay: 0.75s }
+.ar-rail > a:nth-of-type(7).cd-fade { transition-delay: 0.85s } .ar-rail > a:nth-of-type(8).cd-fade { transition-delay: 0.95s }
+.ar-rail > a:nth-of-type(9).cd-fade { transition-delay: 1.05s }
+.ar-frame .ar-wedge .cd-draw { transition-duration: 1.7s; transition-delay: 0.15s; }
+.ar-frame .ff-n { transition-delay: 1.25s }
+@media (max-width: 620px) {
+  a.ar-row { grid-template-columns: 26px 1fr; row-gap: 1px; }
+  .ar-mag { grid-column: 2; grid-row: 1; text-align: left; padding-left: 12px; }
+  .ar-node { grid-column: 1; grid-row: 1 / span 2; }
+  .ar-body { grid-column: 2; grid-row: 2; }
+  .ar-wedge { left: -6px; }
+  .ar-pl { margin-left: 0; flex-basis: 100%; }
+}
+/* ------------------------------------------- tier VIII: the open circuit */
+.oc-grid { display: grid; grid-template-columns: 1fr 208px; gap: 6px 28px; margin-top: 20px; }
+.oc-flow { position: relative; }
+.oc-flow::before { content: ""; position: absolute; left: 21px; top: 14px; bottom: 30px; width: 1px;
+  background: var(--brass-faint); transform: scaleY(0); transform-origin: top;
+  transition: transform 1.6s var(--ease-settle) 0.1s; }
+.cd-frame.in .oc-flow::before { transform: scaleY(1); }
+a.oc-row { display: grid; grid-template-columns: 44px 1fr; gap: 15px; align-items: start;
+  padding: 8px 0; border-bottom: none; position: relative; transition: background 0.2s ease; }
+a.oc-row:hover, a.oc-row:focus-visible { background: rgba(138,90,31,0.06); }
+a.oc-row:hover .oc-k, a.oc-door:hover .oc-k { color: var(--brass); }
+.oc-g { width: 42px; height: 42px; display: block; position: relative; z-index: 1; }
+.oc-k { font-family: var(--display); font-size: 17px; color: var(--ink); line-height: 1.15; transition: color 0.2s ease; }
+.oc-x { font-family: var(--mono); font-size: 8.5px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--brass); margin-left: 8px; }
+.oc-d { font-size: 12.5px; color: var(--ink-2); line-height: 1.6; margin-top: 3px; max-width: 58ch; }
+.oc-via { font-family: var(--mono); font-size: 7.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--muted); margin: 1px 0 1px 59px; }
+.oc-fork { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 6px 0 2px 59px; }
+a.oc-door { display: grid; grid-template-columns: 34px 1fr; gap: 12px; align-items: start;
+  border: 1px solid var(--brass-faint); padding: 11px 13px; border-bottom: 1px solid var(--brass-faint);
+  transition: background 0.2s ease, border-color 0.2s ease; }
+a.oc-door:hover, a.oc-door:focus-visible { background: rgba(138,90,31,0.06); border-color: var(--brass-line); }
+a.oc-door .oc-g { width: 34px; height: 34px; }
+a.oc-door .oc-k { font-size: 15.5px; }
+a.oc-door .oc-d { font-size: 11.5px; max-width: none; }
+a.oc-side { display: flex; flex-direction: column; justify-content: center; gap: 4px;
+  border-left: 1px dashed var(--brass-line); padding: 10px 0 10px 20px; border-bottom: none;
+  transition: background 0.2s ease; }
+a.oc-side:hover, a.oc-side:focus-visible { background: rgba(138,90,31,0.05); }
+a.oc-side:hover .oc-k { color: var(--brass); }
+.oc-flow > :nth-child(1) .cd-draw { transition-delay: 0.15s } .oc-flow > :nth-child(1) .cd-fade { transition-delay: 0.3s }
+.oc-flow > :nth-child(2).cd-fade { transition-delay: 0.45s }
+.oc-flow > :nth-child(3) .cd-draw { transition-delay: 0.5s } .oc-flow > :nth-child(3) .cd-fade { transition-delay: 0.65s }
+.oc-flow > :nth-child(4).cd-fade { transition-delay: 0.8s }
+.oc-flow > :nth-child(5) .cd-draw { transition-delay: 0.85s } .oc-flow > :nth-child(5) .cd-fade { transition-delay: 1.0s }
+.oc-flow > :nth-child(6).cd-fade { transition-delay: 1.15s }
+.oc-flow > :nth-child(7) .cd-draw { transition-delay: 1.2s } .oc-flow > :nth-child(7) .cd-fade { transition-delay: 1.35s }
+.oc-grid > .oc-side .cd-draw { transition-delay: 1.0s } .oc-grid > .oc-side .cd-fade { transition-delay: 1.2s }
+@media (prefers-reduced-motion: reduce), print {
+  .oc-flow::before { transform: none !important; transition: none !important; }
+}
+@media (max-width: 700px) {
+  .oc-grid { grid-template-columns: 1fr; }
+  a.oc-side { border-left: none; border-top: 1px dashed var(--brass-line); padding: 14px 0 2px; margin-top: 6px; }
+  .oc-fork { grid-template-columns: 1fr; margin-left: 0; }
+}
+.layers { display: flex; flex-direction: column; margin-top: 14px; }
+.layer { display: grid; grid-template-columns: 92px 1fr; gap: 16px; padding: 15px 0;
+  border-bottom: 1px solid var(--brass-faint); font-size: 13.5px; color: var(--ink-2); }
+.layer .k { font-family: var(--mono); font-size: 10px; letter-spacing: 0.16em; color: var(--brass); padding-top: 3px; }
+.layer b { color: var(--ink); font-weight: 600; }
+@media (max-width: 560px) { .layer { grid-template-columns: 1fr; gap: 5px; } }
+
+ul.findings { margin: 20px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; }
+ul.findings li { display: grid; grid-template-columns: 120px 1fr; gap: 16px; font-size: 14px; color: var(--ink-2); }
+ul.findings .v { font-family: var(--display); font-size: 26px; line-height: 1.05; color: var(--brass);
+  text-align: right; font-variant-numeric: tabular-nums; }
+ul.findings b { color: var(--ink); font-weight: 600; }
+@media (max-width: 560px) { ul.findings li { grid-template-columns: 1fr; gap: 2px; }
+  ul.findings .v { text-align: left; font-size: 23px; } }
+
+.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px;
+  margin-top: 24px; background: var(--brass-faint); border: 1px solid var(--brass-faint); }
+.doors a { display: block; background: rgba(248,241,224,0.75); padding: 16px 18px; border: none; color: var(--ink); }
+.doors a:hover { background: var(--paper); }
+.doors .dk { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); }
+.doors .dt { font-family: var(--display); font-size: 21px; line-height: 1.2; margin-top: 4px; }
+.doors .dd { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; line-height: 1.55; }
+
+table { border-collapse: collapse; margin-top: 20px; font-size: 12.5px; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { border: 1px solid var(--brass-faint); padding: 7px 12px; text-align: left; color: var(--ink-2); }
+th { font-family: var(--mono); font-size: 10px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted); }
+td:last-child { text-align: right; font-family: var(--mono); font-size: 11.5px; }
+@media (max-width: 640px) {
+  table, tbody { display: block; }
+  thead { display: none; }
+  tr { display: block; border: 1px solid var(--brass-faint); margin-top: 10px; padding: 4px 0; }
+  td { display: flex; justify-content: space-between; gap: 14px; border: none;
+    border-bottom: 1px solid rgba(138,90,31,0.07); text-align: right; }
+  td:last-child { border-bottom: none; }
+  td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.12em;
+    text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 2px; }
+  td.td-rich { display: block; text-align: left; }
+  td.td-rich::before { display: block; margin-bottom: 3px; padding-top: 0; }
+}
+
+/* ------------------------------------------------------------- the furniture */
+#topbar { position: fixed; top: 0; left: 0; right: 0; z-index: 70; display: flex; align-items: center;
+  justify-content: space-between; gap: 14px; padding: 9px clamp(14px, 3vw, 40px);
+  background: rgba(239,228,201,0.86); backdrop-filter: blur(10px); border-bottom: 1px solid var(--brass-faint);
+  transform: translateY(-100%); transition: transform 0.4s cubic-bezier(0.2, 0.7, 0.15, 1); }
+#topbar.show { transform: translateY(0); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links a:hover, #topbar .tb-links a.tb-here, #topbar .tb-links a.tb-live { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; }
+  #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+
+/* the rail is a section through the room: nine tiers, and the reader's height in it */
+.gap.gap-last { height: 96svh; }   /* the closing plan wants a screen of its own */
+#tiers { position: fixed; right: 18px; top: 50%; transform: translateY(-50%); z-index: 50;
+  display: flex; flex-direction: column-reverse; align-items: flex-end; gap: 9px; }
+#tiers .tk { position: absolute; right: 5px; top: -16px; bottom: -16px; width: 1px; background: rgba(138,90,31,0.16); }
+#tiers .tf { position: absolute; right: 5px; bottom: -16px; width: 1px; background: var(--brass); }
+#tiers button { position: relative; display: block; height: 2px; padding: 0; border: none; cursor: pointer;
+  background: rgba(138,90,31,0.34); transition: width 0.3s var(--ease-settle), background 0.3s ease; }
+#tiers button:hover, #tiers button.cur { background: var(--brass); }
+#tiers .lb { position: absolute; right: 26px; top: 50%; transform: translateY(-50%); font-family: var(--mono);
+  font-size: 8.5px; letter-spacing: 0.16em; text-transform: uppercase; color: var(--brass); white-space: nowrap;
+  opacity: 0; transition: opacity 0.25s ease; pointer-events: none; background: rgba(239,228,201,0.92);
+  padding: 3px 7px; border: 1px solid var(--brass-faint); }
+#tiers button:hover .lb, #tiers button.cur .lb { opacity: 1; }
+#tiers button.cur .lb { color: var(--ink-2); border-color: transparent; background: none; }
+@media (max-width: 1180px) { #tiers { display: none; } }
+
+#reticle { position: fixed; left: 0; top: 0; width: 26px; height: 26px; margin: -13px 0 0 -13px;
+  pointer-events: none; z-index: 200; opacity: 0; transition: opacity 0.3s ease; }
+#reticle::before { content: ""; position: absolute; inset: 0; border: 1px solid rgba(138,90,31,0.55);
+  border-radius: 50%; transition: transform 0.3s cubic-bezier(0.3,0.6,0.2,1), border-color 0.3s ease; }
+#reticle::after { content: ""; position: absolute; left: 50%; top: 50%; width: 2px; height: 2px;
+  margin: -1px 0 0 -1px; background: var(--brass); border-radius: 50%; }
+#reticle.hot::before { transform: scale(1.7); border-color: var(--brass); }
+
+/* the loupe on the crowd: one mark, one real sentence of the kind it stands for */
+#witness { position: fixed; left: 50%; transform: translateX(-50%) translateY(8px); bottom: 26px; z-index: 60;
+  width: min(560px, calc(100vw - 40px)); text-align: center; opacity: 0; pointer-events: none;
+  transition: opacity 0.35s ease, transform 0.35s var(--ease-settle); }
+#witness.on { opacity: 1; transform: translateX(-50%) translateY(0); }
+#witness .wl { font-family: var(--mono); font-size: 9px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--brass); display: inline-block; padding: 3px 12px;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.92) 0%, rgba(239,228,201,0.55) 60%, transparent 84%); }
+/* the loupe and the scroll cue share the foot of the hero: only one may speak */
+html.wit-on .hero .cue { opacity: 0; transition: opacity 0.3s ease; }
+#witness .ws { font-size: 13px; font-style: italic; line-height: 1.7; color: var(--ink); margin-top: 6px;
+  background: rgba(239,228,201,0.88); padding: 8px 14px; border-top: 1px solid var(--brass-faint);
+  border-bottom: 1px solid var(--brass-faint); }
+@media (max-width: 700px) { #witness { display: none; } }
+
+/* --------------------------------------------------------------- colophon */
+footer.colophon { position: relative; z-index: 3; background: var(--ground); border-top: 1px solid var(--brass-faint);
+  padding: clamp(60px, 9vh, 96px) 20px 90px; display: flex; flex-direction: column; align-items: center;
+  gap: 11px; text-align: center; }
+.col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
+.col-rule::before, .col-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-line); }
+.col-rule svg { display: block; }
+.col-mark { font-family: var(--display); font-size: 27px; color: var(--ink); letter-spacing: 0.03em; margin-top: 4px; }
+.col-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--ink-2); }
+.col-by { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--ink-2); margin-top: 4px; }
+.col-by a { border: none; }
+.col-stats { font-family: var(--mono); font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--muted); margin-top: 6px; line-height: 2; }
+.col-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 8px; }
+.col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; }
+.col-links a:hover { color: var(--ink); }
+.col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
+
+/* ------------------------------------------------------------ reveals */
+.rv { opacity: 0; transform: translateY(15px); transition: opacity 0.7s ease, transform 0.8s var(--ease-settle); }
+.rv.in { opacity: 1; transform: none; }
+.band h2.hd { font-family: var(--display); font-weight: 500; font-size: clamp(26px, 3.4vw, 38px);
+  line-height: 1.12; margin: 0 0 4px; text-wrap: balance; }
+.band .hdl { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); margin-bottom: 12px; }
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero .eb, .hero h1, .hero .lat, .hero .cue { animation: none !important; opacity: 1 !important;
+    clip-path: none !important; transform: none !important; letter-spacing: 0.42em; }
+  .hero .cue { transform: translateX(-50%) !important; }
+  .hero h1 { letter-spacing: normal; }
+  .rv, .gap .plate-cap { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .gap { height: 34svh; }
+  .band { background: var(--ground); }
+  #theatre { opacity: 0.42; }
+  .hero .cue .cue-m { display: none; }
+  .hero .cue .cue-s { display: inline; }
+  #topbar, #reticle, #witness { transition: none; }
+}
+</style>
+
+<canvas id="theatre" aria-hidden="true"></canvas>
+<div id="vig" aria-hidden="true"></div>
+<div id="grain" aria-hidden="true"></div>
+
+<nav id="topbar" aria-label="站点">
+  <a class="tb-mark" href="#top">评判图谱</a>
+  <div class="tb-links">
+    <a href="index.html">图谱</a>
+    <a href="#top" class="tb-here">关于</a>
+    <a href="method.html">方法</a>
+    <a href="resources.html">资源</a>
+    <a href="api/">API</a>
+    
+  </div>
+</nav>
+<nav id="tiers" aria-label="阶"><div class="tk"></div><div class="tf" id="tf"></div></nav>
+<div id="reticle" aria-hidden="true"></div>
+<div id="witness" aria-live="off"><div class="wl"></div><div class="ws"></div></div>
+
+<main id="top">
+
+<section class="hero">
+  <div class="eb">评判图谱 · 伴读</div>
+  <h1>这<em>是</em>什么</h1>
+  <div class="lat">theatrum judicii — 评判的剧场</div>
+  <div class="cue"><i></i><span class="cue-m">拾级而上</span><span class="cue-s">九阶，加一则版记</span></div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ I · the project ═══ -->
+<div class="gap" data-tier="0" id="t1"><div class="plate-cap">
+  <div class="rn">第一阶</div>
+  <h2>项目</h2>
+  <div class="lat">theatrum — 本站所仿的那间屋子</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">I · 它是什么</div>
+  <h2 class="hd rv">一次对同行评审的描述尝试，分辨率到单个念头</h2>
+  <p class="lede rv"><a href="index.html">评判图谱</a>是一件元科学仪器：对 ICLR — 国际学习表征会议 — 全部公开同行评审的分析，追问评审这一行为是什么。为使其可分析，每篇评审被读成评价逻辑的原子单元 — 记录里究竟含有哪些种类的单元，本身也是问题的一部分 — 然后对这些单元做大规模的计数、比较与检验。不问<em>审稿人决定了什么</em>，只问<em>他们如何思考</em>。</p>
+  <p class="rv drop">同行评审决定机器学习里什么算知识。它靠数万人无偿的注意力运转，争议不断，而其内部远不如其裁决受到研究。从外部可见的只有输出 — 一个分数、一个接收、一个拒稿 — 正如裁决可见，背后的合议却不可见。本项目试图打开这场合议并描述它。</p>
+  <p class="rv">结果是 1,420,178 条审稿人推理的原子单元，取自九年的 ICLR，在三十三张图版上分析。它不是一篇关于同行评审的论辩。它是一次描述的尝试 — 以一种选定的形式做成，一路贯彻到底 — 而且它的建造方式，让任何怀疑者都能把描述的任何部分拆开来看。</p>
+
+  <div class="frame rv cd-frame" role="figure" aria-label="概念图：公开记录被解剖为四部分单元，单元被归入 12 乘 12 的分类体系，分类体系再被计数并绘成 33 张图版。">
+    <div class="frame-inner cd-inner">
+      <div class="cd-eyebrow">整件仪器，一览</div>
+      <div class="cd-lat">conspectus totius operis</div>
+      <div class="cd-flow">
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="22" y="10" width="42" height="56"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="19" y="14" width="42" height="56"/>
+            <rect class="cd-ln cd-page cd-draw" pathLength="1" x="16" y="18" width="42" height="56"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M21 28H53M21 35H53M21 42H53M21 56H53M21 63H53"/>
+            <path class="cd-br cd-draw" pathLength="1" d="M21 49H53"/>
+          </svg>
+          <div class="cd-k">记录</div>
+          <div class="cd-d">九年 ICLR，公开于 OpenReview — 每篇评审、每篇 rebuttal、每个裁决，包括被拒论文。</div>
+          <div class="cd-n">52,460 篇投稿<br>792,703 条消息</div>
+        </div>
+        <div class="cd-arr"><span>解剖</span>
+          <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
+          <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
+        </div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <path class="cd-br cd-draw" pathLength="1" d="M10 16H74"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M15 20V41M33 20V41M51 20V41M69 20V41"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="15" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="33" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="51" cy="48" r="5.5"/>
+            <circle class="cd-ln cd-draw" pathLength="1" cx="69" cy="48" r="5.5"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M22 45l3.5 3-3.5 3M40 45l3.5 3-3.5 3M58 45l3.5 3-3.5 3"/>
+            <text class="cd-t cd-fade" x="15" y="50.6">i</text>
+            <text class="cd-t cd-fade" x="33" y="50.6">ii</text>
+            <text class="cd-t cd-fade" x="51" y="50.6">iii</text>
+            <text class="cd-t cd-fade" x="69" y="50.6">iv</text>
+          </svg>
+          <div class="cd-k">单元</div>
+          <div class="cd-d">每条批评切成审稿人心智的一次运动：审视 &#183; 观察 &#183; 推理 &#183; 判断。</div>
+          <div class="cd-n">1,420,178 条单元</div>
+        </div>
+        <div class="cd-arr"><span>分类</span>
+          <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
+          <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
+        </div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <path class="cd-lnf cd-draw" pathLength="1" d="M15.3 10V74M20.7 10V74M26 10V74M31.3 10V74M36.7 10V74M42 10V74M47.3 10V74M52.7 10V74M58 10V74M63.3 10V74M68.7 10V74"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M10 15.3H74M10 20.7H74M10 26H74M10 31.3H74M10 36.7H74M10 42H74M10 47.3H74M10 52.7H74M10 58H74M10 63.3H74M10 68.7H74"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="10" y="10" width="64" height="64"/>
+            <g class="cd-fade">
+              <rect class="cd-cell" x="10.9" y="10.9" width="3.5" height="3.5"/><rect class="cd-cell" x="16.2" y="16.2" width="3.5" height="3.5"/><rect class="cd-cell" x="21.6" y="21.6" width="3.5" height="3.5"/><rect class="cd-cell" x="26.9" y="26.9" width="3.5" height="3.5"/><rect class="cd-cell" x="32.2" y="32.2" width="3.5" height="3.5"/><rect class="cd-cell" x="37.6" y="37.6" width="3.5" height="3.5"/><rect class="cd-cell" x="42.9" y="42.9" width="3.5" height="3.5"/><rect class="cd-cell" x="48.2" y="48.2" width="3.5" height="3.5"/><rect class="cd-cell" x="53.6" y="53.6" width="3.5" height="3.5"/><rect class="cd-cell" x="58.9" y="58.9" width="3.5" height="3.5"/><rect class="cd-cell" x="64.2" y="64.2" width="3.5" height="3.5"/><rect class="cd-cell" x="69.6" y="69.6" width="3.5" height="3.5"/>
+              <rect class="cd-cell-f" x="26.9" y="10.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="48.2" y="21.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="16.2" y="32.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="58.9" y="37.6" width="3.5" height="3.5"/><rect class="cd-cell-f" x="32.2" y="48.2" width="3.5" height="3.5"/><rect class="cd-cell-f" x="64.2" y="26.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="69.6" y="58.9" width="3.5" height="3.5"/><rect class="cd-cell-f" x="42.9" y="64.2" width="3.5" height="3.5"/>
+            </g>
+          </svg>
+          <div class="cd-k">分类体系</div>
+          <div class="cd-d">每条单元都归入一套从数据归纳得到的语法：12 个审视对象 &#215; 12 个推理标准。</div>
+          <div class="cd-n">144 个格</div>
+        </div>
+        <div class="cd-arr"><span>计数，绘制</span>
+          <svg class="cd-ah" viewBox="0 0 38 10" aria-hidden="true"><path class="cd-ln" d="M2 5H30M26 1.5L32 5L26 8.5"/></svg>
+          <svg class="cd-av" viewBox="0 0 10 24" aria-hidden="true"><path class="cd-ln" d="M5 2V16M1.5 12L5 18L8.5 12"/></svg>
+        </div>
+        <div class="cd-st">
+          <svg class="cd-g" viewBox="0 0 84 84" aria-hidden="true">
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-42 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(42 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-30 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(30 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-18 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(18 42 76)"/>
+            <rect class="cd-lnf cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(-6 42 76)"/>
+            <rect class="cd-ln cd-page cd-draw" pathLength="1" x="35" y="22" width="14" height="48" rx="1" transform="rotate(6 42 76)"/>
+            <circle class="cd-br cd-draw" pathLength="1" cx="42" cy="34" r="3.2" transform="rotate(6 42 76)"/>
+          </svg>
+          <div class="cd-k">图谱</div>
+          <div class="cd-d">每张图都是单元的计数 &#8212; 每个数字都是一扇门，向下打开，直抵审稿人的一句话。</div>
+          <div class="cd-n">33 张图版 &#183; 8 幕</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <p class="fig-cap rv">整个项目，一条长带：公开记录，它被解剖成的四部分单元，每条单元归档所依的 12&#160;&#215;&#160;12 语法，以及计数它们的图版。倒着读，这是怀疑的路线：任何图版上的任何数字，都能一步步下降到其下的审稿人句子。</p>
+
+  <div class="spec rv"><b>410,586</b> 条单元（ICLR 2026，评审级） · <b>1,009,592</b> 条单元（2018–2026，forum 级） · 收集 <b>52,460</b> 篇投稿 · 核验于 2026-08-18</div>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ II · the motive ═══ -->
+<div class="gap" data-tier="1" id="t2"><div class="plate-cap">
+  <div class="rn">第二阶</div>
+  <h2>动机</h2>
+  <div class="lat">cur ratio, non numerus — 为何看推理，而非数字</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">II · 为何看推理，而非评分</div>
+  <h2 class="hd rv">评分是丢掉了理由的判断</h2>
+  <p class="rv drop">两位审稿人都写下 5。一位的意思是<em>想法不新</em>。另一位的意思是<em>实验不支持主张</em>。平均成评审组统计量后，差异消失了 — 而差异正是所发生的全部。评分是一种压缩，被压掉的恰是可以争辩、可以借鉴、可以改进的那部分。</p>
+  <p class="rv">项目的研究问题早已在设计文档中逐字定下：不问论文是否被接收，也不问评审是否有利，只问 — <em>审稿人审视什么，那个观察又经由哪些标准、比较、假设与推断成为判断？</em></p>
+  <p class="rv">同行评审是科学的核心质量控制机制，其内部的推理却很少被当作独立对象来研究。评审通常被归约为评分、情感或接收/拒稿结果。本项目把<b>推理本身</b>当作数据。</p>
+  <p class="rv">这一选择定下了下游一切的形状。情感分析会去数审稿人的感受。结果建模会去预测论文的下场。两者都不说什么在被<em>权衡</em>。图谱为一个更窄、更执拗的问题而建：论文的哪一部分被看了，又被拿哪条标准来衡量。要在大规模上问这个问题，就得在任何答案存在之前先选定粒度与词汇 — 四部分单元、十二乘十二的语法 — 因此图谱给出的每个答案，都是用这套选定词汇给出的答案：一种切分推理的方式，贯彻到底，并非唯一可能的切法。</p>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ III · the venue ═══ -->
+<div class="gap" data-tier="2" id="t3"><div class="plate-cap">
+  <div class="rn">第三阶</div>
+  <h2>会议</h2>
+  <div class="lat">unum forum — 一个会场，仅此一个</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">III · 为何选 ICLR</div>
+  <h2 class="hd rv">那个公开其所拒论文评审的会议</h2>
+  <p class="rv drop">一项特性让 ICLR 在顶级机器学习会议中近乎独一无二：它公开<b>被拒论文</b>的评审。公开评审档案通常从接收之处才开始 — 而一份缺了被拒多数的记录，只在评判说“是”的地方显示评判。ICLR 的 OpenReview forum 承载完整分布 — 每篇投稿、每篇评审、每篇 rebuttal、每个裁决 — 连续九年，2018 至 2026。即 52,460 篇投稿与 792,703 条 forum 消息，全部来自单一来源、单一采集路径。</p>
+  <div class="frame rv cd-frame ff-frame" role="figure" aria-label="一个 ICLR forum 的公开记录：投稿，附 summary、strengths、weaknesses 与 questions 的正式评审，公开的 rebuttal 往来，元评审，以及无论接收还是拒稿记录都保持公开的决定分岔。">
+    <div class="frame-inner"><div class="cd-inner">
+      <div class="cd-eyebrow">一个 forum，任何人都可读到的样子</div>
+      <div class="cd-lat">acta integra — 完整的记录</div>
+      <div class="ff-tree">
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-lnf cd-draw" pathLength="1" x="11" y="4" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+            <rect class="cd-lnf cd-draw" pathLength="1" x="8" y="7" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="5" y="10" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M9,16 h14 M9,20 h14 M9,24 h9"/>
+            <path class="cd-br cd-draw" pathLength="1" d="M9,30 h11"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">投稿</div>
+            <div class="ff-d">论文本身，从 forum 开放之日起公开 — 且一直公开。</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-ln cd-draw" pathLength="1" x="4" y="4" width="34" height="34" fill="rgba(248,241,224,0.9)"/>
+            <rect class="cd-br cd-draw" pathLength="1" x="27" y="8" width="7" height="4"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,13 h13 M8,16 h10"/>
+            <path class="cd-ln cd-draw" pathLength="1" d="M4,20 h34"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,24 h26 M8,27 h20"/>
+            <path class="cd-ln cd-draw" pathLength="1" d="M4,31 h34"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,34 h16"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">正式评审 <span class="ff-x">每篇论文 &#8776; 3.8 份</span></div>
+            <div class="ff-d">每份都填同一张表 &#8212; <b>summary &#183; strengths &#183; weaknesses &#183; questions</b> &#8212; 附评分与置信度：&#8776;425 词的评判，署以固定化名。</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,5 v32"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="13" y="6" width="24" height="9" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M16,10.5 h14"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="18" y="18" width="19" height="9" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M21,22.5 h11"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="13" y="30" width="24" height="9" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M16,34.5 h14"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">往来</div>
+            <div class="ff-d">作者在每篇评审下作答，审稿人可再回复 &#8212; 整轮交锋带着时间戳留在线程里。</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-ln cd-draw" pathLength="1" x="4" y="7" width="34" height="28" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M8,13 h20 M8,17 h26 M8,21 h22"/>
+            <circle class="cd-br cd-draw" pathLength="1" cx="31" cy="28" r="4"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">元评审</div>
+            <div class="ff-d">领域主席读完评审组，写下自己的理由。</div>
+          </div>
+        </div>
+        <div class="ff-row">
+          <svg class="ff-g" viewBox="0 0 42 42" aria-hidden="true">
+            <path class="cd-ln cd-draw" pathLength="1" d="M21,3 v7 M21,10 c0,5 -10,4 -10,9 M21,10 c0,5 10,4 10,9"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="4" y="21" width="14" height="17" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M7,26 h8 M7,29 h8 M7,32 h5"/>
+            <rect class="cd-ln cd-draw" pathLength="1" x="24" y="21" width="14" height="17" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M27,26 h8 M27,29 h8 M27,32 h5"/>
+          </svg>
+          <div class="ff-b cd-fade">
+            <div class="ff-k">录用决定</div>
+            <div class="ff-fork">
+              <span class="ff-o">接收 &#183; 记录保持公开</span>
+              <span class="ff-o">拒稿 &#183; 记录保持公开</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="ff-n cd-fade">52,460 篇投稿 &#183; 792,703 条公开消息 &#183; 九年，一个来源</div>
+    </div></div>
+  </div>
+  <p class="fig-cap rv">一个 forum 的记录，按部件绘出。数字是语料自己的：每篇论文 &#8776;3.8 份正式评审、每份评审 &#8776;425 词，是 2026 年的均值（19,474 篇论文上的 74,380 份评审）；52,460 篇投稿与 792,703 条消息是九年总计。分岔的两端有意用同一种墨绘出 &#8212; 记录的完整性不取决于裁决，这正是本图谱所依托的特性。</p>
+  <p class="rv">这个选择是一种约束，并非背书。ICLR 是一个会议，在一个领域，有一种文化，评审表在九年间改了四次。图谱中的一切描述的都是 ICLR；除非图版明说，其中没有任何内容应被读成关于同行评审的一般事实，而没有一张图版这样说。</p>
+</div>
+</section>
+
+<!-- ═════════════════════════════════════════════════════ IV · the atom ═══ -->
+<div class="gap" data-tier="3" id="t4"><div class="plate-cap">
+  <div class="rn">第四阶</div>
+  <h2>原子</h2>
+  <div class="lat">unitas judicii — 一个评判单元</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">IV · 分析单元</div>
+  <h2 class="hd rv">审稿人心智的一次完整运动</h2>
+  <p class="rv drop">分析单元，即本项目视为审稿人心智一次完整运动的东西 — 从被审视之物，经观察，经所援引的标准，到判断。一条来自语料的真实单元：</p>
+  <div class="frame rv"><div class="frame-inner">
+    <div class="unit-demo">
+      <div class="step"><div class="sl">审视</div>论文的符号系统与格式一致性。</div>
+      <div class="step"><div class="sl">→ 观察</div>审稿人认为符号 "difficult to follow"，原因是上下标用法不一致。</div>
+      <div class="step"><div class="sl">→ 推理</div>清晰的符号是核验正确性的前提；此处的含混为评估技术可靠性设置了障碍。</div>
+      <div class="step"><div class="sl">→ 判断</div>表述质量不够严谨 — 一处妨碍审视的形式缺陷。</div>
+    </div>
+  </div></div>
+  <p class="fig-cap rv">标本 № 335，共 410,586 件，来自 ICLR 2026 投稿 <code>hPUjTTj64O</code>。同一单元在图谱自己的图版 0 上被逐部分打开。</p>
+  <p class="rv">每条单元还带有判定极性（否定 / 肯定 / 有条件 / 存疑 / 混合），审稿人若给出修复建议则一并记录，指回源评审的行级引用，以及一个标记，记录它是基于审稿人的明确文字还是由分析层推断得出。</p>
+  <p class="rv">图谱中的一切都是对它们的计数。没有一张图版装着归根到底不是一堆单元的东西 — 所以每张图都能一直打开，直到露出一位真实审稿人写下的句子。这里的数字是一扇门，并非结论。</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ V · the making ═══ -->
+<div class="gap" data-tier="4" id="t5"><div class="plate-cap">
+  <div class="rn">第五阶</div>
+  <h2>制作</h2>
+  <div class="lat">manus artificis — 示出匠人之手</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">V · 如何做成</div>
+  <h2 class="hd rv">三层，有意分开</h2>
+  <p class="rv drop">没有人会读完 792,703 条 forum 消息。让问题可回答的规模，恰恰是把一台机器放在读者与审稿人之间的规模。诚实的处理办法是给各层命名并让它们彼此分开，而非隐藏机器，这样任何断言都能追溯到产生它的那一层。</p>
+  <div class="layers rv">
+    <div class="layer"><span class="k">第一层</span><span><b>人工评审</b> — 原始 OpenReview 记录，一次采集，保持不变。未做匿名化；数据本已公开。</span></div>
+    <div class="layer"><span class="k">第二层</span><span><b>分析备忘</b> — 一个 DeepSeek 模型读每篇评审（或 forum），写出自由文本的元科学分析；提示词禁止重新评审论文，要求引用行 ID，并在初始阶段有意隐去结果与其他评审。</span></div>
+    <div class="layer"><span class="k">第三层</span><span><b>结构化逻辑单元</b> — 一个 Qwen 模型把每份备忘规范化为模式约束的 JSON。它从不看原始评审；它是第二层之上的规范化层，并非第二意见。</span></div>
+  </div>
+  <h3 class="rv">两条轨道，一套分类体系</h3>
+  <p class="rv">两条独立的抽取轨道覆盖互补的视角。<b>2026 轨道</b>逐篇评审、高分辨率地工作：74,380 份评审 → 410,586 条单元。<b>2018–2026 轨道</b>逐个 forum 横跨九年地工作：50,861 个 forum → 1,009,592 条单元，附时间字段（rebuttal 前/后、判断变化），驱动漂移与 rebuttal 分析。</p>
+  <p class="rv">两条轨道共用一套分类体系 — <b>12 个审视对象 × 12 个推理标准</b> — 从数据本身归纳得到：对 12,000 条单元的样本做嵌入与聚类，不以先前方案作种子，聚类经人工阅读并命名，再把两条轨道中的每条单元归入最近的类别。每个术语的定义见图谱<a href="index.html">词汇表</a>，全站悬停亦可见。</p>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ VI · the limits ═══ -->
+<div class="gap" data-tier="5" id="t6"><div class="plate-cap">
+  <div class="rn">第六阶</div>
+  <h2>界限</h2>
+  <div class="lat">quod non est — 它不是什么</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">VI · 这不是什么</div>
+  <h2 class="hd rv">对评审的机器读取，而非对审稿人的测量</h2>
+  <p class="rv drop"><b>这不是什么：</b>对人类审稿人的直接测量。每条单元都是两阶段的机器读取。<code>support_status</code> 标记（明确 vs. 推断）与图谱附录中的分类别信度网格，正是为了让每条断言都能对照仪器自身的误差来读。</p>
+  <p class="rv">读这份图谱，带着五条注意。<b>(1)</b> 它度量的是机器对评审的读取，而非审稿人本身；信度网格标出了哪些地方是推断在替代引述。<b>(2)</b> 否定占比反映了分析备忘提示词偏向阐述批评 — 它不是情绪比例。<b>(3)</b> 两条轨道的覆盖率均为 98.1–98.2%；缺失的尾部（解析失败、服务商内容政策拒答）有记录，其与主题的相关性未经核验。<b>(4)</b> 与录用决定相连的图版（后果）是关联：结果从未展示给抽取流水线，但批评广度与论文质量在设计上就纠缠在一起。<b>(5)</b> 四部分单元和 12 × 12 分类体系是对文本的一种归纳得到的切分，并非唯一可能的切分：其内部信度经过测量，各类别在应当对应之处也追随 ICLR 自身的分项评分，但没有任何检验能确立它们是<em>正确的</em>切分 — 换一套方案，会为同一批评审画出另一张地图。</p>
+  <p class="rv">放进附录的注意事项，等于被藏起来的注意事项。这几条与发现同等分量，印在图版上，也写在这里 — 而图谱的第三个附录全部留给<em>失败</em>的结果：看上去真实、经零假设检验、没能挺过去的模式。</p>
+</div>
+</section>
+
+<!-- ════════════════════════════════════════════════════ VII · the atlas ═══ -->
+<div class="gap" data-tier="6" id="t7"><div class="plate-cap">
+  <div class="rn">第七阶</div>
+  <h2>图谱</h2>
+  <div class="lat">tabulae XXXIII — 三十三张图版</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">VII · 怎么读</div>
+  <h2 class="hd rv">八幕、一段尾声、三个附录</h2>
+  <p class="rv drop">图谱正文是一件连续的仪器，靠滚动阅读：<em>仪器</em>、<em>一人之手</em>、<em>法则</em>、<em>量刑表</em>、<em>交锋</em>、<em>上级法庭</em>、<em>尺度</em>、<em>时代与疆域</em>，一段落在档案里的尾声，以及三个附录 — 共三十三张图版。每张图版提一个问题，用一张图作答，并在自己的图注里说明它答不了什么。</p>
+
+  <div class="frame rv cd-frame ar-frame" role="figure" aria-label="图谱导览路线的浓缩版：从一个句子到整份记录的九个站点 — 第一幕到第八幕加尾声，每一幕离句子远一步，每一行链接到图谱上对应的幕。">
+    <div class="frame-inner"><div class="cd-inner">
+      <div class="cd-eyebrow">导览路线 — 每一幕离句子远一步</div>
+      <div class="cd-lat">cursus operis</div>
+      <div class="ar-rail">
+        <svg class="ar-wedge" viewBox="0 0 38 1000" preserveAspectRatio="none" aria-hidden="true">
+          <polygon class="cd-fade" points="19,0 5,1000 33,1000" fill="rgba(138,90,31,0.05)" stroke="none" style="transition-delay:1.15s"/>
+          <path class="cd-draw" pathLength="1" d="M19 0L5 1000" fill="none" stroke="rgba(138,90,31,0.4)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+          <path class="cd-draw" pathLength="1" d="M19 0L33 1000" fill="none" stroke="rgba(138,90,31,0.4)" stroke-width="1" vector-effect="non-scaling-stroke"/>
+        </svg>
+        <a class="ar-row cd-fade" href="index.html#act-i">
+          <span class="ar-mag">一个句子</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第一幕</b><span class="ar-title">仪器</span><span class="ar-pl">图版 I–III</span></span>
+            <span class="ar-q">一百万条评审如何变成可计数的单元</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-ii">
+          <span class="ar-mag">一条评审</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第二幕</b><span class="ar-title">一人之手</span><span class="ar-pl">图版 IV–VI</span></span>
+            <span class="ar-q">一位审稿人独自写下的是什么</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-iii">
+          <span class="ar-mag">一条批评的断言</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第三幕</b><span class="ar-title">法则</span><span class="ar-pl">图版 VII–XIII</span></span>
+            <span class="ar-q">一条批评实际在说什么 — 又在要什么</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-iv">
+          <span class="ar-mag">一条批评的代价</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第四幕</b><span class="ar-title">量刑表</span><span class="ar-pl">图版 XIV–XV</span></span>
+            <span class="ar-q">一条批评改变了什么</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-v">
+          <span class="ar-mag">一间屋子</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第五幕</b><span class="ar-title">交锋</span><span class="ar-pl">图版 XVI–XXI</span></span>
+            <span class="ar-q">人与人相遇时，评判会不会动</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-vi">
+          <span class="ar-mag">一座法庭</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第六幕</b><span class="ar-title">上级法庭</span><span class="ar-pl">图版 XXII–XXIII</span></span>
+            <span class="ar-q">领域主席的法庭 — 它权衡什么，借用谁的话</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-vii">
+          <span class="ar-mag">一个评分</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第七幕</b><span class="ar-title">尺度</span><span class="ar-pl">图版 XXIV–XXV</span></span>
+            <span class="ar-q">评分能否被当作一次测量来信任</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-viii">
+          <span class="ar-mag">九年</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">第八幕</b><span class="ar-title">时代与疆域</span><span class="ar-pl">图版 XXVI–XXIX</span></span>
+            <span class="ar-q">仪器本身被测量 — 其中有哪些只属于当下，或只属于某一领域</span>
+          </span>
+        </a>
+        <a class="ar-row cd-fade" href="index.html#act-coda">
+          <span class="ar-mag">记录本身</span>
+          <span class="ar-node" aria-hidden="true"></span>
+          <span class="ar-body">
+            <span class="ar-l1"><b class="ar-no">尾声</b><span class="ar-title">档案</span><span class="ar-pl">图版 XXX</span></span>
+            <span class="ar-q">原始推理，与其原文对照</span>
+          </span>
+        </a>
+      </div>
+      <div class="ff-n cd-fade">尾声之后是三个附录：<a href="index.html#lexicon">词汇表</a> &#183; <a href="index.html#prov">溯源与方法</a> &#183; 收纳撤下分析的<a href="index.html#null-cabinet">零假设陈列柜</a></div>
+    </div></div>
+  </div>
+  <p class="fig-cap rv">与图谱开篇同一条导轨的浓缩版：楔形随参照系一同变宽，从一个句子到整整九年的记录。每一行打开对应的幕。</p>
+  <p class="rv">三个习惯能让它读得更快。每个技术术语悬停即有定义。每个数字都能打开：点进一张图，它会一路向下，直到屏幕上出现一句真实的审稿人原句，并附上它所来自的 OpenReview 讨论串链接。每张图版还有一份机读存证 — 同一断言的 JSON 版本，带计数，位于 <code>/atlas-of-judgment/api/v1/plates/</code>。</p>
+  <h3 class="rv">图版里的一部分内容</h3>
+  <ul class="findings rv">
+    <li><span class="v">71.8%</span><span>的单元判定为<b>否定</b> — 分析备忘层阐述批评逻辑的频率远高于称许（这既是仪器的属性，也是审稿人的属性）。</span></li>
+    <li><span class="v">138/144</span><span><b>语法</b>：每个审视对象都有其对应的标准 — 新颖性以新颖性标准评判，成本以成本收益评判 — 这种耦合九年间几乎没动：144 格中有 138 格落在置换零假设底线之内。</span></li>
+    <li><span class="v">26→6→13%</span><span><b>脚本</b>：评审以概念开场（问题界定为基准率的 1.9×），以卫生类事项收尾（可复现性 1.4×）；称许在评审中段塌落，到结尾回升。</span></li>
+    <li><span class="v">4.6%</span><span><b>rebuttal</b>：130,650 条回应后单元中，只有 5.6% 减弱或反转（4.6% 减弱，1.0% 反转）；即便是新补的实验，加强原判断的频率也约为软化它的 3 倍。</span></li>
+    <li><span class="v">−10.6pp</span><span><b>评审庭</b>：新颖性批评显示出最大的接收率差距（仅为关联，非因果）；计算成本与鲁棒性批评则完全没有差距。</span></li>
+    <li><span class="v">0.65</span><span><b>可读的裁决</b>：数一数被批评了什么，就能以 AUC 0.65 读出一篇论文的接收或拒稿（用它的词语是 0.74；评审组自己的评分是 0.90） — 而这种可读性九年来一直在下降。（旧的&#8220;夹道&#8221;斜率 — 每多一条批评战线接收率就下降 — 结果是构造上的必然，如今挂在零假设陈列柜里。）</span></li>
+    <li><span class="v">38.6%</span><span><b>分歧</b>：同一篇论文的审稿人在问题界定上分歧最大 — 这个问题是否重要 — 在鲁棒性上分歧最小，那里由证据说话。</span></li>
+    <li><span class="v">−13.7pp</span><span><b>更宽厚的法官</b>：元评审者比他们所总结的评审组少 13.7 个百分点的否定、多 10.5 个百分点的肯定。</span></li>
+    <li><span class="v">+3.2pp</span><span><b>漂移</b>：2018→2026，审视从理论与清晰度移向计算成本、统计严谨性与可复现性 — 从<em>这个想法是什么</em>移向<em>证据要花多少</em>。</span></li>
+    <li><span class="v">7.8→3.1%</span><span><b>水印</b>：一份冻结的十三词 LLM 词汇指纹出现在 7.8% 的 2024 年评审中（2023 年前的趋势预期为 1.6%），到 2026 年消退至 3.1% — 与此同时，在固定词表下，同一篇论文的同稿评审相似度提高了 14%。消退度量的是这种做法的<em>可见性</em>，而非其流行度；没有任何一条评审被指控。</span></li>
+  </ul>
+  <p class="rv">上面每张图在<a href="index.html">图谱</a>里都可交互，背后有计数、定义和原始标本单元。它们都不是你正在读的这一页的重点；放在这里，是让你知道门的另一侧是什么样的东西。</p>
+</div>
+</section>
+
+<!-- ═════════════════════════════════════════════════ VIII · the open door ═══ -->
+<div class="gap" data-tier="7" id="t8"><div class="plate-cap">
+  <div class="rn">第八阶</div>
+  <h2>敞开的门</h2>
+  <div class="lat">janua aperta — 一切皆公开</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl rv">VIII · 一切皆公开</div>
+  <h2 class="hd rv">这里没有一样东西藏在别的东西后面</h2>
+  <p class="rv drop">语料在本项目触及之前就是公开的，派生数据现在也公开，中间每一步同样公开。没有私藏的补充材料，没有扣下的表格，没有"结果可应要求提供"。</p>
+
+  <div class="frame rv cd-frame oc-frame" role="figure" aria-label="概念图：公开的 OpenReview 记录由公开的流水线代码读取，生成 50 个派生数据岛，数据岛向两类读者敞开 — 面向人的图谱与面向机器的 API — 而方法页在一旁记录整个过程。每个节点都链接到它的公开所在。">
+    <div class="frame-inner"><div class="cd-inner">
+      <div class="cd-eyebrow">什么是公开的，以及它们如何相连</div>
+      <div class="cd-lat">omnia in aperto — 全程公开</div>
+      <div class="oc-grid">
+        <div class="oc-flow">
+          <a class="oc-row" href="#t3">
+            <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+              <rect class="cd-lnf cd-draw" pathLength="1" x="11" y="4" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+              <rect class="cd-lnf cd-draw" pathLength="1" x="8" y="7" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+              <rect class="cd-ln cd-draw" pathLength="1" x="5" y="10" width="22" height="28" fill="rgba(248,241,224,0.9)"/>
+              <path class="cd-lnf cd-draw" pathLength="1" d="M9,16 h14 M9,20 h14 M9,24 h9"/>
+              <path class="cd-br cd-draw" pathLength="1" d="M9,30 h11"/>
+            </svg>
+            <div class="cd-fade">
+              <div class="oc-k">公开记录 <span class="oc-x">52,460&nbsp;个 forum &#183; 792,703&nbsp;条消息</span></div>
+              <div class="oc-d">评审、rebuttal、裁决 — 在本项目开始前就已公开于 OpenReview。第三层完整展示了一个 forum。</div>
+            </div>
+          </a>
+          <div class="oc-via cd-fade">&#8595; 读取并规范化它的是</div>
+          <a class="oc-row" href="https://github.com/t46/atlas-of-judgment">
+            <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+              <rect class="cd-ln cd-draw" pathLength="1" x="6" y="5" width="30" height="32" fill="rgba(248,241,224,0.9)"/>
+              <path class="cd-lnf cd-draw" pathLength="1" d="M10,11 h14 M10,33 h10"/>
+              <path class="cd-br cd-draw" pathLength="1" d="M15,18 l-4,4 4,4 M27,18 l4,4 -4,4 M23,16 l-4,12"/>
+            </svg>
+            <div class="cd-fade">
+              <div class="oc-k">代码 <span class="oc-x">github &#183; 一个&nbsp;仓库</span></div>
+              <div class="oc-d">整条流水线 — 采集、分析备忘、结构化、分类体系归纳、聚合 — 以及这些页面自身的源码。</div>
+            </div>
+          </a>
+          <div class="oc-via cd-fade">&#8595; 蒸馏为</div>
+          <a class="oc-row" href="https://huggingface.co/datasets/t46/atlas-of-judgment">
+            <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+              <path class="cd-ln cd-draw" pathLength="1" d="M4,33 h34"/>
+              <circle class="cd-br cd-draw" pathLength="1" cx="12" cy="25.5" r="7.5" fill="rgba(248,241,224,0.9)"/>
+              <circle class="cd-ln cd-draw" pathLength="1" cx="23.5" cy="28.5" r="4.5" fill="rgba(248,241,224,0.9)"/>
+              <circle class="cd-lnf cd-draw" pathLength="1" cx="31.5" cy="30.5" r="2.5" fill="rgba(248,241,224,0.9)"/>
+            </svg>
+            <div class="cd-fade">
+              <div class="oc-k">派生数据 <span class="oc-x">50&nbsp;个岛 &#183; 5.17&#8202;MB</span></div>
+              <div class="oc-d">单元以及图版所绘的每一项聚合，以纯 JSON 给出 — 对记录的一种归纳得到的读法，镜像为 Hugging Face 数据集，CC&nbsp;BY&nbsp;4.0。</div>
+            </div>
+          </a>
+          <div class="oc-via cd-fade">&#8595; 向两类读者敞开</div>
+          <div class="oc-fork">
+            <a class="oc-door" href="index.html">
+              <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+                <g transform="rotate(-16 21 36)"><rect class="cd-lnf cd-draw" pathLength="1" x="14" y="6" width="14" height="28" fill="rgba(248,241,224,0.9)"/></g>
+                <g transform="rotate(16 21 36)"><rect class="cd-lnf cd-draw" pathLength="1" x="14" y="6" width="14" height="28" fill="rgba(248,241,224,0.9)"/></g>
+                <rect class="cd-ln cd-draw" pathLength="1" x="14" y="4" width="14" height="30" fill="rgba(248,241,224,0.9)"/>
+                <circle class="cd-br cd-draw" pathLength="1" cx="21" cy="12" r="2.6"/>
+              </svg>
+              <div class="cd-fade">
+                <div class="oc-k">图谱 <span class="oc-x">33&nbsp;张图版</span></div>
+                <div class="oc-d">人的门：每张图都是对同一批单元的计数。</div>
+              </div>
+            </a>
+            <a class="oc-door" href="/atlas-of-judgment/api/">
+              <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+                <path class="cd-br cd-draw" pathLength="1" d="M13,7 c-6,2 -3,11 -8,14 c5,3 2,12 8,14"/>
+                <path class="cd-br cd-draw" pathLength="1" d="M29,7 c6,2 3,11 8,14 c-5,3 -2,12 -8,14"/>
+                <path class="cd-lnf cd-draw" pathLength="1" d="M17,16 h8 M17,21 h9 M17,26 h7"/>
+              </svg>
+              <div class="cd-fade">
+                <div class="oc-k">API <span class="oc-x">33&nbsp;份存证</span></div>
+                <div class="oc-d">机器的门：逐图版的断言与每一个岛，附 <code>llms.txt</code> 和一份 OpenAPI schema。</div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <a class="oc-side" href="method.html">
+          <svg class="oc-g" viewBox="0 0 42 42" aria-hidden="true">
+            <rect class="cd-ln cd-draw" pathLength="1" x="7" y="4" width="28" height="34" fill="rgba(248,241,224,0.9)"/>
+            <path class="cd-lnf cd-draw" pathLength="1" d="M11,10 h20 M11,14 h20 M11,18 h16 M11,22 h20 M11,26 h13"/>
+            <circle class="cd-br cd-draw" pathLength="1" cx="28" cy="31" r="3.5"/>
+          </svg>
+          <div class="cd-fade">
+            <div class="oc-k">方法</div>
+            <div class="oc-d">整个过程自身的记录，放在管道旁边而非里面：每个脚本、模型、随机种子与成本 — 以及更正记录，发生时即写下。</div>
+          </div>
+        </a>
+      </div>
+    </div></div>
+  </div>
+  <p class="fig-cap rv">敞开之门的回路。记录在项目开始前就已公开；读取它的代码和它变成的数据现在公开；两类读者 — 面向人的图谱、面向机器的 API — 立在同样的 50 个岛上，方法伴着每一条箭头同行。上面每个节点都是一道门：链接到它所命名的公开之处。</p>
+
+  <div class="doors rv">
+    <a href="method.html"><div class="dk">方法</div><div class="dt">图谱方法</div><div class="dd">每个脚本、模型、参数、随机种子、成本与失败模式，详细到足以重跑。</div></a>
+    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">代码</div><div class="dt">GitHub</div><div class="dd">流水线、分类体系归纳、各项聚合，以及图谱自身的源码。</div></a>
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">数据</div><div class="dt">Hugging Face</div><div class="dd">派生单元及其标签，以 CC BY 4.0 发布。</div></a>
+    <a href="/atlas-of-judgment/api/"><div class="dk">机读接口</div><div class="dt">API 层</div><div class="dd">逐图版的存证与每一个数据岛，以 JSON 给出，附 <code>llms.txt</code> 和一份 OpenAPI schema。</div></a>
+  </div>
+  <h3 class="rv">账目</h3>
+  <p class="rv">建造它花了多少，全数列出。这笔账小到值得精确写明，因为写明它的意义在于：任何人都付得起。</p>
+  <table class="rv">
+    <tr><th>阶段</th><th>规模</th><th>成本（美元）</th></tr>
+    <tr><td>采集 + 规范化（OpenReview）</td><td>52,460 个 forum · 792,703 条消息</td><td>0</td></tr>
+    <tr><td>DeepSeek 分析备忘 — 全量分层（2026）</td><td>151,193 份分析备忘</td><td>314.42</td></tr>
+    <tr><td>DeepSeek 分析备忘 — 直接（2018–2026）</td><td>51,813 份分析备忘</td><td>194.75</td></tr>
+    <tr><td>Qwen 结构化 — 两条轨道，含重试</td><td>产出 ~1.42M 单元</td><td>103.59</td></tr>
+    <tr><td>分类体系、嵌入、聚合、图谱</td><td>仅本地计算</td><td>0</td></tr>
+  </table>
+  <p class="fig-cap rv">试点阶段的探索（episode 模式、图谱卡片、校准运行）另计，逐项列在项目的溯源账本中；上表数字是生产主干。</p>
+  <h3 class="rv">复现它</h3>
+  <p class="rv">配套页面<a href="method.html">图谱方法</a>记录了完整的流水线 — 每个脚本、模型、参数、随机种子、成本、失败模式和确切命令 — 详细到足以重跑，并如实交代哪些无法复现（LLM 采样的非确定性、少数几处一次性的手工修补，以及 OpenReview 自身的上游漂移）。</p>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <aside class="whynote rv">
+    <h3 class="rv">为什么是剧场</h3>
+    <p class="rv">这一页的形制借自一座建筑。1594 年，莱顿大学建起一座<em>theatrum anatomicum</em>：一圈紧密环绕的站席层层升高，让一具身体得以在见证者面前被打开、被绘下。同行评审就是那间屋子，只是桌上换了一篇论文 — 一件东西在公众面前被检视，检视者会说出自己所见。本项目是同一间屋子再转四分之一圈：仪器掉头指向握着它的手。</p>
+    <p class="rv">你一路读下来的看台上的人群，也不是装饰。每一个标记是一条审稿人推理单元，约占图谱所藏的百分之一，颜色是它们的判定，按真实比例 — 绝大多数是墨色，因为语料绝大多数是批评。第 <b>VI</b> 节解释了其中多少属于同行评审，多少属于仪器。</p>
+  </aside>
+  <aside class="whynote rv">
+    <h3 class="rv">为什么是网站，而非论文</h3>
+    <p class="rv">形式是动机的一部分。一篇论文把一项研究绑定在一种固定的呈现上。这里的记录与其呈现分开保存：同样的五十个数据文件，既喂给人走过的图版，也喂给机器读取的 API — 因为研究记录的读者已不再只有人。任何人都可以从同一批文件画出第三种视图；<a href="resources.html">库房</a>及其许可证正为此而设。这一想法部分得自<a href="https://openreview.net/forum?id=-RKZoHd2-Ca">一篇 2022 年的短文</a>，它主张研究数据与其展示可以由不同的人制作。</p>
+  </aside>
+</div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════ IX · the colophon ═══ -->
+<div class="gap gap-last" data-tier="8" id="t9"><div class="plate-cap">
+  <div class="rn">第九阶</div>
+  <h2>版记</h2>
+  <div class="lat">sub finem — 卷末的交代</div>
+</div></div>
+
+<section class="band">
+<div class="shell">
+  <aside class="whynote rv">
+    <h3 class="rv">关于字体与工具的说明</h3>
+    <p class="rv">这些页面的标题字体为 Cormorant Garamond，正文为 Source Serif，仪器标签为 IBM Plex Mono。图是手写的 SVG，在浏览器中一笔一笔画出；看台后方的剧场是一幅单张 WebGL 线刻。评审由开放权重语言模型读取 — 先出分析备忘，再做模式约束的结构化 — 页面本身则在研究者与语言模型助手的一段有记录的对话中建成，方法页引用的正是这段过程。刻于 MMXXVI。</p>
+  </aside>
+</div>
+</section>
+
+<footer class="colophon">
+  <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
+  <div class="col-mark">评判图谱 · Atlas of Judgment</div>
+  <div class="col-sub">配套页 — 这是什么，以及为什么是 ICLR</div>
+  <div class="col-by">由 UNKTOK 的 Shiro Takagi 制作</div>
+  <div class="col-stats">1,420,178 条审稿人逻辑单元 · 52,460 个 forum · 九年 ICLR · 刻于 MMXXVI</div>
+  <div class="col-links"><a href="index.html">图谱</a><a href="method.html">方法</a><a href="resources.html">资源</a><a href="api/">API</a></div>
+  <div class="col-fine">衍生数据以 CC BY 4.0 发布。评审归其匿名作者所有，经 OpenReview 公开。这里的一切都是机器读取——请对照原文核验，每个标本都链接到原文。</div>
+<div class="col-fine col-zh">本站是 Shiro Takagi 所作 <a href="https://atlas-of-judgment.pages.dev">Atlas of Judgment</a> 的中文译本。原文、图与派生数据 CC BY 4.0，代码 MIT；数据与机读接口与原站同源、未作改动。译文由 <a href="https://github.com/Lauorie/atlas-of-judgment">Lauorie/atlas-of-judgment</a> 维护，译文问题请到该仓库提 issue；数据与断言的更正请报到<a href="https://github.com/t46/atlas-of-judgment/issues">原仓库</a>。</div>
+</footer>
+
+</main>
+
+<script id="wit" type="application/json">[{"j": "The core contribution is underwhelming relative to its claims; the effect size does not support a high contribution rating.", "v": "negative"}, {"j": "Design coherence is violated; the distinction between real and synthetic regimes is incomplete.", "v": "negative"}, {"j": "Positive evaluation of the method's geometric flexibility and capability.", "v": "positive"}, {"j": "The presentation quality is deficient, contributing to a negative assessment of rigor.", "v": "negative"}, {"j": "The method's portability and integration potential are weak due to hardware/framework constraints.", "v": "negative"}, {"j": "The fairness component lacks sufficient justification relative to field norms for metric selection.", "v": "negative"}, {"j": "Low presentation quality due to minor but noticeable errors that affect professionalism and ease of use.", "v": "negative"}, {"j": "The robustness of the method across different encoder qualities is unverified.", "v": "negative"}, {"j": "Minor presentation flaw indicating a lack of polish in expository ordering.", "v": "negative"}, {"j": "Negative assessment due to a basic formal defect.", "v": "negative"}, {"j": "The methodology is incomplete because it lacks a decision procedure for tool selection.", "v": "negative"}, {"j": "The use of a universal baseline is an assumption that risks overgeneralization and inaccurate relative ranking.", "v": "negative"}, {"j": "Major concern regarding consistency with scalability narrative.", "v": "negative"}, {"j": "Limited innovation due to derivative components.", "v": "negative"}, {"j": "The experimental comparison is potentially unfair due to unequal capacity constraints between the proposed method and the baseline.", "v": "negative"}, {"j": "The scope of the contribution is currently limited and unverified outside of mathematical tasks, creating an unanswered empirical question.", "v": "negative"}, {"j": "Positive assessment of the methodological rigor in isolating failure modes.", "v": "positive"}, {"j": "Neutral inquiry into reproducibility plans.", "v": "positive"}, {"j": "The estimator is accepted based on stated theoretical guarantees without scrutiny of implementation details or practical translation.", "v": "positive"}, {"j": "Uncertainty regarding whether the paper has sufficiently articulated the scope conditions of its design.", "v": "negative"}, {"j": "The motivational framing provided by this comparison is conceptually weak.", "v": "negative"}, {"j": "The reviewer finds the current demonstration of utility insufficient.", "v": "negative"}, {"j": "Presentation quality is diminished by avoidable stylistic and typographical errors.", "v": "negative"}, {"j": "Practical utility is uncertain without quantified efficiency metrics beyond parameter count.", "v": "negative"}, {"j": "Negative judgment on experimental validity; potential threat to the central empirical claim due to unclear baseline implementation.", "v": "negative"}, {"j": "The method's practical viability is currently unverified due to unclear scalability characteristics.", "v": "uncertain"}, {"j": "The presentation obscures the contribution and detracts from the paper's perceived professionalism and clarity.", "v": "negative"}, {"j": "Serious concern regarding the fidelity of the paper's engagement with foundational literature.", "v": "negative"}, {"j": "Uncertainty: The evaluation metrics might be too narrow to fully assess framework performance.", "v": "conditional"}, {"j": "The rationale for the specific encoder choice is unexplained, reducing the perceived incremental value/insight.", "v": "negative"}, {"j": "The operationalization is insufficiently comprehensive and precise.", "v": "negative"}, {"j": "The dataset fails to authentically represent the claimed domain, undermining its specific contribution.", "v": "negative"}, {"j": "The core attack mechanism is viewed as temporally fragile and potentially time-limited in its value.", "v": "negative"}, {"j": "The masking mechanism presents a significant, unaddressed risk profile regarding the integrity of learned knowledge.", "v": "negative"}, {"j": "The paper lacks sufficient novelty and comprehensiveness to constitute a strong contribution.", "v": "negative"}, {"j": "Experimental scope is insufficient to validate generalization claims.", "v": "negative"}, {"j": "The empirical results are extensive and demonstrate consistent improvement.", "v": "positive"}, {"j": "The proposition is evaluated as genuinely novel and theoretically significant.", "v": "positive"}, {"j": "The estimator's lack of statistical examination raises concerns about its validity in critical training regimes.", "v": "negative"}, {"j": "The theoretical foundation lacks sufficient motivation and clarity.", "v": "negative"}, {"j": "The specific mechanistic or architectural novelty relative to existing literature is not sufficiently articulated.", "v": "negative"}, {"j": "The paper needs to clarify its competitive positioning against non-sparse acceleration techniques.", "v": "conditional"}, {"j": "The claimed practical benefit is not demonstrated.", "v": "negative"}, {"j": "The method description is coherent and correctly described.", "v": "positive"}, {"j": "The terminology appears to potentially obscure the lack of novelty in the loss formulation.", "v": "negative"}, {"j": "The paper has not engaged with a relevant class of counterexamples, challenging the generality of its claims.", "v": "negative"}, {"j": "Substantive concern regarding novelty; the claimed contribution is viewed as insufficiently distinct from nearest predecessors.", "v": "negative"}, {"j": "The contribution is incremental and lacks transformative novelty.", "v": "negative"}, {"j": "There is an unresolved risk that models are exploiting data artifacts rather than learning tool-use competence.", "v": "negative"}, {"j": "Weakness: The literature review is outdated and insufficient for establishing methodological novelty.", "v": "negative"}, {"j": "The problem framing is strong and well-positioned.", "v": "positive"}, {"j": "The core motivation is valid but does not constitute a significant novelty driver because the problem itself is widely recognized.", "v": "mixed"}, {"j": "The claim of being a 'metric' is an overclaim requiring correction, though the issue is considered marginal.", "v": "negative"}, {"j": "Negative assessment of novelty, viewing the contribution as an additive combination of standard techniques rather than a transformative one.", "v": "negative"}, {"j": "The comparison is not a solid contribution because it lacks informative failure modes or plausible competitive baselines.", "v": "negative"}, {"j": "The incomplete literature review undermines confidence in the paper's understanding of the current state-of-the-art.", "v": "negative"}, {"j": "Limited novelty due to reliance on established observations and techniques.", "v": "negative"}, {"j": "Presentation barrier: the document is not optimally organized for reader comprehension.", "v": "negative"}, {"j": "The paper presents a sound, internally coherent argument.", "v": "positive"}, {"j": "The literature engagement is deficient/incomplete.", "v": "negative"}, {"j": "The SDD metric lacks sufficient novelty due to inadequate citation of prior art, raising concerns about attribution and framing.", "v": "negative"}, {"j": "The validity of the performance metrics is uncertain due to ambiguous splitting strategy.", "v": "uncertain"}, {"j": "The paradigm's core assumption may not hold for complex, integrated knowledge domains, creating practical barriers.", "v": "negative"}, {"j": "This is a minor but crucial literature gap requiring citation.", "v": "negative"}, {"j": "The algorithmic contribution lacks necessary theoretical justification regarding its efficiency.", "v": "negative"}, {"j": "Positive assessment of the analytical depth beyond ranking.", "v": "positive"}, {"j": "The reviewer finds the current level of explanation insufficient for understanding the underlying mechanics.", "v": "negative"}, {"j": "The evaluation lacks a critical reference point for real-world applicability.", "v": "negative"}, {"j": "Concern that methodological independence is compromised, making it hard to attribute observed patterns solely to the dataset.", "v": "negative"}, {"j": "Uncertainty regarding the practical viability and robustness of the method under realistic budget constraints due to unverified burn-in sensitivity.", "v": "conditional"}, {"j": "Absence of failure cases limits the diagnostic value of qualitative results.", "v": "negative"}, {"j": "Hedged concern about the paper's real-world impact due to the subject's current standing.", "v": "negative"}, {"j": "The presentation is poor, hindering any meaningful engagement with the method's logic.", "v": "negative"}, {"j": "Uncertainty regarding the specific empirical measurement shown.", "v": "uncertain"}, {"j": "The computational efficiency claim is unsubstantiated.", "v": "negative"}, {"j": "The empirical base provides credible support for the existence of the described phenomena.", "v": "positive"}, {"j": "The contribution is limited by the small magnitude of improvement relative to the complexity/cost.", "v": "negative"}, {"j": "It is hard to identify the novelty of this paper's technical design.", "v": "negative"}, {"j": "The fairness of the comparative evaluation is uncertain due to ambiguous parameter accounting.", "v": "uncertain"}, {"j": "Empirical evidence is insufficient to support general claims of optimization improvement.", "v": "negative"}, {"j": "Deflation of novelty claim because the method appears to be a re-packaging of known distillation techniques without sufficient differentiation.", "v": "negative"}, {"j": "The explanatory depth is incomplete, limiting the paper's utility beyond mere demonstration.", "v": "negative"}, {"j": "Unproven value proposition of the complex system architecture.", "v": "negative"}, {"j": "Negative concern regarding lack of practical grounding for the model.", "v": "negative"}, {"j": "The scope of safety-related claims is unsupported due to narrow empirical evidence.", "v": "negative"}, {"j": "Methodological ambiguity exists regarding the computation of key metrics.", "v": "uncertain"}, {"j": "Negative evaluation regarding the lack of explanatory depth for empirical findings.", "v": "negative"}, {"j": "The statistical significance of the top-k improvement is unverified and potentially weak.", "v": "negative"}, {"j": "The central claim of data-efficiency is currently unsupported by the presented evidence, casting doubt on the paper's fundamental framing.", "v": "negative"}, {"j": "The approach has high value and novelty due to its economic efficiency and radical nature.", "v": "positive"}, {"j": "Absolute rejection of the paper's suitability for the venue.", "v": "negative"}, {"j": "The paper has significant potential to enable future work on two-layer net training, though this connection was not made by the authors.", "v": "positive"}, {"j": "The method's design rationale is unclear and potentially fragile.", "v": "conditional"}, {"j": "The necessity and distinct contribution of the two-stage design are unclear due to ablation ambiguity.", "v": "uncertain"}, {"j": "The presentation contains minor mechanical flaws that reduce polish.", "v": "negative"}, {"j": "The comparison landscape includes outdated baselines, weakening the empirical validation.", "v": "negative"}, {"j": "The method lacks economic viability under realistic adversarial scaling scenarios.", "v": "negative"}, {"j": "Positive evaluation of the framework's comprehensive scope and engineering output.", "v": "positive"}, {"j": "The paper has minor presentation failures.", "v": "negative"}, {"j": "The proposed solution does not adequately address the economic and operational realities of multi-setup manufacturing workflows.", "v": "negative"}, {"j": "The paper exhibits presentation errors that undermine its professional polish.", "v": "negative"}, {"j": "Uncertainty remains regarding the method's ability to handle unseen classes or broader vocabularies.", "v": "uncertain"}, {"j": "The limited temporal scope is insufficient to support broad claims about the method's utility for physical simulation.", "v": "negative"}, {"j": "Empirical evidence is promising and demonstrates good experimental design in probing causal reliance.", "v": "positive"}, {"j": "The algorithmic presentation is ambiguous and potentially misleading.", "v": "negative"}, {"j": "The claimed effect of compression prompts is likely exaggerated.", "v": "negative"}, {"j": "There is a potential internal inconsistency between the theoretical mechanism and reported outcomes.", "v": "negative"}, {"j": "Negative: Potential numerical instability poses a risk to the safe deployment of the method.", "v": "negative"}, {"j": "Solid instrumental value with limited conceptual novelty.", "v": "positive"}, {"j": "The PCA interpretation requires justification to support the paper's claims about semantic structures.", "v": "conditional"}, {"j": "Critical omission of safety mechanisms renders the current design potentially unsafe for physical deployment.", "v": "negative"}, {"j": "The core conceptual idea is compelling and theoretically sound.", "v": "positive"}, {"j": "Negative judgment regarding the interpretability and causal validity of the mechanism.", "v": "negative"}, {"j": "The choice of expert policy is questionable and may constrain the method's effectiveness.", "v": "conditional"}, {"j": "Factual clarification needed to assess scope of applicability.", "v": "uncertain"}, {"j": "The presentation quality is diminished by preventable errors.", "v": "negative"}, {"j": "The contribution of the complex model is diminished if simpler baselines suffice.", "v": "negative"}, {"j": "There is a potential confound in the comparison due to ambiguous regularization implementation.", "v": "negative"}, {"j": "The defense contribution is conceptually fragile and potentially accidental.", "v": "negative"}, {"j": "Over-claimed novelty; integration does not equal significant scientific advance.", "v": "negative"}, {"j": "Internal inconsistency between claimed unified synergy and implemented conflicting objectives.", "v": "negative"}, {"j": "The increase in complexity is a concern for practical deployment and optimization.", "v": "negative"}, {"j": "The positioning claim is substantively weak due to lack of distinct motivation.", "v": "negative"}, {"j": "Concern about practical deployment feasibility and computational scalability.", "v": "negative"}, {"j": "Preprocessing degrades the quality of the input data by removing scale-sensitive features essential for the target phenomena.", "v": "negative"}, {"j": "The presentation style creates a barrier to understanding and evaluating the method's core contributions.", "v": "negative"}, {"j": "The novelty claim is real but not sufficiently communicated or contextualized within the broader field.", "v": "conditional"}, {"j": "The comparative advantage regarding independence assumptions is unverified.", "v": "negative"}, {"j": "The mechanistic explanations are unsupported by rigorous data.", "v": "negative"}, {"j": "The benchmark has potential value but is hedged due to uncertainty about its robustness against simultaneous gaming of training data and benchmark.", "v": "conditional"}, {"j": "The paper has plausible but unverified causal claims, leading to a low soundness assessment.", "v": "negative"}, {"j": "The comparative evidence is weak because it does not resolve the efficiency-performance trade-off.", "v": "negative"}, {"j": "Anomalous behavior in specific models challenges the universality of the Bayesian interpretation.", "v": "negative"}, {"j": "Dissatisfaction with the rigor and rationale of the comparative evaluation.", "v": "negative"}, {"j": "Uncertainty remains about the fairness and transparency of the sample-efficiency claims.", "v": "conditional"}, {"j": "The documentation for the key robustness experiment is inadequate.", "v": "negative"}, {"j": "The design and execution of the framework is considered 'well done' and convincing.", "v": "positive"}, {"j": "The unspecified construction is a potential source of unsoundness or degraded performance if not handled carefully.", "v": "negative"}, {"j": "Positive assessment of the problem definition and motivation.", "v": "positive"}, {"j": "The problem is significant, but this does not compensate for weaknesses in method justification and presentation.", "v": "positive"}, {"j": "A specific design parameter appears arbitrary and unsupported by explanation.", "v": "negative"}, {"j": "The preliminary exposition lacks novelty and could be condensed.", "v": "negative"}, {"j": "The practical deployability of the pipeline is unclear due to missing performance metrics on the reconstruction step.", "v": "uncertain"}, {"j": "The baseline set is incomplete, preventing a full assessment of the proposed framework's advantages over contemporary deep anomaly detection methods.", "v": "negative"}, {"j": "Concern about architectural incompatibility and undefined interaction effects between the proposed plug-in and existing logit-level constraints.", "v": "negative"}, {"j": "Important methodological details are inadequately presented in the main text.", "v": "negative"}, {"j": "The formalization is strong and has potential broader impact.", "v": "positive"}, {"j": "Presentation is insufficiently precise and repetitive.", "v": "negative"}, {"j": "The paper fails to properly cite relevant literature for key concepts.", "v": "negative"}, {"j": "Insufficient clarity to assess experimental validity.", "v": "negative"}]</script>
+<script>
+/* ═══════════════════════════════════════════════════════════════════════════
+   The theatrum: a raw-WebGL2 line engraving of an anatomical theatre, drawn
+   once into a static buffer and flown through by the scroll. Every stroke is a
+   screen-space quad so the hairlines keep an engraver's constant weight at any
+   distance; depth is carried by aerial fade alone, normalised by the camera's
+   stand-off so the plate holds its tonal range inside the room and above it.
+   ═════════════════════════════════════════════════════════════════════════ */
+(function theatrum() {
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cv = document.getElementById("theatre");
+  const gl = cv.getContext("webgl2", { antialias: true, alpha: true, powerPreference: "low-power" });
+  if (!gl) { cv.remove(); document.getElementById("vig").remove(); return; }
+
+  const WIT = JSON.parse(document.getElementById("wit").textContent);
+  const VAL = { negative: [0.435,0.122,0.271], positive: [0.208,0.420,0.263],
+                conditional: [0.486,0.373,0.063], uncertain: [0.45,0.40,0.33], mixed: [0.40,0.30,0.36] };
+  // the true verdict shares of the 410,586-unit track, so the crowd is the corpus
+  const SHARE = [["negative",0.7184],["positive",0.1372],["conditional",0.0944],["uncertain",0.0429],["mixed",0.0071]];
+  let _s = 20260826;                       // a fixed seed: this is a plate, not a lava lamp
+  const rnd = () => (_s = (_s * 1664525 + 1013904223) >>> 0) / 4294967296;
+  function pickVal() { let x = rnd(), a = 0; for (const [k, p] of SHARE) { a += p; if (x < a) return k; } return "negative"; }
+
+  // ---- geometry -----------------------------------------------------------
+  const A = [], B = [], SIDE = [], ENDV = [], INK = [], WID = [], COL = [];
+  const marks = [];
+  const QUAD = [[0,-1],[0,1],[1,-1],[1,-1],[0,1],[1,1]];
+  function seg(a, b, ink, w, col) {
+    for (const [e, s] of QUAD) {
+      A.push(a[0],a[1],a[2]); B.push(b[0],b[1],b[2]); SIDE.push(s); ENDV.push(e);
+      INK.push(ink); WID.push(w); COL.push(col[0],col[1],col[2]);
+    }
+  }
+  const INKC = [0.141,0.110,0.078];
+  // a theatrum anatomicum is a well, not a bowl: the tiers barely widen and climb
+  // hard, so a body on the floor lies at the bottom of a shaft of witnesses
+  const TIERS = 9;
+  const tierR = i => 2.15 + i * 0.46;
+  const tierY = i => 0.48 + i * 1.08;
+  function ring(r, y, ink, w, col, n) {
+    n = n || 160; let px = r, pz = 0;
+    for (let i = 1; i <= n; i++) { const t = i / n * Math.PI * 2, x = Math.cos(t) * r, z = Math.sin(t) * r;
+      seg([px,y,pz], [x,y,z], ink, w, col); px = x; pz = z; }
+  }
+  for (let i = 0; i < TIERS; i++) {
+    const r = tierR(i), y = tierY(i);
+    ring(r, y, 0.92, 1.25, INKC, 200);                      // the balustrade
+    ring(r - 0.20, y - 0.08, 0.34, 1.0, INKC, 150);         // the step behind it
+    const nr = Math.round(2 * Math.PI * r / 0.30);          // the riser, ruled
+    for (let k = 0; k < nr; k++) { const t = k / nr * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+      seg([x*r, y, z*r], [x*(r-0.20), y-0.94, z*(r-0.20)], 0.22, 1.0, INKC); }
+    for (let row = 0; row < 2; row++) {                     // two rows of witnesses to a tier
+      const rr0 = r + 0.02 + row * 0.19, nw = Math.round(2 * Math.PI * rr0 / 0.115);
+      for (let k = 0; k < nw; k++) {
+        const t = (k + rnd() * 0.6) / nw * Math.PI * 2, rr = rr0 + (rnd() - 0.5) * 0.06;
+        const h = 0.30 + rnd() * 0.13, lean = 0.055 + rnd() * 0.05, yy = y + row * 0.30;
+        const x = Math.cos(t) * rr, z = Math.sin(t) * rr;
+        const v = pickVal(), c = VAL[v], m = v === "negative" ? 0.0 : 0.62;
+        const col = [INKC[0]*(1-m)+c[0]*m, INKC[1]*(1-m)+c[1]*m, INKC[2]*(1-m)+c[2]*m];
+        const ink = 0.62 + rnd() * 0.34;
+        const a = [x, yy, z], b = [x - Math.cos(t)*lean, yy + h, z - Math.sin(t)*lean];
+        seg(a, b, ink, 1.0, col);                                                        // the body
+        seg(b, [b[0]-Math.cos(t)*0.03, b[1]+0.055, b[2]-Math.sin(t)*0.03], ink, 1.6, col); // the head
+        marks.push({ p: b, v: v });
+      }
+    }
+  }
+  for (let k = 0; k < 8; k++) {                             // eight aisles, climbing
+    const t = (k + 0.5) / 8 * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+    for (let i = 0; i < TIERS; i++) {
+      const r0 = tierR(i) - 0.20, y0 = tierY(i) - 0.94, r1 = tierR(i), y1 = tierY(i);
+      seg([x*r0,y0,z*r0], [x*r1,y0,z*r1], 0.5, 1.0, INKC);
+      seg([x*r1,y0,z*r1], [x*r1,y1,z*r1], 0.5, 1.0, INKC);
+    }
+  }
+  {                                                          // the cornice and the oculus
+    const yC = tierY(TIERS-1) + 0.86, yTop = tierY(TIERS-1) + 1.75, rTop = tierR(TIERS-1) + 0.26, rOc = 1.55;
+    ring(rTop, yC, 0.80, 1.25, INKC, 200);
+    ring(rTop - 0.16, yC + 0.16, 0.34, 1.0, INKC, 160);
+    ring(rOc, yTop, 0.85, 1.35, INKC, 150);
+    ring(rOc * 0.86, yTop + 0.10, 0.30, 1.0, INKC, 120);
+    for (let k = 0; k < 40; k++) { const t = k / 40 * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+      seg([x*rTop, yC, z*rTop], [x*rOc, yTop, z*rOc], 0.12, 1.0, INKC); }
+  }
+  ring(0.66, 0.02, 1.0, 1.6, INKC, 120); ring(0.50, 0.02, 0.55, 1.0, INKC, 90);
+  ring(1.30, 0.0, 0.55, 1.1, INKC, 140); ring(1.52, 0.0, 0.26, 1.0, INKC, 140);
+  for (let k = 0; k < 64; k++) { const t = k / 64 * Math.PI * 2, x = Math.cos(t), z = Math.sin(t);
+    seg([x*0.72, 0, z*0.72], [x*1.30, 0, z*1.30], 0.24, 1.0, INKC); }
+  for (let k = 0; k < 7; k++) {                              // the specimen on the table: a spine
+    const zz = -0.30 + k * 0.10, rr = 0.030 + 0.028 * Math.sin(k / 6 * Math.PI);
+    ring(rr, 0.075, 0.95, 1.0, INKC, 22);
+    seg([0, 0.075, zz], [0, 0.075, zz + 0.10], 0.8, 1.2, INKC);
+  }
+  seg([-0.30, 0.055, -0.34], [-0.30, 0.055, 0.34], 0.45, 1.0, INKC);
+  seg([ 0.30, 0.055, -0.34], [ 0.30, 0.055, 0.34], 0.45, 1.0, INKC);
+
+  // ---- program ------------------------------------------------------------
+  const VS = `#version 300 es
+precision highp float;
+in vec3 aA, aB, aCol; in float aSide, aEnd, aInk, aW;
+uniform mat4 uVP; uniform vec2 uRes; uniform float uW;
+out float vInk; out float vD; out vec3 vCol;
+void main() {
+  vec4 ca = uVP * vec4(aA, 1.), cb = uVP * vec4(aB, 1.);
+  if (ca.w <= 0.02 || cb.w <= 0.02) { gl_Position = vec4(0., 0., 2., 1.); vInk = 0.; vD = 1.; vCol = aCol; return; }
+  vec2 h = uRes * 0.5;
+  vec2 sa = ca.xy / ca.w * h, sb = cb.xy / cb.w * h;
+  vec2 d = sb - sa; float L = length(d);
+  vec2 dir = L > 0.0001 ? d / L : vec2(1., 0.);
+  vec2 nrm = vec2(-dir.y, dir.x);
+  vec4 c = mix(ca, cb, aEnd);
+  vec2 s = mix(sa, sb, aEnd) + nrm * aSide * aW * uW * 0.5;
+  gl_Position = vec4(s / h * c.w, c.z, c.w);
+  vInk = aInk; vD = c.w; vCol = aCol;
+}`;
+  const FS = `#version 300 es
+precision highp float;
+in float vInk; in float vD; in vec3 vCol;
+uniform float uHaze, uD0, uDim;
+out vec4 o;
+void main() {
+  // aerial distance, normalised by how far the camera stands off, so the plate keeps
+  // the same tonal range whether we are inside the room or above its roof
+  float fade = exp(-max(vD / uD0 - 0.75, 0.) * uHaze);
+  o = vec4(vCol, clamp(vInk * fade, 0., 1.) * uDim);
+}`;
+  function sh(t, src) { const x = gl.createShader(t); gl.shaderSource(x, src); gl.compileShader(x); return x; }
+  const prog = gl.createProgram();
+  gl.attachShader(prog, sh(gl.VERTEX_SHADER, VS)); gl.attachShader(prog, sh(gl.FRAGMENT_SHADER, FS));
+  gl.linkProgram(prog);
+  // a driver that refuses the shaders must not leave a dead program bound: every frame
+  // would then call enableVertexAttribArray(-1) and raise INVALID_VALUE forever. The page
+  // is written to read without the room, so put the room away and carry on.
+  if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+    cv.remove(); document.getElementById("vig").remove();
+    document.documentElement.classList.add("no-room");
+    return;
+  }
+  gl.useProgram(prog);
+  const vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+  function vbo(arr, size, name) {
+    const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(arr), gl.STATIC_DRAW);
+    const l = gl.getAttribLocation(prog, name);
+    gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, size, gl.FLOAT, false, 0, 0);
+  }
+  vbo(A,3,"aA"); vbo(B,3,"aB"); vbo(SIDE,1,"aSide"); vbo(ENDV,1,"aEnd");
+  vbo(INK,1,"aInk"); vbo(WID,1,"aW"); vbo(COL,3,"aCol");
+  const N = SIDE.length, U = n => gl.getUniformLocation(prog, n);
+  gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+  // ---- matrices -----------------------------------------------------------
+  function mul(a, b) { const o = new Float32Array(16);
+    for (let i = 0; i < 4; i++) for (let j = 0; j < 4; j++) { let s = 0;
+      for (let k = 0; k < 4; k++) s += a[k*4+j] * b[i*4+k]; o[i*4+j] = s; } return o; }
+  function persp(f, ar, n, fa) { const t = 1 / Math.tan(f / 2);
+    return new Float32Array([t/ar,0,0,0, 0,t,0,0, 0,0,(fa+n)/(n-fa),-1, 0,0,2*fa*n/(n-fa),0]); }
+  function look(e, c) {
+    const z = [e[0]-c[0], e[1]-c[1], e[2]-c[2]]; let l = Math.hypot(z[0],z[1],z[2]) || 1;
+    z[0]/=l; z[1]/=l; z[2]/=l;
+    let x = [z[2], 0, -z[0]]; l = Math.hypot(x[0],x[2]);
+    if (l < 1e-4) { x = [1,0,0]; l = 1; }                      // straight down: pick a meridian
+    x[0]/=l; x[2]/=l;
+    const y = [z[1]*x[2]-z[2]*x[1], z[2]*x[0]-z[0]*x[2], z[0]*x[1]-z[1]*x[0]];
+    return new Float32Array([x[0],y[0],z[0],0, x[1],y[1],z[1],0, x[2],y[2],z[2],0,
+      -(x[0]*e[0]+x[1]*e[1]+x[2]*e[2]), -(y[0]*e[0]+y[1]*e[1]+y[2]*e[2]), -(z[0]*e[0]+z[1]*e[1]+z[2]*e[2]), 1]);
+  }
+  const lerp = (a,b,t) => a + (b-a) * t, ease = t => t*t*(3-2*t), cl = t => Math.min(1, Math.max(0, t));
+
+  // ---- the arc ------------------------------------------------------------
+  // s = 0 on the table, looking up; s ≈ 0.8 at the top tier; s = 1 the ground plan.
+  function pose(s, t, portrait) {
+    const spin = t * 0.022;
+    let eye, tgt, fov;
+    if (s < 0.09) {                                   // at the table's edge, the room over you
+      const u = ease(s / 0.09);
+      eye = [Math.cos(spin) * 0.95, lerp(0.22, 1.5, u), Math.sin(spin) * 0.95];
+      tgt = [Math.cos(spin + Math.PI) * lerp(2.2, 3.4, u), lerp(6.4, 5.4, u), Math.sin(spin + Math.PI) * lerp(2.2, 3.4, u)];
+      fov = lerp(1.30, 1.22, u);
+    } else if (s < 0.72) {                            // the climb: one tier to a chapter
+      const u = (s - 0.09) / 0.63;
+      const az = spin + u * 3.1, d = lerp(1.1, 2.0, u);
+      const y = lerp(1.5, tierY(TIERS - 1) + 0.5, u);
+      eye = [Math.cos(az) * d, y, Math.sin(az) * d];
+      // the gaze swings between the roof and the table as the reader climbs
+      const swing = 0.5 - 0.5 * Math.cos(u * Math.PI * 2.6);
+      tgt = [Math.cos(az + Math.PI) * lerp(4.6, 2.4, swing), lerp(y + 4.2, 0.3, swing), Math.sin(az + Math.PI) * lerp(4.6, 2.4, swing)];
+      fov = 1.22;
+    } else if (s < 0.88) {                            // out through the cornice: the whole room
+      const u = ease((s - 0.72) / 0.16), q = Math.pow(u, 0.6);
+      const az = spin + 3.1 + 0.7 * u, d = lerp(2.0, portrait ? 26.0 : 18.0, q), h = lerp(tierY(TIERS-1) + 0.5, 10.0, q);
+      eye = [Math.cos(az) * d, h, Math.sin(az) * d];
+      tgt = [0, lerp(tierY(TIERS-1) + 0.5, 5.0, q), 0];
+      fov = lerp(1.22, 0.78, q);
+    } else {                                          // the ground plan: the room becomes a plate
+      const u = ease(cl((s - 0.88) / 0.08));
+      const az = spin + 3.8, d = lerp(portrait ? 26.0 : 18.0, 1.4, u), h = lerp(10.0, portrait ? 34.0 : 25.0, u);
+      eye = [Math.cos(az) * d, h, Math.sin(az) * d];
+      tgt = [0, lerp(5.0, 0.35, u), 0];
+      fov = lerp(0.78, portrait ? 0.62 : 0.52, u);
+    }
+    if (portrait && s < 0.72) {          // a tall frame sees too much empty roof: drop the gaze
+      tgt[1] = eye[1] + (tgt[1] - eye[1]) * 0.42;
+      fov *= 0.93;
+    }
+    return { eye, tgt, fov };
+  }
+
+  // ---- the loop -----------------------------------------------------------
+  let s = 0, sT = 0, t0 = performance.now(), portrait = false;
+  function size() {
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    cv.width = Math.round(innerWidth * dpr); cv.height = Math.round(innerHeight * dpr);
+    cv.style.width = innerWidth + "px"; cv.style.height = innerHeight + "px";
+    portrait = innerWidth < innerHeight * 0.95;
+  }
+  size();
+  addEventListener("resize", () => { size(); if (REDUCED) requestAnimationFrame(draw); }, { passive: true });
+  function progress() {
+    const dh = document.documentElement.scrollHeight - innerHeight;
+    return dh > 0 ? cl(scrollY / dh) : 0;
+  }
+  addEventListener("scroll", () => { sT = progress(); }, { passive: true });
+
+  let lastPose = null;
+  function draw(now) {
+    const t = REDUCED ? 0 : (now - t0) / 1000;
+    s += (sT - s) * 0.10;                              // the camera lags the scroll a little
+    const p = lastPose = pose(REDUCED ? 0.86 : s, t, portrait);
+    gl.viewport(0, 0, cv.width, cv.height);
+    gl.clearColor(0, 0, 0, 0); gl.clear(gl.COLOR_BUFFER_BIT);
+    const VP = mul(persp(p.fov, cv.width / cv.height, 0.05, 160), look(p.eye, p.tgt));
+    gl.uniformMatrix4fv(U("uVP"), false, VP);
+    gl.uniform2f(U("uRes"), cv.width, cv.height);
+    gl.uniform1f(U("uW"), Math.min(devicePixelRatio || 1, 2));
+    gl.uniform1f(U("uHaze"), 1.05);
+    // the stand-off cannot fall below the room's own size, or everything past the
+    // target — the far wall, seen from inside — fades to nothing before it is drawn
+    gl.uniform1f(U("uD0"), Math.max(6.5, Math.hypot(p.eye[0]-p.tgt[0], p.eye[1]-p.tgt[1], p.eye[2]-p.tgt[2])));
+    gl.uniform1f(U("uDim"), 1.0);
+    gl.drawArrays(gl.TRIANGLES, 0, N);
+  }
+  if (REDUCED) { requestAnimationFrame(draw); }
+  else { (function loop(now) { requestAnimationFrame(loop); if (!document.hidden) draw(now); })(t0); }
+
+  // ---- one mark, one real sentence of the kind it stands for --------------
+  const wbox = document.getElementById("witness");
+  if (!REDUCED && WIT.length && matchMedia("(pointer: fine)").matches) {
+    const wl = wbox.querySelector(".wl"), ws = wbox.querySelector(".ws");
+    const byVal = {}; for (const w of WIT) (byVal[w.v] = byVal[w.v] || []).push(w);
+    let shown = null, hide = 0;
+    addEventListener("mousemove", e => {
+      const tgt = e.target instanceof Element ? e.target : null;
+      if (progress() > 0.30 || !tgt || tgt.closest("main .band, footer, nav")) {
+        if (shown) { wbox.classList.remove("on"); document.documentElement.classList.remove("wit-on"); shown = null; } return;
+      }
+      if (!lastPose) return;
+      const p = lastPose, ar = cv.width / cv.height;
+      const VP = mul(persp(p.fov, ar, 0.05, 160), look(p.eye, p.tgt));
+      const mx = e.clientX, my = e.clientY;
+      let best = null, bd = 34 * 34;
+      for (let i = 0; i < marks.length; i += 2) {       // every other mark is plenty to aim at
+        const m = marks[i].p;
+        const w = VP[3]*m[0] + VP[7]*m[1] + VP[11]*m[2] + VP[15];
+        if (w <= 0.05) continue;
+        const cx = (VP[0]*m[0] + VP[4]*m[1] + VP[8]*m[2] + VP[12]) / w;
+        const cy = (VP[1]*m[0] + VP[5]*m[1] + VP[9]*m[2] + VP[13]) / w;
+        const sx = (cx * 0.5 + 0.5) * innerWidth, sy = (0.5 - cy * 0.5) * innerHeight;
+        const d = (sx - mx) * (sx - mx) + (sy - my) * (sy - my);
+        if (d < bd) { bd = d; best = marks[i]; }
+      }
+      clearTimeout(hide);
+      if (!best) { hide = setTimeout(() => { wbox.classList.remove("on");
+        document.documentElement.classList.remove("wit-on"); shown = null; }, 220); return; }
+      const pool = byVal[best.v] || WIT;
+      const pick = pool[(marks.indexOf(best) * 7919) % pool.length];
+      if (pick !== shown) {
+        shown = pick;
+        wl.textContent = best.v + " · 其中一条单元，原文照录";
+        ws.textContent = "“" + pick.j + "”";
+      }
+      wbox.classList.add("on"); document.documentElement.classList.add("wit-on");
+    }, { passive: true });
+  } else { wbox.remove(); }
+})();
+
+/* ═══════════════════════ the page: reveals, rail, top bar, reticle ═══════ */
+(function furniture() {
+  const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const io = new IntersectionObserver(en => {
+    for (const e of en) if (e.isIntersecting) { e.target.classList.add("in"); io.unobserve(e.target); }
+  }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+  document.querySelectorAll(".rv, .gap").forEach(el => io.observe(el));
+
+  const topbar = document.getElementById("topbar");
+  const rail = document.getElementById("tiers"), fill = document.getElementById("tf");
+  const gaps = [...document.querySelectorAll(".gap")];
+  const LABS = ["I · 项目","II · 动机","III · 会场","IV · 原子","V · 制作",
+                "VI · 局限","VII · 图谱","VIII · 敞开的门","IX · 版记"];
+  gaps.forEach((g, i) => {
+    const b = document.createElement("button");
+    b.style.width = (11 + (i % 3) * 3) + "px";
+    b.innerHTML = `<span class="lb">${LABS[i]}</span>`;
+    b.setAttribute("aria-label", LABS[i].replace(/ · /, ", "));
+    b.addEventListener("click", () => g.scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" }));
+    rail.appendChild(b); g._btn = b;
+  });
+  let cur = -1;
+  function onScroll() {
+    const dh = document.documentElement.scrollHeight - innerHeight;
+    const p = dh > 0 ? Math.min(1, Math.max(0, scrollY / dh)) : 0;
+    fill.style.height = (p * 100).toFixed(2) + "%";
+    topbar.classList.toggle("show", scrollY > innerHeight * 0.7);
+    // a fast flick can jump a block clean over the observer's window; anything the
+    // reader has already scrolled past is revealed unconditionally rather than left blank
+    for (const el of document.querySelectorAll(".rv:not(.in), .gap:not(.in)"))
+      if (el.getBoundingClientRect().top < innerHeight) el.classList.add("in");
+    let best = -1;
+    gaps.forEach((g, i) => { if (g.getBoundingClientRect().top <= innerHeight * 0.55) best = i; });
+    if (best !== cur) { cur = best; gaps.forEach((g, i) => g._btn.classList.toggle("cur", i === best)); }
+  }
+  addEventListener("scroll", onScroll, { passive: true });
+  onScroll();
+
+  const ret = document.getElementById("reticle");
+  if (!REDUCED && matchMedia("(pointer: fine)").matches) {
+    let mx = -100, my = -100, rx = -100, ry = -100, seen = false;
+    addEventListener("mousemove", e => {
+      mx = e.clientX; my = e.clientY;
+      if (!seen) { seen = true; ret.style.opacity = 1; rx = mx; ry = my; }
+      const el = e.target instanceof Element ? e.target : null;
+      ret.classList.toggle("hot", !!(el && el.closest("a, button, summary, code")));
+    }, { passive: true });
+    document.documentElement.addEventListener("mouseleave", () => { ret.style.opacity = 0; seen = false; });
+    (function loop() { requestAnimationFrame(loop);
+      rx += (mx - rx) * 0.22; ry += (my - ry) * 0.22;
+      ret.style.transform = `translate(${rx.toFixed(1)}px, ${ry.toFixed(1)}px)`; })();
+  } else { ret.remove(); }
+
+  for (const table of document.querySelectorAll("table")) {
+    const heads = [...table.querySelectorAll("tr:first-child th, tr:first-child td")].map(h => h.textContent.trim());
+    const rows = table.querySelectorAll("tr");
+    for (let i = 1; i < rows.length; i++)
+      rows[i].querySelectorAll("td").forEach((td, j) => {
+        if (heads[j]) td.setAttribute("data-label", heads[j]);
+        // a cell mixing running text with inline elements shatters into columns under
+        // the flex stacking rule below; those cells stack as blocks instead
+        if (td.children.length || td.textContent.trim().length > 90) td.classList.add("td-rich");
+      });
+    const first = table.querySelector("tr");
+    if (first && first.querySelector("th")) { const thead = document.createElement("thead"); thead.appendChild(first); table.prepend(thead); }
+  }
+})();
+</script>

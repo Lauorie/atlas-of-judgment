@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/atlas-of-judgment/favicon.svg">
+<title>不在记录中 — 评判图谱</title>
+<meta name="robots" content="noindex">
+<link rel="preconnect" href="https://fonts.loli.net">
+<link rel="preconnect" href="https://gstatic.loli.net" crossorigin>
+<link href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root { --ground:#efe4c9; --paper:#f3ead2; --ink:#241c14; --brass:#8a5a1f; --muted:#7d7059;
+          --serif:"Cormorant Garamond",Georgia,serif; --mono:"IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace; }
+  html,body { margin:0; height:100%; background:var(--ground); color:var(--ink); }
+  main { min-height:100%; box-sizing:border-box; display:flex; flex-direction:column;
+         justify-content:center; max-width:640px; margin:0 auto; padding:48px 28px; }
+  .code { font:400 12px/1 var(--mono); letter-spacing:.22em; color:var(--brass); }
+  h1 { font:400 clamp(38px,9vw,60px)/1.1 var(--serif); margin:18px 0 0; }
+  h1 em { font-style:italic; }
+  hr { border:0; border-top:1px solid rgba(138,90,31,.4); margin:26px 0; }
+  p { font:400 clamp(18px,4.4vw,21px)/1.55 var(--serif); margin:0 0 18px; }
+  nav { display:flex; flex-wrap:wrap; gap:10px 22px; margin-top:8px;
+        font:400 12px/1 var(--mono); letter-spacing:.14em; text-transform:uppercase; }
+  a { color:var(--brass); }
+  .machine { margin-top:34px; padding:16px 18px; background:var(--paper);
+             border-left:2px solid var(--brass); font:400 12.5px/1.7 var(--mono); color:var(--muted); }
+  .machine code { color:var(--ink); }
+</style>
+<main>
+  <span class="code">404 &middot; 无此馆藏</span>
+  <h1>此地址不<em>在记录中</em>。</h1>
+  <hr>
+  <p>本图谱的每个页面与每个数据文件都列在某处。此地址下别无他物 &mdash; 页面未曾搬迁，这里从未有过它。</p>
+  <nav>
+    <a href="/atlas-of-judgment/">图谱</a><a href="/atlas-of-judgment/about">关于</a><a href="/atlas-of-judgment/method">方法</a>
+    <a href="/atlas-of-judgment/resources">资源</a><a href="/atlas-of-judgment/api/">机读接口</a>
+  </nav>
+  <div class="machine">
+    机器读者：全部有效端点、图版 id 与数据岛的目录在
+    <code><a href="/atlas-of-judgment/api/v1/index.json">/atlas-of-judgment/api/v1/index.json</a></code>。<br>
+    从这里开始：<code><a href="/atlas-of-judgment/llms.txt">/atlas-of-judgment/llms.txt</a></code> &middot;
+    模式：<code><a href="/atlas-of-judgment/openapi.yaml">/atlas-of-judgment/openapi.yaml</a></code>
+  </div>
+</main>

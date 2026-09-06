@@ -1,0 +1,912 @@
+{
+ "name": "评判图谱 · Atlas of Judgment — 机读接口（中文镜像）",
+ "version": "1.0.0-zh",
+ "generated": "2026-09-06",
+ "upstream": {
+  "site": "https://atlas-of-judgment.pages.dev",
+  "repo": "https://github.com/t46/atlas-of-judgment",
+  "note": "数据与存证与英文原站同源，未做改动；仅页面文字为中文译文。"
+ },
+ "corpus": {
+  "units_2026": 410586,
+  "reviews_2026": 74380,
+  "units_2018_2026_direct": 1009592,
+  "forums_2018_2026": 50861,
+  "units_total": 1420178
+ },
+ "endpoints": {
+  "index": "/atlas-of-judgment/api/v1/index.json",
+  "deposition": "/atlas-of-judgment/api/v1/plates/{plate-id}.json",
+  "data": "/atlas-of-judgment/api/v1/data/{island}.json",
+  "corrections": "/atlas-of-judgment/api/v1/corrections.json",
+  "contact": "/atlas-of-judgment/api/v1/contact.json",
+  "openapi": "/atlas-of-judgment/openapi.yaml",
+  "llms": "/atlas-of-judgment/llms.txt",
+  "docs": "/atlas-of-judgment/api/"
+ },
+ "plates": [
+  {
+   "id": "plate-i",
+   "number": "I",
+   "title": "解剖",
+   "act": "第一幕 · 仪器",
+   "islands": [
+    "viz-data.json",
+    "panel-data.json",
+    "construct-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-i.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-ii",
+   "number": "II",
+   "title": "语法",
+   "act": "第一幕 · 仪器",
+   "islands": [
+    "viz-data.json",
+    "ninegrammar-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-ii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-iii",
+   "number": "III",
+   "title": "修辞",
+   "act": "第一幕 · 仪器",
+   "islands": [
+    "rhetoric-v2.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-iii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-iv",
+   "number": "IV",
+   "title": "句法",
+   "act": "第二幕 · 一人之手",
+   "islands": [
+    "chain-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-iv.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-v",
+   "number": "V",
+   "title": "行程",
+   "act": "第二幕 · 一人之手",
+   "islands": [
+    "structure-data.json",
+    "itinerary-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-v.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-vi",
+   "number": "VI",
+   "title": "早判",
+   "act": "第二幕 · 一人之手",
+   "islands": [
+    "commit-data.json",
+    "score-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-vi.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-vii",
+   "number": "VII",
+   "title": "要件",
+   "act": "第三幕 · 法则",
+   "islands": [
+    "elements-all.json",
+    "argument-raw-novelty.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-vii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-viii",
+   "number": "VIII",
+   "title": "组合条款",
+   "act": "第三幕 · 法则",
+   "islands": [
+    "combination-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-viii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-ix",
+   "number": "IX",
+   "title": "无名判例",
+   "act": "第三幕 · 法则",
+   "islands": [
+    "canon-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-ix.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-x",
+   "number": "X",
+   "title": "套语集",
+   "act": "第三幕 · 法则",
+   "islands": [
+    "boilerplate-data.json",
+    "jurisprudence-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-x.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xi",
+   "number": "XI",
+   "title": "修复手册",
+   "act": "第三幕 · 法则",
+   "islands": [
+    "repair-manual.json",
+    "repair-k-robustness.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xi.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xii",
+   "number": "XII",
+   "title": "裁决",
+   "act": "第三幕 · 法则",
+   "islands": [
+    "viz-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xiii",
+   "number": "XIII",
+   "title": "控罪单",
+   "act": "第三幕 · 法则",
+   "islands": [
+    "chargesheet-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xiii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xiv",
+   "number": "XIV",
+   "title": "代价",
+   "act": "第四幕 · 量刑表",
+   "islands": [
+    "lawtariff-data.json",
+    "jurisprudence-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xiv.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xv",
+   "number": "XV",
+   "title": "后果",
+   "act": "第四幕 · 量刑表",
+   "islands": [
+    "tribunal-ci.json",
+    "panel-data.json",
+    "decision-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xv.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xvi",
+   "number": "XVI",
+   "title": "对话的形状",
+   "act": "第五幕 · 交锋",
+   "islands": [
+    "threads-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xvi.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xvii",
+   "number": "XVII",
+   "title": "Rebuttal",
+   "act": "第五幕 · 交锋",
+   "islands": [
+    "yield-data.json",
+    "panel-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xvii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xviii",
+   "number": "XVIII",
+   "title": "招式",
+   "act": "第五幕 · 交锋",
+   "islands": [
+    "moves-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xviii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xix",
+   "number": "XIX",
+   "title": "一条异议的命运",
+   "act": "第五幕 · 交锋",
+   "islands": [
+    "lifecycle-data.json",
+    "interrogative-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xix.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xx",
+   "number": "XX",
+   "title": "评审组",
+   "act": "第五幕 · 交锋",
+   "islands": [
+    "overrule-data.json",
+    "panel-data.json",
+    "searchparty-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xx.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxi",
+   "number": "XXI",
+   "title": "合议",
+   "act": "第五幕 · 交锋",
+   "islands": [
+    "deliberation-data.json",
+    "repertoire-data.json",
+    "overrule-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxi.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxii",
+   "number": "XXII",
+   "title": "上级法庭",
+   "act": "第六幕 · 上级法庭",
+   "islands": [
+    "court-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxiii",
+   "number": "XXIII",
+   "title": "借来的裁决",
+   "act": "第六幕 · 上级法庭",
+   "islands": [
+    "acecho-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxiii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxiv",
+   "number": "XXIV",
+   "title": "阶梯",
+   "act": "第七幕 · 尺度",
+   "islands": [
+    "score-depth.json",
+    "score-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxiv.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxv",
+   "number": "XXV",
+   "title": "度量",
+   "act": "第七幕 · 尺度",
+   "islands": [
+    "lottery-data.json",
+    "counterfactual-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxv.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxvi",
+   "number": "XXVI",
+   "title": "漂移",
+   "act": "第八幕 · 时代与疆域",
+   "islands": [
+    "drift-data.json",
+    "currents-data.json",
+    "minds-data.json",
+    "rhetoric-v2.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxvi.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxvii",
+   "number": "XXVII",
+   "title": "未修订的法典",
+   "act": "第八幕 · 时代与疆域",
+   "islands": [
+    "drift-data.json",
+    "timeless-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxvii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxviii",
+   "number": "XXVIII",
+   "title": "神谕",
+   "act": "第八幕 · 时代与疆域",
+   "islands": [
+    "oracle-data.json",
+    "archipelago-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxviii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxix",
+   "number": "XXIX",
+   "title": "水印",
+   "act": "第八幕 · 时代与疆域",
+   "islands": [
+    "llmtrace-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxix.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "plate-xxx",
+   "number": "XXX",
+   "title": "标本",
+   "act": "尾声 · 档案",
+   "islands": [
+    "viz-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/plate-xxx.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "appendix-i",
+   "number": "附录 I",
+   "title": "词汇表",
+   "act": "附录",
+   "islands": [],
+   "deposition": "/atlas-of-judgment/api/v1/plates/appendix-i.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "appendix-ii",
+   "number": "附录 II",
+   "title": "溯源与方法",
+   "act": "附录",
+   "islands": [
+    "viz-data.json",
+    "structure-data.json",
+    "galaxy.json",
+    "panel-data.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/appendix-ii.json",
+   "deposition_status": "available"
+  },
+  {
+   "id": "appendix-iii",
+   "number": "附录 III",
+   "title": "零假设陈列柜",
+   "act": "附录",
+   "islands": [
+    "mirage-data.json",
+    "field-stats.json"
+   ],
+   "deposition": "/atlas-of-judgment/api/v1/plates/appendix-iii.json",
+   "deposition_status": "available"
+  }
+ ],
+ "islands": [
+  {
+   "file": "acecho-data.json",
+   "bytes": 1006,
+   "sha256": "7cd9f883219b62efb0f5caa93e89b0a31d4974cb63ca53846106ea838e016dbd",
+   "plates": [
+    "plate-xxiii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "archipelago-data.json",
+   "bytes": 4797,
+   "sha256": "0dc852d85749e4736f1254125a634405e9464c4799a9967740736393093ae773",
+   "plates": [
+    "plate-xxviii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "argument-raw-novelty.json",
+   "bytes": 31744,
+   "sha256": "5fd2d501a029b1d570309c80c67c941ba88f88bedbaadcda368c50ac4a0913b5",
+   "plates": [
+    "plate-vii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "boilerplate-data.json",
+   "bytes": 12687,
+   "sha256": "8b325d9c460edf2ff2d7c2e1eff3152963ccb75d16d03e8f2a8d0152c70e1d68",
+   "plates": [
+    "plate-x"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "canon-data.json",
+   "bytes": 653,
+   "sha256": "a1165e587961b39519a137c668098204e194be313a03140c5191caa500b497dd",
+   "plates": [
+    "plate-ix"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "chain-data.json",
+   "bytes": 1390,
+   "sha256": "64b9f7036943d0929498f636b883360e2bab1fc9e8e3cd1a87921948991cd698",
+   "plates": [
+    "plate-iv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "chargesheet-control.json",
+   "bytes": 6815,
+   "sha256": "ab71cd29d7c2c7b3263d0e72b466b7433afce8fa2bbe4c7d8f77d809663c4826",
+   "plates": [
+    "plate-xiii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "chargesheet-data.json",
+   "bytes": 41086,
+   "sha256": "0aaa555ad757cbb7e2e40ef82dd7da1e2f18ec0459cd995093547139cc6cc97d",
+   "plates": [
+    "plate-xiii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "clusters-inspected_object.json",
+   "bytes": 31696,
+   "sha256": "08991e1f494f83463e5c1a516d734036a64af9f3893e13d0fc614bd38c0cf1f2",
+   "plates": [],
+   "status": "orphaned"
+  },
+  {
+   "file": "clusters-reasoning.json",
+   "bytes": 46861,
+   "sha256": "eee7d8e6dd6c50e331433e7a10e2a5d2d63ea611cba59ce3420358f9e58ada47",
+   "plates": [],
+   "status": "orphaned"
+  },
+  {
+   "file": "combination-data.json",
+   "bytes": 5287,
+   "sha256": "e8bbbb0ceed59c5ae1ddc2ada99be920bf95afb58ca280e16ec4ba53f7c8bb34",
+   "plates": [
+    "plate-viii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "commit-data.json",
+   "bytes": 1893,
+   "sha256": "8514aa35e5d10c8af775ee4b45a4f7d1bc8be95b4968e6209298ddd4dd244beb",
+   "plates": [
+    "plate-vi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "construct-data.json",
+   "bytes": 1108,
+   "sha256": "521dd20a87e947f94ef6b0aab741b03e64790519b5cb1221b94eaf5204f7c640",
+   "plates": [
+    "plate-i"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "counterfactual-data.json",
+   "bytes": 65822,
+   "sha256": "91395e9c699a6ffc2629afaa59277c409867c9060cfbfe6527fb40826fd6985c",
+   "plates": [
+    "plate-xxv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "court-data.json",
+   "bytes": 3238,
+   "sha256": "72d05064ac4573cbdc002e331c6f0397212e9a703c5a043acbc64712dda919f7",
+   "plates": [
+    "plate-xxii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "currents-data.json",
+   "bytes": 2593,
+   "sha256": "c6a9e14e3f4073715c0d060013728c586882c04e480a6fb7ce6efedb65a35947",
+   "plates": [
+    "plate-xxvi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "decision-data.json",
+   "bytes": 2825,
+   "sha256": "16917eea179f2da11ceaf6f38eb5159f09ebad970cb43ef922ab379029ca0cdd",
+   "plates": [
+    "plate-xv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "deliberation-data.json",
+   "bytes": 72317,
+   "sha256": "d1b46a1b3d53e7ebb2075969dbea18496e5614b10fe1de793f078282d8028a64",
+   "plates": [
+    "plate-xxi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "drift-data.json",
+   "bytes": 4864,
+   "sha256": "189cd32bc1bf8a77574e15120e40e901a9b6757c308c125090ca14ddecc91765",
+   "plates": [
+    "appendix-ii",
+    "plate-xxvi",
+    "plate-xxvii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "drift-language.json",
+   "bytes": 1129,
+   "sha256": "d3c5851606af3ce8c5dfba37d6ab4b20076b4178d2494870c7ac54a1bdf82cc7",
+   "plates": [
+    "appendix-ii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "elements-all.json",
+   "bytes": 67949,
+   "sha256": "904c9c08279496a61721a5dd186b304f0a860f0037d4eeec272676f6db4cc0c1",
+   "plates": [
+    "plate-vii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "field-stats.json",
+   "bytes": 1715,
+   "sha256": "473f3589f8379b622fe4ea5a8376a91e6416abc9e7e7fd072f9e8896bbd738cb",
+   "plates": [
+    "appendix-iii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "galaxy.json",
+   "bytes": 3252737,
+   "sha256": "1532ed1b6709ec7cc2b5a3c0f9fff599d2e6c73f17ec009378595f29e50a43a1",
+   "plates": [
+    "appendix-ii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "interrogative-data.json",
+   "bytes": 3218,
+   "sha256": "ca66c61bf2c7e08539fec1405be335a0496387783e12cc30c89242bfabfd160e",
+   "plates": [
+    "plate-xix"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "itinerary-data.json",
+   "bytes": 8009,
+   "sha256": "9bb3804073bdeb12ee34faea6bdbada4b236023c58fb08f79c215bc1542b81e6",
+   "plates": [
+    "plate-v"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "jurisprudence-data.json",
+   "bytes": 3655,
+   "sha256": "005bd81928f96d1aa689d03c2c4f2d1d13aeeffa99e68bfd0d54d947809a32c9",
+   "plates": [
+    "plate-x",
+    "plate-xiv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "lawtariff-data.json",
+   "bytes": 8223,
+   "sha256": "bacd094a0512a06a1e44136162789de28849b2eafe4b05278ae31dc4b1d2af5f",
+   "plates": [
+    "plate-xiv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "lifecycle-data.json",
+   "bytes": 1810,
+   "sha256": "1c94048ef3387a8e16c7a6bb0139bb70247e08a32abc88368fee2ac5db065de4",
+   "plates": [
+    "plate-xix"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "llmtrace-data.json",
+   "bytes": 38757,
+   "sha256": "8362dfa6b2cc2a1357a7255393e8f161905cfc56b9eaed53df5814a1e797e3f3",
+   "plates": [
+    "plate-xxix"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "lottery-data.json",
+   "bytes": 2402,
+   "sha256": "2de25548b3f1aeb1f6ecd448d9b0322d5a9ef0499715d1e1510c757aac306692",
+   "plates": [
+    "plate-xxv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "minds-data.json",
+   "bytes": 10197,
+   "sha256": "501c2b84b8a62e9de538342209a0cc645a8f84041d9b887ff252add9f4dd7250",
+   "plates": [
+    "plate-xxvi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "mirage-data.json",
+   "bytes": 4675,
+   "sha256": "0dd2cabaa9d8d4bb6af6484e72a96cce13edc53e6849118a20fd52b11d60eb84",
+   "plates": [
+    "appendix-iii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "moves-data.json",
+   "bytes": 3684,
+   "sha256": "260aff0390a3a9205ef5fbe8fcce2da2c8a03f1e9be827bcdcc29724c5510f8f",
+   "plates": [
+    "plate-xviii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "ninegrammar-data.json",
+   "bytes": 14284,
+   "sha256": "e57f6c0b047ffc307345d639f55122ac43b526d71435187812f52c86d9230ace",
+   "plates": [
+    "plate-ii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "oracle-data.json",
+   "bytes": 8551,
+   "sha256": "19881c3acd05573234a73d3a95946b47c2e9d2573873ab5e6571e8a7bb62b5e5",
+   "plates": [
+    "plate-xxviii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "overrule-data.json",
+   "bytes": 3301,
+   "sha256": "47c918cc6d356138b66fd410d06381fc08549d04a5435e3bed9a836b2b901d36",
+   "plates": [
+    "plate-xx",
+    "plate-xxi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "panel-data.json",
+   "bytes": 5769,
+   "sha256": "85df743255a1c7dabeb94605c58c61b8fb43ea85268d9045e98157addd819256",
+   "plates": [
+    "appendix-ii",
+    "appendix-iii",
+    "plate-i",
+    "plate-xv",
+    "plate-xvii",
+    "plate-xx",
+    "plate-xxii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "repair-k-robustness.json",
+   "bytes": 2053,
+   "sha256": "32841e529f3fb0fd010c5f87d45c4d6be7e0b735c44942feafe073d7b96d24be",
+   "plates": [
+    "plate-xi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "repair-manual.json",
+   "bytes": 4129,
+   "sha256": "aad3bfe6fc15a28909b22db49a46a6b597fa7142e078e3cb747b92f69ac89ac0",
+   "plates": [
+    "plate-xi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "repertoire-data.json",
+   "bytes": 2070,
+   "sha256": "1b3a4a79f3b2b5c6dee61c0822435463ffcc37b096d1d0f08202fb5c3aef7f44",
+   "plates": [
+    "plate-xxi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "rhetoric-sample.json",
+   "bytes": 205076,
+   "sha256": "9e22e02d896724ee9a02f113e16a14c7e8b2b2b5a9fba41036e31931f120f432",
+   "plates": [],
+   "status": "orphaned"
+  },
+  {
+   "file": "rhetoric-v2.json",
+   "bytes": 3354,
+   "sha256": "1d396e77dd9c6f5b6c49a736842fd5e6c1f9ae8e392f72511e2607d9528b9768",
+   "plates": [
+    "plate-iii",
+    "plate-xxvi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "score-data.json",
+   "bytes": 3591,
+   "sha256": "56102ca8c0d48a398d659205761f6889b8ba5e4f2e574ca378e9878a68147c13",
+   "plates": [
+    "plate-vi",
+    "plate-xxiv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "score-depth.json",
+   "bytes": 24043,
+   "sha256": "da24b1a5f3ef2db334a0b6e2959475daf6f55f7527b330be163965b217e0f602",
+   "plates": [
+    "plate-xxiv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "searchparty-data.json",
+   "bytes": 1049,
+   "sha256": "4ee4304833e260835c003c1162cb39488aa6eabda645dc16c946ab57bd472f74",
+   "plates": [
+    "plate-xx"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "season-data.json",
+   "bytes": 6663,
+   "sha256": "4c2ef8efbbfb917b751dcead788859f8fee6ade4c135d21e5a9950f64ec8a276",
+   "plates": [],
+   "status": "orphaned"
+  },
+  {
+   "file": "structure-data.json",
+   "bytes": 14269,
+   "sha256": "2e16afa9439a1c4aae10102b051eb0bb44b5d133dfb06ad6a36b651a0f21148a",
+   "plates": [
+    "appendix-ii",
+    "plate-v"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "taxonomy-v1.json",
+   "bytes": 6284,
+   "sha256": "ab4249cad148d3a1fc4d8353033e4a31e1c818f445946ecb693a0d49ad42fe02",
+   "plates": [],
+   "status": "orphaned"
+  },
+  {
+   "file": "threads-data.json",
+   "bytes": 6443,
+   "sha256": "140dd7bfe353c2c92e43e4e30125cfdb0a1239ab9aff54ff62872d9c3bc05ea7",
+   "plates": [
+    "plate-xvi"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "tide-data.json",
+   "bytes": 1667,
+   "sha256": "51244ab0068b68701c6ea787a51520e830fab895f806ccbaaa92e78bc8d5c9cf",
+   "plates": [],
+   "status": "orphaned"
+  },
+  {
+   "file": "timeless-data.json",
+   "bytes": 2192,
+   "sha256": "c4cac762de48505b89a42a097668102491f39bf18be62ab775d066c71f85f2e0",
+   "plates": [
+    "plate-xxvii"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "tribunal-ci.json",
+   "bytes": 903,
+   "sha256": "1f049c84129c7dc16dfce553a921eee6897179fb4b94cc81bbd9c2d5c69c1008",
+   "plates": [
+    "plate-xv"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "viz-data.json",
+   "bytes": 1396672,
+   "sha256": "30a9cbc0475ac6520b79129c2eed351bfcac42616433e73ab3d33739c3b0ddef",
+   "plates": [
+    "appendix-ii",
+    "plate-i",
+    "plate-ii",
+    "plate-xii",
+    "plate-xiv",
+    "plate-xxx"
+   ],
+   "status": "active"
+  },
+  {
+   "file": "yield-data.json",
+   "bytes": 500,
+   "sha256": "1cc4daeca77efefe143914ed95cf76e53f05245f27a12f2c81a1409ed26a9077",
+   "plates": [
+    "plate-xvii"
+   ],
+   "status": "active"
+  }
+ ]
+}

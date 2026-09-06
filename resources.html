@@ -1,0 +1,593 @@
+<!doctype html>
+<html lang="zh-CN">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="icon" type="image/svg+xml" href="/atlas-of-judgment/favicon.svg">
+<meta name="description" content="源代码、数据下载、机读接口、引用方式与许可 — 每一扇通向外部的门都在这一页。">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Atlas of Judgment">
+<meta property="og:title" content="资源 — 评判图谱">
+<meta property="og:description" content="源代码、数据下载、机读接口、引用方式与许可 — 每一扇通向外部的门都在这一页。">
+<meta property="og:url" content="https://lauorie.github.io/atlas-of-judgment/resources">
+<meta property="og:image" content="https://lauorie.github.io/atlas-of-judgment/card.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:site" content="@takagi_shiro">
+<meta name="twitter:creator" content="@takagi_shiro">
+<meta charset="utf-8">
+<title>资源 — 评判图谱</title>
+<link rel="stylesheet" href="https://fonts.loli.net/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&family=IBM+Plex+Mono:wght@400;500&family=Noto+Serif+SC:wght@400;600&display=swap">
+<style>
+:root {
+  --ground: #efe4c9; --paper: #f8f1e0; --raise: #f8f1e0;
+  --ink: #241c14; --ink-2: #5b4d3a; --muted: #72654f;
+  --brass: #8a5a1f; --brass-line: rgba(138,90,31,0.28); --brass-faint: rgba(138,90,31,0.13);
+  --mono: "IBM Plex Mono", ui-monospace, "Noto Sans SC", "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", monospace;
+  --display: "Cormorant Garamond", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --serif: "Source Serif 4", "Noto Serif SC", "Songti SC", "STSong", "Source Han Serif SC", "Noto Serif CJK SC", "SimSun", Georgia, serif;
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--ground); color: var(--ink); font-family: var(--serif);
+  font-size: 15.5px; line-height: 1.75; }
+a { color: var(--brass); text-decoration: none; border-bottom: 1px dotted rgba(138,90,31,0.45); }
+a:hover { border-bottom-style: solid; }
+code { font-family: var(--mono); font-size: 12px; }
+main { position: relative; z-index: 3; }
+.shell { max-width: 840px; margin: 0 auto; padding: 0 clamp(20px, 4vw, 36px); }
+
+/* ------------------------------------------------------------- topbar (static — no JS, no hide/show) */
+#topbar { position: relative; z-index: 70; display: flex; align-items: center;
+  justify-content: space-between; gap: 14px; padding: 14px clamp(14px, 3vw, 40px);
+  background: rgba(239,228,201,0.92); border-bottom: 1px solid var(--brass-faint); }
+#topbar .tb-mark { font-family: var(--mono); font-size: 10px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 4px clamp(10px, 2.4vw, 26px); }
+#topbar .tb-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.18em; text-transform: uppercase;
+  color: var(--ink-2); text-decoration: none; border: none; white-space: nowrap; }
+#topbar .tb-links a:hover, #topbar .tb-links a.tb-here { color: var(--brass); }
+@media (max-width: 560px) { #topbar .tb-mark { letter-spacing: 0.14em; } #topbar .tb-links { gap: 9px; }
+  #topbar .tb-links a { font-size: 8px; letter-spacing: 0.08em; } }
+
+/* ---- the hero: the storeroom — same family as the theatre (about) and the officina (method) ---- */
+.rhero { min-height: calc(100svh - 50px); display: flex; flex-direction: column; align-items: center;
+  justify-content: center; text-align: center; padding: 0 20px 40px; position: relative; }
+.rhero::before { content: ""; position: absolute; left: 50%; top: 48%; transform: translate(-50%, -50%);
+  width: min(820px, 96vw); height: min(420px, 48svh); pointer-events: none;
+  background: radial-gradient(ellipse at center, rgba(239,228,201,0.94) 0%, rgba(239,228,201,0.80) 40%,
+    rgba(239,228,201,0.34) 62%, transparent 78%); }
+.rhero > * { position: relative; z-index: 1; }
+.rhero .eb { font-family: var(--mono); font-size: clamp(8.5px, 1.5vw, 10.5px); letter-spacing: 0.9em;
+  text-transform: uppercase; color: var(--brass); opacity: 0;
+  animation: rEye 1.2s var(--ease-settle) 0.1s forwards; }
+@keyframes rEye { 40% { opacity: 1; } to { opacity: 1; letter-spacing: 0.32em; } }
+.rhero h1 { font-family: var(--display); font-weight: 500; font-size: clamp(44px, 7.4vw, 96px);
+  line-height: 1; margin: 14px 0 0; clip-path: inset(100% 0 0 0); transform: translateY(14px);
+  animation: rH1 1s var(--ease-settle) 0.3s forwards; }
+@keyframes rH1 { to { clip-path: inset(-12% 0 -10% 0); transform: none; } }
+/* the shelf: a rule inks in and the holdings settle onto it — the instrument below, in miniature */
+.rhero .shelf { display: block; margin: 20px auto 0; width: min(340px, 66vw); height: auto; overflow: visible; }
+.rhero .shelf .sh-l { stroke: var(--brass-line); stroke-width: 1; stroke-dasharray: 340;
+  stroke-dashoffset: 340; animation: rInk 0.9s ease 0.85s forwards; }
+@keyframes rInk { to { stroke-dashoffset: 0; } }
+.rhero .shelf .sh-c { fill: rgba(248,241,224,0.9); stroke: var(--brass); stroke-width: 1;
+  transform-box: fill-box; transform-origin: 50% 100%; transform: scale(0);
+  animation: rBead 0.7s var(--ease-settle) forwards; }
+.rhero .shelf .sh-c:nth-child(2) { animation-delay: 1.15s; }
+.rhero .shelf .sh-c:nth-child(3) { animation-delay: 1.24s; }
+.rhero .shelf .sh-c:nth-child(4) { animation-delay: 1.32s; }
+.rhero .shelf .sh-c:nth-child(5) { animation-delay: 1.39s; }
+.rhero .shelf .sh-c:nth-child(6) { animation-delay: 1.45s; }
+.rhero .shelf .sh-c:nth-child(7) { animation-delay: 1.50s; }
+@keyframes rBead { to { transform: scale(1); } }
+.rhero .lat { font-style: italic; font-size: clamp(13px, 2vw, 16px); color: var(--ink-2); margin-top: 14px;
+  opacity: 0; animation: rFade 1s ease 1.55s forwards; }
+.rhero .cue { position: absolute; bottom: 26px; left: 50%; transform: translateX(-50%);
+  font-family: var(--mono); font-size: 9px; letter-spacing: 0.26em; text-transform: uppercase;
+  color: var(--ink-2); opacity: 0; animation: rFade 1s ease 2.1s forwards; display: flex;
+  flex-direction: column; align-items: center; gap: 9px; }
+.rhero .cue i { display: block; width: 1px; height: 30px; background: linear-gradient(var(--brass-line), transparent); }
+.rhero .cue .cue-s { display: none; }
+@keyframes rFade { to { opacity: 1; } }
+@media (max-width: 560px) { .rhero .cue .cue-m { display: none; } .rhero .cue .cue-s { display: inline; } }
+@media (prefers-reduced-motion: reduce) {
+  .rhero .eb, .rhero h1, .rhero .lat, .rhero .cue { animation: none; opacity: 1; }
+  .rhero .eb { letter-spacing: 0.32em; }
+  .rhero h1 { clip-path: none; transform: none; }
+  .rhero .shelf .sh-l { animation: none; stroke-dashoffset: 0; }
+  .rhero .shelf .sh-c { animation: none; transform: scale(1); }
+}
+.page-lead { font-size: 15.5px; color: var(--ink-2); max-width: 62ch; margin: 0 0 26px; }
+
+/* ------------------------------------------------------------------------------ page proper */
+.band { position: relative; background: rgba(243, 234, 210, 0.955);
+  border-top: 1px solid var(--brass-faint); border-bottom: 1px solid var(--brass-faint); }
+.band > .shell { padding-top: clamp(40px, 6vh, 60px); padding-bottom: clamp(40px, 6vh, 60px); }
+p { margin: 13px 0 0; color: var(--ink-2); }
+p b, p strong { color: var(--ink); font-weight: 600; }
+.hdl { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--brass); margin-bottom: 10px; }
+h2.hd { font-family: var(--display); font-weight: 500; font-size: clamp(24px, 3.2vw, 32px);
+  line-height: 1.12; margin: 0 0 4px; text-wrap: balance; }
+h3 { font-family: var(--mono); font-size: 10px; letter-spacing: 0.24em; text-transform: uppercase;
+  color: var(--brass); font-weight: 500; margin: 30px 0 0; }
+
+/* doors: identical pattern to about.html's "open door" tier — Source code / Data / API cards */
+.doors { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px;
+  margin-top: 18px; background: var(--brass-faint); border: 1px solid var(--brass-faint); }
+.doors a { display: block; background: rgba(248,241,224,0.75); padding: 16px 18px; border: none; color: var(--ink); }
+.doors a:hover { background: var(--paper); }
+.doors .dk { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); }
+.doors .dt { font-family: var(--display); font-size: 20px; line-height: 1.2; margin-top: 4px; }
+.doors .dd { font-size: 12.5px; color: var(--ink-2); margin-top: 4px; line-height: 1.55; }
+
+table { border-collapse: collapse; margin-top: 14px; font-size: 12px; font-variant-numeric: tabular-nums; width: 100%; }
+th, td { border: 1px solid var(--brass-faint); padding: 6px 10px; text-align: left; color: var(--ink-2); vertical-align: top; }
+th { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--muted);
+  position: sticky; top: 0; background: rgba(243,234,210,0.98); }
+td.mono { font-family: var(--mono); font-size: 11px; color: var(--ink); white-space: nowrap; }
+td.num { text-align: right; font-family: var(--mono); font-size: 11px; white-space: nowrap; }
+.table-wrap { overflow-x: auto; max-height: 62vh; overflow-y: auto; border: 1px solid var(--brass-faint); margin-top: 14px; }
+.table-wrap table { margin-top: 0; border: none; }
+.table-wrap th, .table-wrap td { border-left: none; border-right: none; }
+@media (max-width: 640px) {
+  .table-wrap { max-height: none; }
+  table, tbody { display: block; }
+  thead { display: none; }
+  tr { display: block; border-top: 1px solid var(--brass-faint); padding: 8px 0; }
+  .table-wrap tr:first-child { border-top: none; }
+  td { display: flex; justify-content: space-between; gap: 12px; border: none !important; text-align: right; }
+  td::before { content: attr(data-label); font-family: var(--mono); font-size: 9px; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--muted); text-align: left; flex-shrink: 0; padding-top: 1px; }
+  td.mono, td.num { text-align: right; }
+}
+
+.spec { font-family: var(--mono); font-size: 10.5px; letter-spacing: 0.14em; color: var(--muted);
+  text-transform: uppercase; line-height: 2.1; margin-top: 18px; }
+.spec b { color: var(--brass); font-weight: 500; }
+
+.cite-block { border: 1px solid var(--brass-line); background: rgba(248,241,224,0.55); padding: 16px 18px;
+  margin-top: 14px; font-family: var(--serif); font-size: 13.5px; color: var(--ink); line-height: 1.7; }
+.cite-block + .cite-block { margin-top: 12px; }
+.cite-label { font-family: var(--mono); font-size: 9px; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--brass); margin-bottom: 6px; display: block; }
+
+.lic-list { margin: 14px 0 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 12px; }
+.lic-list li { display: grid; grid-template-columns: 110px 1fr; gap: 14px; font-size: 13px; color: var(--ink-2); }
+.lic-list .lk { font-family: var(--mono); font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase;
+  color: var(--brass); padding-top: 2px; }
+.lic-list b { color: var(--ink); font-weight: 600; }
+@media (max-width: 560px) { .lic-list li { grid-template-columns: 1fr; gap: 3px; } }
+
+/* --------------------------------------------------------------- colophon (identical to about.html) */
+footer.colophon { position: relative; z-index: 3; background: var(--ground); border-top: 1px solid var(--brass-faint);
+  padding: clamp(48px, 8vh, 76px) 20px 70px; display: flex; flex-direction: column; align-items: center;
+  gap: 11px; text-align: center; }
+.col-rule { display: flex; align-items: center; gap: 18px; width: min(430px, 72%); }
+.col-rule::before, .col-rule::after { content: ""; flex: 1; height: 1px; background: var(--brass-line); }
+.col-rule svg { display: block; }
+.col-mark { font-family: var(--display); font-size: 27px; color: var(--ink); letter-spacing: 0.03em; margin-top: 4px; }
+.col-sub { font-family: var(--serif); font-style: italic; font-size: 13.5px; color: var(--ink-2); }
+.col-links { display: flex; flex-wrap: wrap; justify-content: center; gap: 8px 22px; margin-top: 8px; }
+.col-links a { font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.22em; text-transform: uppercase;
+  color: var(--brass); text-decoration: none; border: none; }
+.col-links a:hover { color: var(--ink); }
+.col-fine { font-size: 11.5px; color: var(--muted); max-width: 64ch; line-height: 1.8; margin-top: 8px; }
+
+/* --------------------------------------------- the holdings — every island drawn to scale */
+.holdings { margin: 22px 0 0; border: 1px solid var(--brass-line); background: rgba(248,241,224,0.55); }
+.holdings-cap { display: block; padding: 14px 18px 0; }
+.holdings-cap .hc-eb { display: block; font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.26em;
+  text-transform: uppercase; color: var(--brass); }
+.holdings-cap .hc-note { display: block; font-size: 12.5px; color: var(--ink-2); line-height: 1.6;
+  margin-top: 6px; max-width: 70ch; }
+.holdings-stage { padding: 6px 10px 4px; }
+.holdings-stage svg { display: block; width: 100%; height: auto; }
+.holdings .isl { transform: scale(0); opacity: 0;
+  transition: transform 0.9s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.5s ease; }
+.holdings.on .isl { transform: scale(1); opacity: 1; }
+.holdings .isl-base { transition: stroke-dashoffset 1.4s ease 0.1s; }
+.holdings .isl-note { opacity: 0; transition: opacity 0.7s ease 1.5s; }
+.holdings.on .isl-note { opacity: 1; }
+.holdings a { border: none; }
+@media (prefers-reduced-motion: reduce) {
+  .holdings .isl, .holdings .isl-base, .holdings .isl-note { transition: none; }
+  .holdings .isl { transform: scale(1); opacity: 1; }
+  .holdings .isl-note { opacity: 1; }
+}
+
+/* --------------------------------------------------------------------------------- print */
+@media print {
+  .rhero { min-height: auto; padding: 42px 0 8px; }
+  .rhero .cue { display: none; }
+  .rhero .eb, .rhero h1, .rhero .lat { animation: none !important; opacity: 1 !important; }
+  .rhero .eb { letter-spacing: 0.32em; }
+  .rhero h1 { clip-path: none !important; transform: none !important; }
+  .rhero .shelf .sh-l { animation: none !important; stroke-dashoffset: 0 !important; }
+  .rhero .shelf .sh-c { animation: none !important; transform: scale(1) !important; }
+  .holdings .isl { transform: none !important; opacity: 1 !important; }
+  .holdings .isl-note { opacity: 1 !important; }
+  .holdings .isl-base { stroke-dashoffset: 0 !important; }
+  #topbar { position: static; }
+  .band { box-shadow: none; }
+  .table-wrap { max-height: none; overflow: visible; border: 1px solid #999; }
+  a { border-bottom: none; text-decoration: underline; }
+  th { position: static; }
+}
+</style>
+
+<nav id="topbar" aria-label="站点">
+  <a class="tb-mark" href="index.html">评判图谱</a>
+  <div class="tb-links">
+    <a href="index.html">图谱</a>
+    <a href="about.html">关于</a>
+    <a href="method.html">方法</a>
+    <a href="#top" class="tb-here">资源</a>
+    <a href="api/">API</a>
+  </div>
+</nav>
+
+<main id="top">
+<section class="rhero">
+  <div class="eb">评判图谱 · 库房</div>
+  <h1>资源</h1>
+  <svg class="shelf" viewBox="0 0 340 24" aria-hidden="true">
+    <line class="sh-l" x1="0" y1="20" x2="340" y2="20"/>
+    <circle class="sh-c" cx="74" cy="12" r="8"/>
+    <circle class="sh-c" cx="92" cy="15" r="5"/>
+    <circle class="sh-c" cx="104" cy="16.5" r="3.5"/>
+    <circle class="sh-c" cx="113" cy="17.5" r="2.5"/>
+    <circle class="sh-c" cx="120.5" cy="18" r="2"/>
+    <circle class="sh-c" cx="126.6" cy="18.4" r="1.6"/>
+  </svg>
+  <div class="lat">armarium — 图谱存放馆藏之处</div>
+  <div class="cue"><i></i><span class="cue-m">下到书架</span><span class="cue-s">代码 · 数据 · api · 引用 · 许可</span></div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <p class="page-lead">通向源代码、底层数据与机读接口的每一个链接，
+  汇集于一处 — 还有如何引用本图谱，以及你可以怎样使用这里的东西。</p>
+  <div class="hdl">源代码</div>
+  <h2 class="hd">构建这一切的流水线</h2>
+  <p>采集、归一化、DeepSeek/Qwen 标注流水线、分类体系归纳，以及每张图版背后的每一个聚合脚本——完整的工作仓库，包括流水线构建时所在的、经脱敏的 agent 会话历史。</p>
+  <div class="doors">
+    <a href="https://github.com/t46/atlas-of-judgment"><div class="dk">代码仓库</div><div class="dt">GitHub</div><div class="dd">t46/atlas-of-judgment — 脚本、溯源文档，以及 HTML 页面源文件本身。</div></a>
+  </div>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">数据下载</div>
+  <h2 class="hd">已标注的单元，以及由它们构建的一切</h2>
+  <p>发布分两层。<b>主数据集</b>是已标注的单元表本身。其下的<b>数据岛</b>是较小的派生聚合——图版所绘的每项统计量对应一个 JSON 文件——公开发布，使站上任何数字都能独立重算或重绘。</p>
+
+  <h3>主数据集</h3>
+  <div class="doors">
+    <a href="https://huggingface.co/datasets/t46/atlas-of-judgment"><div class="dk">Parquet · Hugging Face Hub</div><div class="dt">t46/atlas-of-judgment</div><div class="dd">410,586 个评审级单元（74,380 篇 ICLR 2026 评审，全深度读取）· 1,009,592 个 forum 级单元（50,861 个 forum，2018–2026）· 分类体系定义 · 600 个分析者标注的修辞单元。以 CC BY 4.0 发布。</div></a>
+  </div>
+  <p class="spec">Hub 上的文件大小不在此处镜像——各文件当前大小请查 Hugging Face 上的数据集卡片。</p>
+
+  <h3>数据岛 — 图版背后的 50 个聚合文件</h3>
+  <p>每个文件就是图版图表据以构建的那份 JSON——同样的数据，同样的来源，只是脱离了页面。下方的大小与内容直接读自已发布的文件。</p>
+
+  <figure class="holdings" id="holdings-fig">
+    <figcaption class="holdings-cap">
+      <span class="hc-eb">馆藏，按比例绘制</span>
+      <span class="hc-note">每个数据岛画成一个圆，其<em>面积</em>是它在磁盘上的精确重量，实时读自下表。两个文件——分类体系点云与核心分类体系表——承载了图谱 <span id="hc-share">90%</span> 的体量，图谱共
+      <span id="hc-total">5.17&#8202;MB</span>；其余 <span id="hc-rest-n">48</span> 个合计重 <span id="hc-rest-mb">半兆字节</span>。画成虚线的两个已采集，但尚未在任何图版上呈现。每个圆链接到它的文件。</span>
+    </figcaption>
+    <div class="holdings-stage" id="holdings-stage"></div>
+  </figure>
+
+  <p class="spec" style="margin-bottom:-6px"><b>目录</b> · 每个岛按文件、大小、所供给的图版及其内容列出</p>
+  <div class="table-wrap">
+  <table>
+    <thead><tr><th>文件</th><th>大小</th><th>供给</th><th>目录</th></tr></thead>
+    <tbody>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/acecho-data.json">acecho-data.json</a></td><td class="num" data-label="大小">1.0 KB</td><td data-label="供给">图版 XXIII</td><td data-label="目录">元评审的措辞对其下每位审稿人的回响程度，按该审稿人的评分层级与评审组的裁决拆分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/archipelago-data.json">archipelago-data.json</a></td><td class="num" data-label="大小">4.8 KB</td><td data-label="供给">图版 XXVIII</td><td data-label="目录">研究领域按主导审视对象聚成“岛”，并与基线构成对照。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/argument-raw-novelty.json">argument-raw-novelty.json</a></td><td class="num" data-label="大小">31.7 KB</td><td data-label="供给">图版 VII</td><td data-label="目录">新颖性三段论：依据/理据/要求各簇及其例句，以及图 7d 背后的转移矩阵。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/boilerplate-data.json">boilerplate-data.json</a></td><td class="num" data-label="大小">12.7 KB</td><td data-label="供给">图版 X</td><td data-label="目录">套语式评审语言的文本相似度测量，按对象与评分段划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/canon-data.json">canon-data.json</a></td><td class="num" data-label="大小">0.7 KB</td><td data-label="供给">图版 IX</td><td data-label="目录">异议点名具体先前工作与含糊其辞的频率对比，按年份划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/chain-data.json">chain-data.json</a></td><td class="num" data-label="大小">1.4 KB</td><td data-label="供给">图版 IV</td><td data-label="目录">一篇评审内相继单元之间的转移概率——什么跟在什么之后。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/chargesheet-control.json">chargesheet-control.json</a></td><td class="num" data-label="大小">6.7 KB</td><td data-label="供给">图版 XIII</td><td data-label="目录">那张矩阵背后的对照：同样的标准配对以三种方式重测——在同一单元内、在同一篇评审的不同单元间、在同一篇论文的两位<em>不同</em>审稿人之间——由此把真实的互斥与习惯的混合区分开。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/chargesheet-data.json">chargesheet-data.json</a></td><td class="num" data-label="大小">41.1 KB</td><td data-label="供给">图版 XIII</td><td data-label="目录">哪些推理标准在同一篇评审中被一同援引的共现矩阵。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/combination-data.json">combination-data.json</a></td><td class="num" data-label="大小">5.3 KB</td><td data-label="供给">图版 VIII</td><td data-label="目录">&#8220;仅为组合&#8221;这条新颖性规则，细分聚类为其例外条款与所指对象类型，附例句。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/commit-data.json">commit-data.json</a></td><td class="num" data-label="大小">1.9 KB</td><td data-label="供给">图版 VI</td><td data-label="目录">一篇评审进行到多早，仅凭文本就能预测其最终裁决，按评审长度十分位划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/construct-data.json">construct-data.json</a></td><td class="num" data-label="大小">1.1 KB</td><td data-label="供给">图版 I</td><td data-label="目录">构念效度：十二个对象与 ICLR 自有三项子评分之间经评分校正的差距（图 1c）。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/counterfactual-data.json">counterfactual-data.json</a></td><td class="num" data-label="大小">65.8 KB</td><td data-label="供给">图版 XXV</td><td data-label="目录">2025 与 2026 两个周期之间的反事实重评分比较。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/court-data.json">court-data.json</a></td><td class="num" data-label="大小">3.2 KB</td><td data-label="供给">图版 XXII</td><td data-label="目录">元评审人如何修正、宽宥或挽回其下评审组的判断。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/currents-data.json">currents-data.json</a></td><td class="num" data-label="大小">2.6 KB</td><td data-label="供给">图版 XXVI</td><td data-label="目录">供给漂移分析的逐年评分、词数与单元数序列。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/decision-data.json">decision-data.json</a></td><td class="num" data-label="大小">2.8 KB</td><td data-label="供给">图版 XV</td><td data-label="目录">录用决定的可读性：从批评计数、文本与评分读出接收/拒稿的交叉验证 AUC（图 15b）。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/deliberation-data.json">deliberation-data.json</a></td><td class="num" data-label="大小">72.3 KB</td><td data-label="供给">图版 XXI</td><td data-label="目录">评审组合议期间审稿人所出招式的逐 forum 记录。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/drift-data.json">drift-data.json</a></td><td class="num" data-label="大小">4.9 KB</td><td data-label="供给">图版 XXVI、XXVII</td><td data-label="目录">审稿人援引的对象、标准与判向的九年份额趋势。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/drift-language.json">drift-language.json</a></td><td class="num" data-label="大小">1.1 KB</td><td data-label="供给">附录 II</td><td data-label="目录">附着于某个对象的词是否真的动了：每个对象逐年词汇路径的跨度对照置换噪声底线，以及早期与晚期上升的词项。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/elements-all.json">elements-all.json</a></td><td class="num" data-label="大小">67.9 KB</td><td data-label="供给">图版 VII</td><td data-label="目录">十二个审视对象各自的逐对象统计（实证范围、方法设计、理论等）。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/field-stats.json">field-stats.json</a></td><td class="num" data-label="大小">1.7 KB</td><td data-label="供给">附录 III</td><td data-label="目录">用作零模型比较对照基线的逐年语料统计。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/galaxy.json">galaxy.json</a></td><td class="num" data-label="大小">3.25 MB</td><td data-label="供给">附录 II</td><td data-label="目录">分类体系地图所用抽样单元的完整点云嵌入，带区域标签。站上最大的文件。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/interrogative-data.json">interrogative-data.json</a></td><td class="num" data-label="大小">3.2 KB</td><td data-label="供给">图版 XIX</td><td data-label="目录">异议以问句而非断言表述的比率，按对象划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/itinerary-data.json">itinerary-data.json</a></td><td class="num" data-label="大小">8.0 KB</td><td data-label="供给">图版 V</td><td data-label="目录">评审内的行程——哪些对象被造访，以何种顺序。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/jurisprudence-data.json">jurisprudence-data.json</a></td><td class="num" data-label="大小">3.7 KB</td><td data-label="供给">图版 X、XIV</td><td data-label="目录">把推理标准映射到其所施用的对象，以及随之而来的判定严厉度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/lawtariff-data.json">lawtariff-data.json</a></td><td class="num" data-label="大小">8.2 KB</td><td data-label="供给">图版 XIV</td><td data-label="目录">每类批评的评分代价，建模为数量-响应斜率。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/lifecycle-data.json">lifecycle-data.json</a></td><td class="num" data-label="大小">1.8 KB</td><td data-label="供给">图版 XIX</td><td data-label="目录">一条异议在 rebuttal 周期中是延续、被回应还是消失，按对象划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/llmtrace-data.json">llmtrace-data.json</a></td><td class="num" data-label="大小">36.3 KB</td><td data-label="供给">图版 XXIX</td><td data-label="目录">199,031 篇原始评审（2018–2026）上的 LLM 时代痕迹：冻结标记词表的逐年超额、同稿评审趋同，以及被标记评审的画像指标组。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/lottery-data.json">lottery-data.json</a></td><td class="num" data-label="大小">2.4 KB</td><td data-label="供给">图版 XXV</td><td data-label="目录">评分差距（“抽签”）分析：审稿人分派看起来对结果影响多大。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/minds-data.json">minds-data.json</a></td><td class="num" data-label="大小">10.2 KB</td><td data-label="供给">图版 XXVI</td><td data-label="目录">审稿人行为的时代画像：修辞形式的逐年使用情况，以及图 26c 背后的九年生命体征。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/mirage-data.json">mirage-data.json</a></td><td class="num" data-label="大小">4.7 KB</td><td data-label="供给">附录 III</td><td data-label="目录">弱结果附录（“零假设陈列柜”）背后的真实与合成审稿人画像比较。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/moves-data.json">moves-data.json</a></td><td class="num" data-label="大小">3.7 KB</td><td data-label="供给">图版 XVIII</td><td data-label="目录">rebuttal 招式的分类（让步、反驳、澄清等）及每种招式背后的投入。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/ninegrammar-data.json">ninegrammar-data.json</a></td><td class="num" data-label="大小">14.3 KB</td><td data-label="供给">图版 II</td><td data-label="目录">早期时代（2018&#8211;20）与晚期时代（2024&#8211;26）的对象&#8211;标准耦合，以及图版 II 的 138/144 背后的置换零底线。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/oracle-data.json">oracle-data.json</a></td><td class="num" data-label="大小">8.6 KB</td><td data-label="供给">图版 XXVIII</td><td data-label="目录">按研究领域的结果预测，对照基线模型。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/overrule-data.json">overrule-data.json</a></td><td class="num" data-label="大小">3.3 KB</td><td data-label="供给">图版 XX、XXI</td><td data-label="目录">元评审人的最终决定推翻评审组汇总评分的频率。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/panel-data.json">panel-data.json</a></td><td class="num" data-label="大小">5.8 KB</td><td data-label="供给">图版 I、XV、XVII、XX，附录 II</td><td data-label="目录">横跨各图版的评审组统计：rebuttal 结局、批评数“夹道”、逐标准置信区间、元评审人行为、异见，以及分类体系信度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/repair-manual.json">repair-manual.json</a></td><td class="num" data-label="大小">4.1 KB</td><td data-label="供给">图版 XI</td><td data-label="目录">审稿人建议的具体修复目录，按类型分组。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/repair-k-robustness.json">repair-k-robustness.json</a></td><td class="num" data-label="大小">2.1 KB</td><td data-label="供给">图版 XI（核验）</td><td data-label="目录">修复目录背后的稳定性扫描：同样的 80,000 条要求在 k = 11&#8211;44 下重新聚类；&#8220;扩展证据&#8221;在每个 k 下都领先，各族合计变动不足 5 个百分点。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/repertoire-data.json">repertoire-data.json</a></td><td class="num" data-label="大小">2.1 KB</td><td data-label="供给">图版 XXI</td><td data-label="目录">评审组各审稿人的标准库有多大重叠或冲突，按年份划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/rhetoric-v2.json">rhetoric-v2.json</a></td><td class="num" data-label="大小">3.4 KB</td><td data-label="供给">图版 III、XXVI</td><td data-label="目录">归纳得到的修辞形式分类体系（600 个分析者标注的单元）及其验证。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/score-data.json">score-data.json</a></td><td class="num" data-label="大小">3.6 KB</td><td data-label="供给">图版 VI、XXIV</td><td data-label="目录">与评审文本匹配的原始评审分数，按评分划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/score-depth.json">score-depth.json</a></td><td class="num" data-label="大小">24.0 KB</td><td data-label="供给">图版 XXIV</td><td data-label="目录">评审的深度与细节随所给分数变化的程度——按评分的离散度与覆盖度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/searchparty-data.json">searchparty-data.json</a></td><td class="num" data-label="大小">1.0 KB</td><td data-label="供给">图版 XX</td><td data-label="目录">评审组合起来覆盖了十二对象空间的多少，又留下多少未见。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/season-data.json">season-data.json</a></td><td class="num" data-label="大小">6.7 KB</td><td data-label="供给">—（无归属）</td><td data-label="目录">每日投稿与评审活动时间序列；目前未在任何图版上呈现。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/structure-data.json">structure-data.json</a></td><td class="num" data-label="大小">14.3 KB</td><td data-label="供给">图版 V，附录 II</td><td data-label="目录">一篇评审的结构弧线——开篇、位置间转移与长度。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/threads-data.json">threads-data.json</a></td><td class="num" data-label="大小">6.4 KB</td><td data-label="供给">图版 XVI</td><td data-label="目录">作者与审稿人 rebuttal 讨论串的形状——审稿人是否回来、如何回来。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/tide-data.json">tide-data.json</a></td><td class="num" data-label="大小">1.7 KB</td><td data-label="供给">—（无归属）</td><td data-label="目录">2025 与 2026 的对比序列；目前未在任何图版上呈现。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/timeless-data.json">timeless-data.json</a></td><td class="num" data-label="大小">2.2 KB</td><td data-label="供给">图版 XXVII</td><td data-label="目录">哪些推理标准在九年间措辞读来稳定，哪些发生了漂移。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/tribunal-ci.json">tribunal-ci.json</a></td><td class="num" data-label="大小">0.9 KB</td><td data-label="供给">图版 XV</td><td data-label="目录">每类批评评分效应的 bootstrap 置信区间，按对象划分。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/viz-data.json">viz-data.json</a></td><td class="num" data-label="大小">1.40 MB</td><td data-label="供给">图版 I、II、XII、XXX，附录 II</td><td data-label="目录">核心分类体系定义、头条指标，以及多数图版取用的标本评审样例。</td></tr>
+      <tr><td class="mono" data-label="文件"><a href="api/v1/data/yield-data.json">yield-data.json</a></td><td class="num" data-label="大小">0.5 KB</td><td data-label="供给">图版 XVII</td><td data-label="目录">rebuttal 后的单元在多大程度上加强、减弱或反转回应前的判断。</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <p class="spec"><b>50 个文件</b> · 合计 5.17 MB · 全为 JSON · 由 <code>/atlas-of-judgment/api/v1/data/</code> 提供</p>
+
+  <h3>模式与机读接口入口</h3>
+  <div class="doors">
+    <a href="api/v1/index.json"><div class="dk">JSON · 1.5 KB</div><div class="dt">index.json</div><div class="dd">全部 API 端点的目录，以及图版与数据岛清单。</div></a>
+    <a href="openapi.yaml"><div class="dk">YAML · 7.4 KB</div><div class="dt">openapi.yaml</div><div class="dd">整个 API 层的机器可读模式。</div></a>
+    <a href="llms.txt"><div class="dk">文本 · 3.0 KB</div><div class="dt">llms.txt</div><div class="dd">为 AI 读者写的入口——如何使用 API，以及适用于整个语料的那一条注意事项。</div></a>
+    <a href="api/v1/corrections.json"><div class="dk">JSON · 3.6 KB</div><div class="dt">corrections.json</div><div class="dd">更正记录——每条事后发现有误的已发布断言，附核查结果与更正后的读法，与方法页 §10 对应。</div></a>
+    <a href="api/"><div class="dk">HTML 文档</div><div class="dt">/atlas-of-judgment/api/</div><div class="dd">上述每个端点的人读文档，与本页数据采用同一套视觉语言。</div></a>
+  </div>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">引用</div>
+  <h2 class="hd">如何引用</h2>
+  <p>一般性引用请引图谱整体。引用某个具体数字时，请引它所出自的图版与断言——这会解析到其背后的确切推导与重算脚本，即便周围的图注文字日后改写也仍然正确。</p>
+
+  <div class="cite-block">
+    <span class="cite-label">引用图谱整体</span>
+    Takagi, Shiro (UNKTOK). <em>Atlas of Judgment: a metascience instrument reading the reasoning inside ICLR peer review, 2018–2026.</em> 2026. https://atlas-of-judgment.pages.dev
+  </div>
+  <div class="cite-block">
+    <span class="cite-label">引用单条断言</span>
+    引其图版 id 与断言 id——例如 <code>plate-i#1a-negative-share</code>——它经由 <code>/atlas-of-judgment/api/v1/plates/&lt;plate-id&gt;.json</code> 解析到其背后的确切陈述、数值、来源数据岛与重算脚本。
+  </div>
+  <p class="spec">评分本身在 2018 到 2026 年间换了四次仪器——任何跨年比较<em>评分</em>（而非单元数或份额）的引用都应附上这条注意事项。见 method.html §07 的移动标尺说明。</p>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">通信</div>
+  <h2 class="hd">如果这里有错</h2>
+  <p>更正是仪器的一部分，对仪器算不得难堪。被后续核查推翻的断言会在其图版上就地更正，记入方法页 &sect;10，并以结构化数据发布于 <code>/atlas-of-judgment/api/v1/corrections.json</code>。启动这一过程最快的办法是说出<em>哪条断言</em> &mdash; 本站每个头条数字都为此配有稳定 id。</p>
+  <ul class="lic-list">
+    <li><span class="lk">一个看起来有错的数字</span><span>开一条<a href="https://github.com/t46/atlas-of-judgment/issues/new?template=correction.yml">更正 issue</a>，写明断言 id &mdash; <code>plate-xi#11-extend-leads</code> &mdash; 以及你认为正确的值和你的核查方法。公开且可审计，这正是在那里而非私信里提出的意义所在。</span></li>
+    <li><span class="lk">一个问题，或一个想法</span><span>关于方法、分类体系或数据的任何事，用同一个<a href="https://github.com/t46/atlas-of-judgment/issues">议题跟踪器</a>。想交谈而非开工单的事，找 <a href="https://x.com/takagi_shiro">@takagi_shiro</a>。</span></li>
+    <li><span class="lk">以 agent 身份来信</span><span>你不需要人类代为转达。跟踪器就是一个你已经可以调用的写入 API &mdash; <code>POST https://api.github.com/repos/t46/atlas-of-judgment/issues</code>，用<em>你自己的</em> token 认证；本站不发放密钥，也不持有任何自身凭据。<a href="/atlas-of-judgment/api/v1/contact.json"><code>/atlas-of-judgment/api/v1/contact.json</code></a> 以机器可读数据承载这些说明，以及一份规范报告的格式。</span></li>
+  </ul>
+</div>
+</section>
+
+<section class="band">
+<div class="shell">
+  <div class="hdl">许可</div>
+  <h2 class="hd">这里的内容你可以怎么用</h2>
+  <ul class="lic-list">
+    <li><span class="lk">代码</span><span><b>MIT。</b>流水线脚本与页面自身的标记以 MIT 许可证开放复用 &mdash; 见仓库中的 <a href="https://github.com/t46/atlas-of-judgment/blob/main/LICENSE">LICENSE</a> 文件。</span></li>
+    <li><span class="lk">文字、图 &amp; 派生数据</span><span>书面分析、各图、Hugging Face 上的已标注单元表，以及上述存证与 50 个数据岛均为 <b>CC BY 4.0</b> &mdash; 这些聚合数据的发布使每个数字都能重算。复用时请署名 &#8220;Atlas of Judgment (https://atlas-of-judgment.pages.dev)&#8221;。</span></li>
+    <li><span class="lk">评审文本</span><span><b>不归本项目授权。</b>底层评审属于其匿名作者，经 OpenReview 公开。图谱引用的每一份标本都链接回其原文。</span></li>
+  </ul>
+</div>
+</section>
+
+</main>
+
+<footer class="colophon">
+  <div class="col-rule"><svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><path d="M6,18 L11,9 L16,14 L21,6" fill="none" stroke="rgba(138,90,31,0.55)" stroke-width="0.8"/><circle cx="6" cy="18" r="1.4" fill="#8a5a1f"/><circle cx="11" cy="9" r="1.7" fill="#8a5a1f"/><circle cx="16" cy="14" r="1.2" fill="#8a5a1f"/><circle cx="21" cy="6" r="1.5" fill="#8a5a1f"/></svg></div>
+  <div class="col-mark">评判图谱 · Atlas of Judgment</div>
+  <div class="col-sub">资源 — 代码、数据与引用方式</div>
+  <div class="col-links"><a href="index.html">图谱</a><a href="about.html">关于</a><a href="method.html">方法</a><a href="api/">API</a></div>
+  <div class="col-fine">衍生数据以 CC BY 4.0 发布。评审归其匿名作者所有，经 OpenReview 公开。这里的一切都是机器读取——请对照原文核验，每个标本都链接到原文。</div>
+<div class="col-fine col-zh">本站是 Shiro Takagi 所作 <a href="https://atlas-of-judgment.pages.dev">Atlas of Judgment</a> 的中文译本。原文、图与派生数据 CC BY 4.0，代码 MIT；数据与机读接口与原站同源、未作改动。译文由 <a href="https://github.com/Lauorie/atlas-of-judgment">Lauorie/atlas-of-judgment</a> 维护，译文问题请到该仓库提 issue；数据与断言的更正请报到<a href="https://github.com/t46/atlas-of-judgment/issues">原仓库</a>。</div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+  var NS = "http://www.w3.org/2000/svg";
+  var BRASS = "#8a5a1f", INK2 = "#5b4d3a", MUTED = "#72654f";
+  var BRASS_LINE = "rgba(138,90,31,0.28)", BRASS_FAINT = "rgba(138,90,31,0.13)";
+  var fig = document.getElementById("holdings-fig");
+  var stage = document.getElementById("holdings-stage");
+  if (!fig || !stage) return;
+
+  /* -- read the islands off the table itself: the figure can never disagree with the page -- */
+  function parseKB(s) {
+    var m = /([\d.]+)\s*(KB|MB)/i.exec(s || "");
+    if (!m) return null;
+    return parseFloat(m[1]) * (/mb/i.test(m[2]) ? 1024 : 1);
+  }
+  var items = [];
+  var rows = document.querySelectorAll(".table-wrap tbody tr");
+  for (var i = 0; i < rows.length; i++) {
+    var tds = rows[i].querySelectorAll("td");
+    if (tds.length < 3) continue;
+    var link = tds[0].querySelector("a");
+    var kb = parseKB(tds[1].textContent);
+    if (!link || kb === null) continue;
+    items.push({ name: link.textContent.trim(), href: link.getAttribute("href"),
+      kb: kb, orphan: /orphan/i.test(tds[2].textContent) });
+  }
+  if (items.length < 5) return;
+  items.sort(function (a, b) { return b.kb - a.kb; });
+
+  /* live caption numbers (static fallback text already matches) */
+  var totKB = items.reduce(function (s, d) { return s + d.kb; }, 0);
+  var top2 = items[0].kb + items[1].kb;
+  var restKB = totKB - top2;
+  function put(id, txt) { var el = document.getElementById(id); if (el) el.textContent = txt; }
+  put("hc-share", Math.round(100 * top2 / totKB) + "%");
+  put("hc-rest-n", String(items.length - 2));
+  put("hc-rest-mb", (restKB / 1024).toFixed(1) + " MB");
+
+  function el(tag, attrs, parent) {
+    var e = document.createElementNS(NS, tag);
+    for (var k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+
+  var shown = false;
+  function render() {
+    var W = Math.max(300, stage.clientWidth - 20);
+    var narrow = W < 620;
+    var rMin = narrow ? 1.4 : 1.9;
+    var gap = narrow ? 3 : 5;
+    var padX = 8;
+
+    /* solve the area scale k so the whole necklace fits the width */
+    function widthAt(k) {
+      var w = padX * 2 + gap * (items.length - 1);
+      for (var i = 0; i < items.length; i++) w += 2 * Math.max(rMin, k * Math.sqrt(items[i].kb));
+      return w;
+    }
+    var lo = 0.05, hi = 4;
+    for (var it = 0; it < 40; it++) {
+      var mid = (lo + hi) / 2;
+      if (widthAt(mid) > W) hi = mid; else lo = mid;
+    }
+    var k = lo;
+
+    var rMax = Math.max(rMin, k * Math.sqrt(items[0].kb));
+    var labelBand = narrow ? 34 : 44;
+    var topPad = 12;
+    var baseY = topPad + 2 * rMax + 2;
+    var H = baseY + labelBand;
+
+    stage.textContent = "";
+    var svg = el("svg", { viewBox: "0 0 " + W + " " + H, width: W, height: H,
+      role: "img", "aria-label": "全部 " + items.length +
+      " 个数据文件画成圆，面积对应其磁盘大小；两个大文件占主导。" }, null);
+    svg.style.width = "100%"; svg.style.height = "auto";
+
+    var defs = el("defs", {}, svg);
+    var pat = el("pattern", { id: "hold-hatch", patternUnits: "userSpaceOnUse",
+      width: "5", height: "5", patternTransform: "rotate(45)" }, defs);
+    el("line", { x1: 0, y1: 0, x2: 0, y2: 5, stroke: BRASS_FAINT, "stroke-width": 1.1 }, pat);
+
+    /* baseline the beads rest on — drawn in like a rule being inked */
+    var base = el("line", { x1: padX, y1: baseY, x2: W - padX, y2: baseY,
+      stroke: BRASS_LINE, "stroke-width": 1, "class": "isl-base" }, svg);
+    var blen = W - 2 * padX;
+    base.setAttribute("stroke-dasharray", blen);
+    base.setAttribute("stroke-dashoffset", shown ? 0 : blen);
+
+    var x = padX, braceX0 = null, braceX1 = null;
+    for (var j = 0; j < items.length; j++) {
+      var d = items[j];
+      var r = Math.max(rMin, k * Math.sqrt(d.kb));
+      var cx = x + r, cy = baseY - r;
+      var a = el("a", { href: d.href }, svg);
+      var g = el("g", { "class": "isl" }, a);
+      g.style.transformOrigin = cx + "px " + baseY + "px";
+      /* baseline inks first (0.1s); beads begin rising at 0.35s, largest first */
+      g.style.transitionDelay = shown ? "0s" : Math.min(1.7, 0.35 + j * 0.045).toFixed(3) + "s";
+      var attrs = { cx: cx, cy: cy, r: r, fill: "rgba(248,241,224,0.85)",
+        stroke: BRASS, "stroke-width": r > 30 ? 1.1 : 0.9 };
+      if (d.orphan) { attrs["stroke-dasharray"] = "3 2.5"; attrs.stroke = INK2; }
+      el("circle", attrs, g);
+      if (r > 11) {
+        el("circle", { cx: cx, cy: cy, r: r - 2.5, fill: "url(#hold-hatch)", stroke: "none" }, g);
+        el("circle", { cx: cx, cy: cy, r: r > 30 ? 1.6 : 1.1, fill: BRASS }, g);
+      }
+      var t = document.createElementNS(NS, "title");
+      t.textContent = d.name + " · " + (d.kb >= 1024 ?
+        (d.kb / 1024).toFixed(2) + " MB" : d.kb.toFixed(1) + " KB") +
+        (d.orphan ? " · 尚未用于任何图版" : "");
+      g.appendChild(t);
+
+      if (r > 30) {
+        var lab = el("text", { x: cx, y: baseY + (narrow ? 13 : 15), "text-anchor": "middle",
+          fill: BRASS, "font-family": '"IBM Plex Mono", monospace',
+          "font-size": narrow ? 8 : 9.5, "letter-spacing": "0.08em", "class": "isl-note" }, svg);
+        lab.textContent = d.name;
+        var lab2 = el("text", { x: cx, y: baseY + (narrow ? 23 : 27), "text-anchor": "middle",
+          fill: MUTED, "font-family": '"IBM Plex Mono", monospace',
+          "font-size": narrow ? 7.5 : 9, "class": "isl-note" }, svg);
+        lab2.textContent = (d.kb / 1024).toFixed(2) + " MB";
+      } else if (narrow && j < 2 && r > 6) {
+        /* narrow screens: one staggered line per giant, anchored to its left edge */
+        var nlab = el("text", { x: 2, y: baseY + 12 + j * 9,
+          "text-anchor": "start", fill: j === 0 ? BRASS : MUTED,
+          "font-family": '"IBM Plex Mono", monospace', "font-size": 8,
+          "letter-spacing": "0.04em", "class": "isl-note" }, svg);
+        nlab.textContent = d.name + " " + (d.kb / 1024).toFixed(2) + " MB";
+      } else {
+        if (braceX0 === null) braceX0 = cx - r;
+        braceX1 = cx + r;
+      }
+      x += 2 * r + gap;
+    }
+
+    /* one quiet brace under the pebble tail */
+    if (!narrow && braceX0 !== null && braceX1 - braceX0 > 90) {
+      var by = baseY + (narrow ? 8 : 10);
+      var brace = el("path", { d: "M" + braceX0 + "," + by + " v3 H" + braceX1 + " v-3",
+        fill: "none", stroke: BRASS_LINE, "stroke-width": 1, "class": "isl-note" }, svg);
+      var bl = el("text", { x: (braceX0 + braceX1) / 2, y: by + (narrow ? 22 : 17),
+        "text-anchor": "middle", fill: MUTED, "font-family": '"IBM Plex Mono", monospace',        "font-size": narrow ? 7.5 : 9, "letter-spacing": "0.1em", "class": "isl-note" }, svg);
+      bl.textContent = "其余 " + (items.length - 2) + " · " +
+        (restKB / 1024).toFixed(1) + " MB 合计";
+    }
+    stage.appendChild(svg);
+    if (shown) { base.setAttribute("stroke-dashoffset", 0); }
+  }
+
+  function turnOn() {
+    if (shown) return;
+    shown = true;
+    fig.classList.add("on");
+    var base = stage.querySelector(".isl-base");
+    if (base) base.setAttribute("stroke-dashoffset", 0);
+  }
+
+  render();
+  if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    var io = new IntersectionObserver(function (entries) {
+      for (var i = 0; i < entries.length; i++)
+        if (entries[i].isIntersecting) { turnOn(); io.disconnect(); break; }
+    }, { threshold: 0.25 });
+    io.observe(fig);
+    /* fallback only if the observer never fires while the figure is truly on screen */
+    var guard = setInterval(function () {
+      if (shown) { clearInterval(guard); return; }
+      var r = fig.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) { turnOn(); clearInterval(guard); }
+    }, 700);
+  } else { turnOn(); }
+  window.addEventListener("beforeprint", turnOn);
+
+  var rT;
+  window.addEventListener("resize", function () {
+    clearTimeout(rT);
+    rT = setTimeout(function () { render(); if (shown) fig.classList.add("on"); }, 160);
+  });
+})();
+</script>

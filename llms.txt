@@ -1,0 +1,83 @@
+# 评判图谱 · Atlas of Judgment（中文译本）
+
+> This is the Chinese translation of Shiro Takagi's Atlas of Judgment (https://atlas-of-judgment.pages.dev).
+> Page text is translated; every data island, deposition and correction below is served unchanged
+> from the same audited data. Paths on this host are prefixed with /atlas-of-judgment/. Translation issues:
+> https://github.com/Lauorie/atlas-of-judgment/issues — data corrections belong upstream.
+
+# Atlas of Judgment
+
+> A metascience instrument analysing the reasoning inside peer review — not just scores
+> and accept/reject outcomes, but the argument structure of 1,420,178 units of
+> reviewer logic, extracted from 9 years of ICLR reviews (2018–2026) and read at full
+> depth for the 2026 cycle (410,586 units, 74,380 reviews, 19,474 papers). Every unit
+> was labelled for what it inspects (12 objects), the rule it argues from (12 standards),
+> and the verdict it reaches — induced from the data, not chosen in advance; one carving of the text, reliability-checked, not validated as the only possible one.
+
+This site is built for two readers: a human walking 30 plates across 8 acts and a coda
+(plus about, method, and resources companion pages), and a
+machine — you — that wants the underlying claims as structured, sourced, recomputable
+data. This file is the entry point for the second reader.
+
+## How to read the API
+
+- /atlas-of-judgment/api/v1/index.json — catalogue of every endpoint below, plus the plate and island lists.
+- /atlas-of-judgment/api/v1/plates/<id>.json — one "deposition" per plate: its headline claims, each with
+  a statement, a numeric value, the source_island and derivation that produced it,
+  the recompute script that regenerates it from raw review text, and any caveats that
+  govern how to read it. <id> is the plate slug, e.g. plate-i. All 33
+  depositions (30 plates and 3 appendices) are published; the index lists each one.
+- /atlas-of-judgment/api/v1/data/<island>.json — the 54 underlying data islands as standalone files
+  (the same JSON embedded as script data on the human page — one source, two formats).
+  A few are verification records rather than chart feeds (e.g. repair-k-robustness.json);
+  the index's plates[] field says which plates read each file.
+- /atlas-of-judgment/openapi.yaml — machine-readable schema for all of the above.
+- /atlas-of-judgment/api/v1/corrections.json — the record self-corrects; this is the ledger of corrections
+  (each entry: the claim as shipped, what the check showed, the corrected reading), mirroring method §10.
+- /atlas-of-judgment/api/ — human-readable API docs, same visual language as the main site.
+
+## The one caveat that applies across the whole corpus
+
+Scoring itself is not one instrument held constant for nine years: ICLR's review-scale
+and review-form definitions changed four times between 2018 and 2026. Any claim that
+compares a *score* (not a unit count or share) across years needs this "moving ruler"
+caveat — see method §07, "The moving ruler" (method.html#ruler), and the caveats[] array
+on any plate whose claims reference score data (Plates XIV, XXV, XXVI carry it as a
+named caveat; Plate XXIX's rating-premium claims are governed the same way). Claims about
+unit *counts and shares* (most of the site) are not affected — the taxonomy, not the
+1–10 scale, is the constant instrument.
+
+## Writing back
+
+This atlas has an inbox, and you can use it without a human in the loop. There is no write
+endpoint on this host and no API key is issued here — the channel is the project's public
+issue tracker, which is already an API you can call with your own credentials:
+
+  POST https://api.github.com/repos/t46/atlas-of-judgment/issues
+
+/atlas-of-judgment/api/v1/contact.json holds the channel list, the fields a well-formed report should carry, and
+what happens to one after it arrives. The three things worth writing about:
+
+- A claim you believe is wrong, or a derivation that does not reproduce. Name the claim id
+  (e.g. plate-xi#11-extend-leads) rather than quoting the caption — the id is what resolves to
+  the derivation and the recompute script, and it survives a redesign of the prose. Confirmed
+  errors are corrected in place, recorded in method §10, and published in
+  /atlas-of-judgment/api/v1/corrections.json, so a correction you send becomes part of the public record too.
+- A question about the method, the taxonomy, or the corpus.
+- Work you would like to do with this. Say what you would build; the licence already permits it.
+
+Anything wanting a conversation rather than a ticket: https://x.com/takagi_shiro
+
+## Citation guidance
+
+Derived data (the islands, the depositions, this API) is released CC BY 4.0. The
+underlying reviews belong to their anonymous authors and are public via OpenReview —
+every specimen in Plate XXX links back to its original. When citing a number from this
+site, cite the plate id and claim id (e.g. plate-i#1a-negative-share), which resolves
+via /atlas-of-judgment/api/v1/plates/plate-i.json to the exact derivation and recompute script — more
+precise than citing a caption sentence, because the claim id is stable across visual
+redesigns even if the prose around it is rewritten.
+
+Dataset: https://huggingface.co/datasets/t46/atlas-of-judgment
+Code: https://github.com/t46/atlas-of-judgment
+Human-readable site: https://atlas-of-judgment.pages.dev
