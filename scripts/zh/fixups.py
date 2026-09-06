@@ -34,7 +34,11 @@ ZH_DISPLAY = {
     "a split verdict": "分歧裁决",
     "unanimity": "一致",
     "Accept (Poster)": "Accept (Poster)",
+    "softening": "软化", "entrenchment": "固守", "reversal": "反转", "split verdict": "分歧裁决",
+    "contested": "争议", "silence": "沉默", "procedural": "程序性", "hedged": "有保留",
 }
+# literals the JS both shows and compares against; nothing in the islands carries them
+LITERALS = {"nothing asked": "无所要求", "all meta units": "全部元评审单元"}
 ZH_VALENCE = {"negative": "否定", "uncertain": "存疑", "mixed": "混合", "conditional": "有条件", "positive": "肯定"}
 ZH_ACT = {"I": "第一幕", "II": "第二幕", "III": "第三幕", "IV": "第四幕", "V": "第五幕", "VI": "第六幕",
           "VII": "第七幕", "VIII": "第八幕", "CODA": "尾声"}
@@ -64,6 +68,21 @@ def apply(page_html: str, tm: Dict[str, Dict[str, Any]], segs: List[Dict[str, An
                          ("${v}  ${(100 * valTot[v]", "${__ZHV[v] || v}  ${(100 * valTot[v]"),
                          ("VAL_ORDER.map(v => [v, VAL_DEFS[v]", "VAL_ORDER.map(v => [__ZHV[v] || v, VAL_DEFS[v]")):
             s = s.replace(old, new)
+        # specimen cards, filter bars, population rows and legends print raw keys
+        s = s.replace(">${u.valence}</span>", ">${__ZHV[u.valence] || u.valence}</span>", 1)
+        s = s.replace('<span class="fb-l">${shortOf(k)}</span>', '<span class="fb-l">${dim === "v" ? (__ZHV[k] || k) : shortOf(k)}</span>', 1)
+        s = s.replace('const full = dim === "v" ? k :', 'const full = dim === "v" ? (__ZHV[k] || k) :', 1)
+        s = s.replace('${key === "split" ? "split verdict" : key}', '${__ZH[key === "split" ? "split verdict" : key] || key}', 1)
+        i = s.find('["hedged", hedV')
+        if i > 0:
+            head, region, tail = s[:i], s[i:i + 3000], s[i + 3000:]
+            region = re.sub(r"\$\{name\}(?=[ ，,])", "${__ZH[name] || __ZHV[name] || name}", region)
+            s = head + region + tail
+        s = re.sub(r'("[^"]{1,20}", )"random"(, (?:true|false))', r'\1"随机"\2', s)
+        s = re.sub(r'\["(softening|contested|entrenchment|procedural)", ("[^"]+"), "[A-Z]+"\]',
+                   lambda m: '["%s", %s, "%s"]' % (m.group(1), m.group(2), ZH_DISPLAY[m.group(1)]), s)
+        for en, zh in LITERALS.items():
+            s = s.replace(json.dumps(en), json.dumps(zh, ensure_ascii=False))
         # deliberation case-file group headers are built from the scenario key
         s = s.replace('${scen.replace(/^an? /, "").toUpperCase()}', '${(__ZH[scen] || scen.replace(/^an? /, "")).toUpperCase()}', 1)
         # "Act " + no  ->  第N幕 ; the "Act " literal itself was translated to "幕 " by inject

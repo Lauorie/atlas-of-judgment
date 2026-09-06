@@ -52,12 +52,14 @@ _IDENTISH = re.compile(r"^[\w./#:-]+$|^[\w-]+=|^#version|void main\(")
 _SELECTORISH = re.compile(r"^[.#][A-Za-z_-]|:(first|last|nth|not|hover|focus)\b|\s>\s|\[data-|,\s*[.#][A-Za-z]")
 _FILEISH = re.compile(r"\.(json|py|md|yaml|yml|html|svg|jpe?g|png|js|csv|txt)\b|^https?://|^/api/|[?&][\w-]+=")
 _ATTR_FRAG = re.compile(r"""[\w-]+\s*=\s*("[^"]*("|$)|'[^']*('|$))|/>|<[\w-]*|>""")
-_NOISY_OWNER = re.compile(r"class|cls|href|src|url|^id$|attr|sel|^s$|^r$|^out$|^spark$", re.I)
-_LABEL_OWNER = re.compile(r"SHORT|LBL|LABEL|NAMES?$|_TIP|DEFS?$|NOTES?$|TXT|_TEXT|WORDS?$|CAPTION|_TITLE|^ACTS$|^liftWord$|^NAME$|^heads$")
+_NOISY_OWNER = re.compile(r"class|cls|href|src|url|^id$|attr|sel", re.I)
+_LABEL_OWNER = re.compile(r"SHORT|LBL|LABEL|NAMES?$|_TIP|DEFS?$|NOTES?$|TXT|_TEXT|WORDS?$|CAPTION|_TITLE|^ACTS$|^liftWord$|^NAME$|^heads$|^FS$|^REMN$")
+_UPPER_OWNER = re.compile(r"^[A-Z][A-Z0-9_]+$")
 _TEXT_SINK = re.compile(r"^(textContent|innerHTML|innerText|title|label|txt|text)$")
-_CSS_WORDS = {"left", "right", "center", "middle", "end", "start", "text", "link", "title", "circle", "defs", "none",
+_CSS_WORDS = {"left", "right", "center", "middle", "end", "start", "text", "title", "circle", "defs", "none",
               "auto", "block", "inline", "hidden", "visible", "space-between", "1fr", "bold", "normal", "italic",
               "minor", "open", "turned", "big", "selected", "on", "off", "active", "lit", "dim"}
+_TITLEISH = re.compile(r"^[A-Z][a-z]{3,}$|^[a-z]+[-’'][a-z-]+$")
 _KNOWN_KEYS = {
     "empirical_scope", "baselines_ablations", "theory", "method_design", "compute_cost", "clarity", "novelty",
     "related_work", "stats_metrics", "robustness_sensitivity", "reproducibility", "problem_framing",
@@ -112,7 +114,8 @@ def js_translatable(lit: Dict[str, Any], blocked: Set[str]) -> bool:
     owner = lit.get("owner") or ""
     if lit["value"] in blocked and not _LABEL_OWNER.search(owner):
         return False
-    label_map = bool(_LABEL_OWNER.search(owner))
+    label_map = bool(_LABEL_OWNER.search(owner)) or (lit.get("key") in _KNOWN_KEYS) \
+        or (bool(_UPPER_OWNER.match(owner)) and bool(_TITLEISH.match(value.strip())))
     if (_IDENTISH.search(value) and not label_map) or _SELECTORISH.search(value):
         return False
     plain = _ATTR_FRAG.sub(" ", strip_markup(value)).strip()
@@ -133,11 +136,14 @@ def js_translatable(lit: Dict[str, Any], blocked: Set[str]) -> bool:
         return False
     if value != value.strip():
         return True  # a concatenation fragment such as "Act " or "rated "
-    return bool(_LABEL_OWNER.search(owner)) or bool(_TEXT_SINK.match(owner)) or (lit.get("key") in _KNOWN_KEYS)
+    return label_map or bool(_TEXT_SINK.match(owner))
 
 
 def extract_page(page: str, tm: Dict[str, Dict[str, Any]], order: List[str]) -> Dict[str, Any]:
     src = (ROOT / PAGES[page]).read_text(encoding="utf-8")
+    if "col-zh" in src or 'lang="zh-CN"' in src:
+        raise SystemExit(f"{page} is already the translated page — restore the English source first "
+                         "(e.g. git show 7bf84e1:index.html > index.html)")
     recs: List[Dict[str, Any]] = []
     blocked: Set[str] = set()
 

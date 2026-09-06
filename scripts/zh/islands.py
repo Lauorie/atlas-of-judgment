@@ -25,7 +25,8 @@ SPEC = {
     "MOVES": ["moves[].name", "moves[].def"],
     "ARCHI": ["islands[].name"],
     "LAWT": ["dockets.*[].name"],
-    "SHEET": ["dockets.*[].name", "rows[].name", "*[].name"],
+    "SHEET": ["dockets.*[].name", "rows[].name", "*[].name", "top_cross[].a.name", "top_cross[].b.name",
+              "bottom_cross[].a.name", "bottom_cross[].b.name", "top_same[].a.name", "top_same[].b.name"],
     "TML": ["*[].name", "rows[].name"],
 }
 

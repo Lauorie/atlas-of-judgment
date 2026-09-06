@@ -17033,5 +17033,190 @@
   "en": " v-3",
   "zh": " v-3",
   "ctx": "resources.html · js · brace"
+ },
+ "s0e8bb2f3fd": {
+  "en": "Rebuttal ↓",
+  "zh": "Rebuttal ↓",
+  "ctx": "index.html · block · div#aftermath-windows>div>div"
+ },
+ "s1b1baa80ff": {
+  "en": "fp-o",
+  "zh": "fp-o",
+  "ctx": "index.html · js · DIMS"
+ },
+ "s6f1e27545a": {
+  "en": "fp-r",
+  "zh": "fp-r",
+  "ctx": "index.html · js · DIMS"
+ },
+ "sccde015821": {
+  "en": "fp-v",
+  "zh": "fp-v",
+  "ctx": "index.html · js · DIMS"
+ },
+ "s9c695cfd3b": {
+  "en": "<button data-act=\"link\">link</button>",
+  "zh": "<button data-act=\"link\">链接</button>",
+  "ctx": "index.html · tpl · innerHTML"
+ },
+ "s6b06efec6b": {
+  "en": "<text x=\"${X(BASE)}\" y=\"${H - bot + 18}\" text-anchor=\"middle\" font-size=\"8.5\" fill=\"rgba(36,28,20,0.506)\" ${MONO}>VENUE ${Math.round(BASE * 100)}%</text>",
+  "zh": "<text x=\"${X(BASE)}\" y=\"${H - bot + 18}\" text-anchor=\"middle\" font-size=\"8.5\" fill=\"rgba(36,28,20,0.506)\" ${MONO}>全会场 ${Math.round(BASE * 100)}%</text>",
+  "ctx": "index.html · tpl · s"
+ },
+ "sfb5457adc1": {
+  "en": "<text x=\"${padL - 10}\" y=\"${y + 7}\" text-anchor=\"end\" font-size=\"8\" fill=\"#6d6657\" ${MONO}>${(r.sh * 100).toFixed(1)}% OF '26</text>",
+  "zh": "<text x=\"${padL - 10}\" y=\"${y + 7}\" text-anchor=\"end\" font-size=\"8\" fill=\"#6d6657\" ${MONO}>占 2026 年的 ${(r.sh * 100).toFixed(1)}%</text>",
+  "ctx": "index.html · tpl · s"
+ },
+ "s68f4127b67": {
+  "en": "Compute",
+  "zh": "算力",
+  "ctx": "index.html · js · NARROWN"
+ },
+ "s4091225b8f": {
+  "en": "Reproducib.",
+  "zh": "可复现",
+  "ctx": "index.html · js · NARROWN"
+ },
+ "s98ac3704e6": {
+  "en": "Articulate",
+  "zh": "阐明",
+  "ctx": "index.html · js · REMN"
+ },
+ "s2ec8c781ba": {
+  "en": "Substantiate",
+  "zh": "实证",
+  "ctx": "index.html · js · REMN"
+ },
+ "s64ee628c6d": {
+  "en": "Redesign",
+  "zh": "改方法",
+  "ctx": "index.html · js · REMN"
+ },
+ "s3e26a9c332": {
+  "en": "Disclose",
+  "zh": "披露",
+  "ctx": "index.html · js · REMN"
+ },
+ "sb7ae978b3c": {
+  "en": "articulate",
+  "zh": "articulate",
+  "ctx": "index.html · js · REMN"
+ },
+ "sb67a1eb546": {
+  "en": "substantiate",
+  "zh": "substantiate",
+  "ctx": "index.html · js · REMN"
+ },
+ "sea8b20c321": {
+  "en": "redesign",
+  "zh": "redesign",
+  "ctx": "index.html · js · REMN"
+ },
+ "sc89574ee28": {
+  "en": "disclose",
+  "zh": "disclose",
+  "ctx": "index.html · js · REMN"
+ },
+ "sa3544e6af9": {
+  "en": "<text x=\"${fx + 8}\" y=\"${fy + 16}\" fill=\"#8a5a1f\" font-size=\"9.5\" ${MONO}>1 unit · ${C.auc[0].toFixed(2)}</text>",
+  "zh": "<text x=\"${fx + 8}\" y=\"${fy + 16}\" fill=\"#8a5a1f\" font-size=\"9.5\" ${MONO}>1 个单元 · ${C.auc[0].toFixed(2)}</text>",
+  "ctx": "index.html · tpl · s"
+ },
+ "sad47de0820": {
+  "en": "<text x=\"${(x(10) + x(15)) / 2}\" y=\"${y(0.012) + 11}\" fill=\"rgba(36,28,20,.6)\" font-size=\"8.5\" text-anchor=\"middle\" ${MONO} letter-spacing=\"1\">NOTHING</text>",
+  "zh": "<text x=\"${(x(10) + x(15)) / 2}\" y=\"${y(0.012) + 11}\" fill=\"rgba(36,28,20,.6)\" font-size=\"8.5\" text-anchor=\"middle\" ${MONO} letter-spacing=\"1\">无增益</text>",
+  "ctx": "index.html · tpl · s"
+ },
+ "s19e74e90e5": {
+  "en": "<text x=\"${PW - mr}\" y=\"${gy - 7}\" text-anchor=\"end\" fill=\"#8a5a1f\" font-size=\"8.5\" ${MONO}>+ TOPICS  +${dTop.toFixed(3)} →</text>",
+  "zh": "<text x=\"${PW - mr}\" y=\"${gy - 7}\" text-anchor=\"end\" fill=\"#8a5a1f\" font-size=\"8.5\" ${MONO}>+ 主题  +${dTop.toFixed(3)} →</text>",
+  "ctx": "index.html · tpl · s"
+ },
+ "s9f4a4abd9d": {
+  "en": "<circle class=\"dotfade\" data-year=\"${years[i]}\" cx=\"${x(i)}\" cy=\"${y(v)}\" r=\"2.6\" fill=\"#8a5a1f\"><title>${years[i]}: ${(v * 100).toFixed(1)}% named</title></circle>",
+  "zh": "<circle class=\"dotfade\" data-year=\"${years[i]}\" cx=\"${x(i)}\" cy=\"${y(v)}\" r=\"2.6\" fill=\"#8a5a1f\"><title>${years[i]}：${(v * 100).toFixed(1)}% 点名</title></circle>",
+  "ctx": "index.html · tpl · spark"
+ },
+ "s0844e3b928": {
+  "en": "SCOPE",
+  "zh": "范围",
+  "ctx": "index.html · js · DN"
+ },
+ "s098632eb27": {
+  "en": "METHOD",
+  "zh": "方法",
+  "ctx": "index.html · js · DN"
+ },
+ "s0bb8e3df34": {
+  "en": "THEORY",
+  "zh": "理论",
+  "ctx": "index.html · js · DN"
+ },
+ "se31c705508": {
+  "en": "STATS",
+  "zh": "统计",
+  "ctx": "index.html · js · DN"
+ },
+ "s75fde9afb2": {
+  "en": "COST",
+  "zh": "成本",
+  "ctx": "index.html · js · DN"
+ },
+ "sf2d2655435": {
+  "en": "CLARITY",
+  "zh": "清晰度",
+  "ctx": "index.html · js · DN"
+ },
+ "sf7a941645f": {
+  "en": "BASELINES",
+  "zh": "基线",
+  "ctx": "index.html · js · DN"
+ },
+ "s24541d5754": {
+  "en": "ROBUST.",
+  "zh": "鲁棒性",
+  "ctx": "index.html · js · DN"
+ },
+ "s4b008fd51d": {
+  "en": "FRAMING",
+  "zh": "界定",
+  "ctx": "index.html · js · DN"
+ },
+ "s6cf3a821ce": {
+  "en": "RELATED",
+  "zh": "相关工作",
+  "ctx": "index.html · js · DN"
+ },
+ "sb51878ed3d": {
+  "en": "REPRO.",
+  "zh": "复现",
+  "ctx": "index.html · js · DN"
+ },
+ "sc427fc98ea": {
+  "en": "NOVELTY",
+  "zh": "新颖性",
+  "ctx": "index.html · js · DN"
+ },
+ "s885dc4a9b3": {
+  "en": "cost",
+  "zh": "成本",
+  "ctx": "index.html · js · OBJN"
+ },
+ "s25be9560b8": {
+  "en": "robust.",
+  "zh": "鲁棒性",
+  "ctx": "index.html · js · OBJN"
+ },
+ "s0732ec01db": {
+  "en": "near-copy",
+  "zh": "近似复制",
+  "ctx": "index.html · js · SEG"
+ },
+ "see2e6125ed": {
+  "en": "<text x=\"${W - mr}\" y=\"${y(MOVES.soft_base) - 5}\" fill=\"rgba(36,28,20,0.46)\" font-size=\"9.5\" text-anchor=\"end\">base ${(MOVES.soft_base * 100).toFixed(1)}%</text>",
+  "zh": "<text x=\"${W - mr}\" y=\"${y(MOVES.soft_base) - 5}\" fill=\"rgba(36,28,20,0.46)\" font-size=\"9.5\" text-anchor=\"end\">基线 ${(MOVES.soft_base * 100).toFixed(1)}%</text>",
+  "ctx": "index.html · tpl · s"
  }
 }
